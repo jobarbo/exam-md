@@ -1,0 +1,82 @@
+---
+export interface Props {
+	content: string | Promise<string>;
+	title: string;
+}
+
+const {content, title} = Astro.props;
+---
+
+<div class='chapter-content'>
+	<h1>{title}</h1>
+	<div class='content'>
+		<div set:html={content} />
+	</div>
+</div>
+
+<style>
+	.chapter-content {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+	}
+
+	h1 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+		border-bottom: 2px solid #eaeaea;
+		padding-bottom: 0.5rem;
+	}
+
+	.content {
+		line-height: 1.8;
+	}
+
+	.content :global(h2) {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+		color: var(--secondary-color);
+	}
+
+	.content :global(h3) {
+		margin-top: 1.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.content :global(ul),
+	.content :global(ol) {
+		padding-left: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.content :global(li) {
+		margin-bottom: 0.5rem;
+	}
+
+	.content :global(p) {
+		margin-bottom: 1rem;
+	}
+
+	.content :global(blockquote) {
+		border-left: 4px solid var(--primary-color);
+		padding-left: 1rem;
+		margin-left: 0;
+		color: #666;
+	}
+
+	.content :global(code) {
+		background-color: #f5f5f5;
+		padding: 0.2rem 0.4rem;
+		border-radius: 4px;
+		font-family: monospace;
+	}
+
+	.content :global(pre) {
+		background-color: #f5f5f5;
+		padding: 1rem;
+		border-radius: 4px;
+		overflow-x: auto;
+	}
+</style>

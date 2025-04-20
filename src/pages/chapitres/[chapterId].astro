@@ -1,0 +1,191 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import ChapterContent from "../../components/ChapterContent.astro";
+import ExamContent from "../../components/ExamContent.astro";
+import {marked} from "marked";
+import {hasExam} from "../../utils/markdown";
+
+export function getStaticPaths() {
+	return [{params: {chapterId: "08"}}, {params: {chapterId: "09"}}, {params: {chapterId: "10"}}, {params: {chapterId: "11"}}, {params: {chapterId: "12"}}, {params: {chapterId: "13"}}];
+}
+
+const CHAPTER_TITLES: Record<string, string> = {
+	"08": "Politiques sociales et travail social",
+	"09": "Chapitre 9",
+	"10": "Chapitre 10",
+	"11": "Chapitre 11",
+	"12": "Chapitre 12",
+	"13": "Chapitre 13",
+};
+
+const {chapterId} = Astro.params;
+const title = CHAPTER_TITLES[chapterId] || `Chapitre ${chapterId}`;
+const chapterTitle = `Chapitre ${chapterId} - ${title}`;
+
+// Vérifier si ce chapitre a un questionnaire disponible
+const examAvailable = hasExam(chapterId);
+
+// Vérifier si c'est le chapitre 8 pour afficher le formulaire d'examen au lieu des notes
+const isExamChapter = chapterId === "08";
+
+// Pour les autres chapitres, on charge le contenu markdown
+let contentPromise: Promise<string> = Promise.resolve("");
+
+if (!isExamChapter) {
+	try {
+		contentPromise = (async () => {
+			try {
+				const response = await fetch(`${Astro.url.origin}/markdown/${chapterId}.md`);
+				if (response.ok) {
+					const markdown = await response.text();
+					return marked.parse(markdown);
+				}
+				return `<h1>${chapterTitle}</h1><p>Le contenu n'est pas disponible.</p>`;
+			} catch (error) {
+				console.error(`Erreur lors du chargement du markdown: ${error}`);
+				return `<h1>${chapterTitle}</h1><p>Erreur: ${error}</p>`;
+			}
+		})();
+	} catch (error) {
+		console.error(`Erreur générale: ${error}`);
+		contentPromise = Promise.resolve(`<h1>${chapterTitle}</h1><p>Erreur générale: ${error}</p>`);
+	}
+}
+---
+
+<MainLayout>
+	<div class='chapter-container'>
+		<div class='navigation-buttons'>
+			{
+				parseInt(chapterId) > 8 && (
+					<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
+						&larr; Chapitre précédent
+					</a>
+				)
+			}
+
+			{
+				parseInt(chapterId) < 13 && (
+					<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
+						Chapitre suivant &rarr;
+					</a>
+				)
+			}
+		</div>
+
+		{
+			isExamChapter ? (
+				<ExamContent title={`Chapitre 08 - Examen`} />
+			) : examAvailable ? (
+				<div class='exam-not-available'>
+					<h2>Le questionnaire pour ce chapitre est en cours de développement</h2>
+					<p>Nous travaillons actuellement sur le questionnaire pour le Chapitre {chapterId}. Revenez bientôt!</p>
+					<a href='/' class='back-button'>
+						Retour à l'accueil
+					</a>
+				</div>
+			) : (
+				<ChapterContent title={chapterTitle} content={contentPromise} />
+			)
+		}
+
+		<div class='navigation-buttons'>
+			{
+				parseInt(chapterId) > 8 && (
+					<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
+						&larr; Chapitre précédent
+					</a>
+				)
+			}
+
+			{
+				parseInt(chapterId) < 13 && (
+					<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
+						Chapitre suivant &rarr;
+					</a>
+				)
+			}
+		</div>
+	</div>
+</MainLayout>
+
+<style>
+	.chapter-container {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.navigation-buttons {
+		display: flex;
+		justify-content: space-between;
+		margin: 2rem 0;
+	}
+
+	.nav-button {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+		color: white;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 500;
+		transition: opacity 0.2s;
+	}
+
+	.nav-button:hover {
+		opacity: 0.85;
+	}
+
+	.nav-button.prev {
+		margin-right: auto;
+	}
+
+	.nav-button.next {
+		margin-left: auto;
+	}
+
+	.exam-not-available {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		text-align: center;
+		margin: 2rem 0;
+	}
+
+	.exam-not-available h2 {
+		color: var(--primary-color);
+		margin-bottom: 1rem;
+	}
+
+	.exam-not-available p {
+		margin-bottom: 2rem;
+		color: #666;
+	}
+
+	.back-button {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+		color: white;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 500;
+		transition: opacity 0.2s;
+	}
+
+	.back-button:hover {
+		opacity: 0.85;
+	}
+
+	@media (max-width: 768px) {
+		.navigation-buttons {
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.nav-button {
+			text-align: center;
+		}
+	}
+</style>
