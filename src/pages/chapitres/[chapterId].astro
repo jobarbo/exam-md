@@ -1,8 +1,6 @@
 ---
 import MainLayout from "../../layouts/MainLayout.astro";
 import ChapterContent from "../../components/ChapterContent.astro";
-import ExamContent from "../../components/ExamContent.astro";
-import {marked} from "marked";
 import {hasExam} from "../../utils/markdown";
 
 export function getStaticPaths() {
@@ -11,7 +9,7 @@ export function getStaticPaths() {
 
 const CHAPTER_TITLES: Record<string, string> = {
 	"08": "Politiques sociales et travail social",
-	"09": "Chapitre 9",
+	"09": "L'intervention personnelle en travail social",
 	"10": "Chapitre 10",
 	"11": "Chapitre 11",
 	"12": "Chapitre 12",
@@ -25,30 +23,46 @@ const chapterTitle = `Chapitre ${chapterId} - ${title}`;
 // Vérifier si ce chapitre a un questionnaire disponible
 const examAvailable = hasExam(chapterId);
 
-// Vérifier si c'est le chapitre 8 pour afficher le formulaire d'examen au lieu des notes
-const isExamChapter = chapterId === "08";
+// Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
+const isExamChapter = ["08", "09"].includes(chapterId);
+
+// Dynamically import the exam component if available
+let ExamComponent;
+try {
+	if (isExamChapter) {
+		// Import the relevant exam component based on chapterId
+		const module = await import(`../../components/exams/Exam${chapterId}.astro`);
+		ExamComponent = module.default;
+	}
+} catch (error) {
+	console.error(`Failed to load exam component for chapter ${chapterId}:`, error);
+}
 
 // Pour les autres chapitres, on charge le contenu markdown
-let contentPromise: Promise<string> = Promise.resolve("");
+let contentHtml = "";
 
 if (!isExamChapter) {
 	try {
-		contentPromise = (async () => {
-			try {
-				const response = await fetch(`${Astro.url.origin}/markdown/${chapterId}.md`);
-				if (response.ok) {
-					const markdown = await response.text();
-					return marked.parse(markdown);
-				}
-				return `<h1>${chapterTitle}</h1><p>Le contenu n'est pas disponible.</p>`;
-			} catch (error) {
-				console.error(`Erreur lors du chargement du markdown: ${error}`);
-				return `<h1>${chapterTitle}</h1><p>Erreur: ${error}</p>`;
-			}
-		})();
+		const response = await fetch(`${Astro.url.origin}/markdown/${chapterId}.md`);
+		if (response.ok) {
+			const markdown = await response.text();
+			// Use simple HTML conversion
+			contentHtml = markdown
+				.replace(/^# (.*)/gm, "<h1>$1</h1>")
+				.replace(/^## (.*)/gm, "<h2>$1</h2>")
+				.replace(/^### (.*)/gm, "<h3>$1</h3>")
+				.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+				.replace(/\*(.*?)\*/g, "<em>$1</em>")
+				.replace(/\n\n/g, "</p><p>")
+				.replace(/^(.+)$/gm, "$1<br>")
+				.trim();
+			contentHtml = `<p>${contentHtml}</p>`;
+		} else {
+			contentHtml = `<h1>${chapterTitle}</h1><p>Le contenu n'est pas disponible.</p>`;
+		}
 	} catch (error) {
-		console.error(`Erreur générale: ${error}`);
-		contentPromise = Promise.resolve(`<h1>${chapterTitle}</h1><p>Erreur générale: ${error}</p>`);
+		console.error(`Erreur lors du chargement du markdown: ${error}`);
+		contentHtml = `<h1>${chapterTitle}</h1><p>Erreur: ${error}</p>`;
 	}
 }
 ---
@@ -74,8 +88,8 @@ if (!isExamChapter) {
 		</div>
 
 		{
-			isExamChapter ? (
-				<ExamContent title={`Chapitre 08 - Examen`} />
+			isExamChapter && ExamComponent ? (
+				<ExamComponent title={`Chapitre ${chapterId} - Examen`} />
 			) : examAvailable ? (
 				<div class='exam-not-available'>
 					<h2>Le questionnaire pour ce chapitre est en cours de développement</h2>
@@ -85,7 +99,7 @@ if (!isExamChapter) {
 					</a>
 				</div>
 			) : (
-				<ChapterContent title={chapterTitle} content={contentPromise} />
+				<ChapterContent title={chapterTitle} content={contentHtml} />
 			)
 		}
 

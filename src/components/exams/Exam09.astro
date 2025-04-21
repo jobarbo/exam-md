@@ -1,0 +1,836 @@
+---
+export interface Props {
+	title: string;
+}
+
+const {title} = Astro.props;
+---
+
+<div class='exam-content'>
+	<h1>{title}</h1>
+	<p>Testez vos connaissances sur les concepts du cours 9 concernant l'intervention sociale personnelle.</p>
+
+	<form id='examForm'>
+		<!-- Questions à choix de réponses (radio) -->
+		<div class='question' id='q1'>
+			<h2>1. Évolution historique du travail social</h2>
+			<p>Quelles sont les quatre étapes historiques de l'évolution du travail social présentées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1a' value='a' />
+					<label for='q1a'>Factuel, analytique, critique, postmoderne</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1b' value='b' />
+					<label for='q1b'>Charitable, scientifique, gestionnaire, critique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1c' value='c' />
+					<label for='q1c'>Religieux, social, économique, politique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1d' value='d' />
+					<label for='q1d'>Individuelle, familiale, groupale, communautaire</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain1'>
+				Selon le cours, l'évolution du travail social s'est faite en quatre étapes: charitable (moralisation), scientifique (adaptation), gestionnaire (régulation) et critique (émancipation).
+			</div>
+		</div>
+
+		<div class='question' id='q2'>
+			<h2>2. Valeurs du travail social</h2>
+			<p>Quelles sont les quatre valeurs fondamentales du travail social mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2a' value='a' />
+					<label for='q2a'>Valeurs humanistes</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2b' value='b' />
+					<label for='q2b'>Valeurs démocratiques</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2c' value='c' />
+					<label for='q2c'>Promotion et défense des droits humains</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2d' value='d' />
+					<label for='q2d'>Professionnalisme</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2e' value='e' />
+					<label for='q2e'>Compétitivité</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain2'>
+				Le cours identifie quatre valeurs fondamentales du travail social: les valeurs humanistes, les valeurs démocratiques, la promotion et défense des droits humains, et le professionnalisme.
+			</div>
+		</div>
+
+		<div class='question' id='q3'>
+			<h2>3. Spécificité du travail social</h2>
+			<p>Selon le cours, quelle est la spécificité du travail social en termes de point d'intervention?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3a' value='a' />
+					<label for='q3a'>Le travail social intervient uniquement sur les structures sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3b' value='b' />
+					<label for='q3b'>Le travail social intervient uniquement sur les individus</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3c' value='c' />
+					<label for='q3c'>Le travail social intervient au point de rencontre entre les individus et la société</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3d' value='d' />
+					<label for='q3d'>Le travail social intervient exclusivement sur les politiques sociales</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain3'>
+				La spécificité du travail social est qu'il intervient au point de rencontre entre les individus et la société, à la fois auprès des personnes et des structures sociales.
+			</div>
+		</div>
+
+		<div class='question' id='q4'>
+			<h2>4. Liens sociaux</h2>
+			<p>Parmi les suivants, lesquels sont mentionnés comme des exemples de liens sociaux dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q4' id='q4a' value='a' />
+					<label for='q4a'>École</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q4' id='q4b' value='b' />
+					<label for='q4b'>Famille</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q4' id='q4c' value='c' />
+					<label for='q4c'>Travail</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q4' id='q4d' value='d' />
+					<label for='q4d'>Religion</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q4' id='q4e' value='e' />
+					<label for='q4e'>Consommation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain4'>
+				Dans le cours, plusieurs exemples de liens sociaux sont mentionnés: l'école, le couple, la famille, le travail, les amis, le voisinage, la citoyenneté et la consommation. La religion n'est pas
+				explicitement mentionnée comme un lien social dans ce contexte.
+			</div>
+		</div>
+
+		<div class='question' id='q5'>
+			<h2>5. Fonctions des liens sociaux</h2>
+			<p>Selon le cours, quelles sont les fonctions essentielles des liens sociaux?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5a' value='a' />
+					<label for='q5a'>Contrôle social et subordination</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5b' value='b' />
+					<label for='q5b'>Protection et reconnaissance</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5c' value='c' />
+					<label for='q5c'>Émancipation et transformation</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5d' value='d' />
+					<label for='q5d'>Hiérarchisation et normalisation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain5'>Selon le cours, les liens sociaux permettent la protection face aux aléas de l'existence et la reconnaissance de la valeur de son existence.</div>
+		</div>
+
+		<div class='question' id='q6'>
+			<h2>6. Intervention sur la relation individu-société</h2>
+			<p>Dans le cadre de l'intervention sur la relation individu-société, à quoi fait référence le concept d'"interférences"?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6a' value='a' />
+					<label for='q6a'>Aux obstacles qui empêchent la création de liens sociaux</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6b' value='b' />
+					<label for='q6b'>À l'influence exercée sur les rapports entre individus et société</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6c' value='c' />
+					<label for='q6c'>Aux interférences négatives dans la communication</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6d' value='d' />
+					<label for='q6d'>À la résolution des conflits entre l'individu et les structures sociales</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain6'>
+				Dans le contexte de l'intervention sur la relation individu-société, les "interférences" font référence à l'action d'influencer les rapports entre l'individu et la société.
+			</div>
+		</div>
+
+		<div class='question' id='q7'>
+			<h2>7. Fonctions du travail social</h2>
+			<p>Quelles sont les trois fonctions complémentaires et parfois paradoxales du travail social mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7a' value='a' />
+					<label for='q7a'>Fonction clinique (développement personnel)</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7b' value='b' />
+					<label for='q7b'>Fonction de transformation sociale (justice sociale)</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7c' value='c' />
+					<label for='q7c'>Fonction sociale (fonctionnement social)</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7d' value='d' />
+					<label for='q7d'>Fonction éducative (transmission des savoirs)</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7e' value='e' />
+					<label for='q7e'>Fonction économique (gestion des ressources)</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain7'>
+				Le cours identifie trois fonctions complémentaires et parfois paradoxales du travail social: la fonction clinique (développement personnel), la fonction de transformation sociale (justice
+				sociale) et la fonction sociale (fonctionnement social).
+			</div>
+		</div>
+
+		<div class='question' id='q8'>
+			<h2>8. Visées de l'intervention sociale personnelle</h2>
+			<p>Parmi les propositions suivantes, laquelle correspond à une visée de l'intervention sociale personnelle selon le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8a' value='a' />
+					<label for='q8a'>Adapter l'individu aux exigences des structures sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8b' value='b' />
+					<label for='q8b'>Coconstruire avec la personne le sens social du problème qu'elle rencontre</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8c' value='c' />
+					<label for='q8c'>Transformer uniquement les structures sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8d' value='d' />
+					<label for='q8d'>Maintenir l'ordre social existant</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain8'>
+				Selon le cours, l'une des visées de l'intervention sociale personnelle est de coconstruire avec la personne le sens social du problème qu'elle rencontre en tenant compte de ses conditions de
+				vie ou contraintes de situations.
+			</div>
+		</div>
+
+		<div class='question' id='q9'>
+			<h2>9. Rôles des intervenants</h2>
+			<p>Parmi les suivants, lesquels sont mentionnés comme des rôles des intervenants sociaux dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9a' value='a' />
+					<label for='q9a'>Clinicien/aidant</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9b' value='b' />
+					<label for='q9b'>Courtier de ressources</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9c' value='c' />
+					<label for='q9c'>Médiateur social</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9d' value='d' />
+					<label for='q9d'>Avocat/intercesseur</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9e' value='e' />
+					<label for='q9e'>Leader politique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain9'>
+				Le cours identifie plusieurs rôles des intervenants sociaux, notamment: clinicien/aidant, courtier de ressources, médiateur social, avocat/intercesseur, éducateur/formateur, protecteur/tuteur
+				et coordonnateur. Le rôle de leader politique n'est pas explicitement mentionné.
+			</div>
+		</div>
+
+		<div class='question' id='q10'>
+			<h2>10. Ingrédients essentiels de l'intervention</h2>
+			<p>Selon le cours, quels sont les deux ingrédients essentiels de l'intervention sociale?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10a' value='a' />
+					<label for='q10a'>L'empathie sociale et le pouvoir d'agir</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10b' value='b' />
+					<label for='q10b'>La connaissance théorique et l'expérience pratique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10c' value='c' />
+					<label for='q10c'>Les ressources matérielles et l'autorité professionnelle</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10d' value='d' />
+					<label for='q10d'>L'éthique et la pensée critique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain10'>Selon le cours, les deux ingrédients essentiels de l'intervention sociale sont l'empathie sociale et le pouvoir d'agir.</div>
+		</div>
+
+		<div class='question' id='q11'>
+			<h2>11. Orientations de l'intervention sociale</h2>
+			<p>Quelles sont les deux orientations de l'intervention sociale mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11a' value='a' />
+					<label for='q11a'>Individuelle et collective</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11b' value='b' />
+					<label for='q11b'>Fonctionnaliste et critique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11c' value='c' />
+					<label for='q11c'>Théorique et pratique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11d' value='d' />
+					<label for='q11d'>Préventive et curative</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain11'>
+				Selon le cours, les deux orientations de l'intervention sociale sont: l'orientation fonctionnaliste (adaptation de l'individu) et l'orientation critique (transformation sociale).
+			</div>
+		</div>
+
+		<div class='question' id='q12'>
+			<h2>12. Processus d'intervention</h2>
+			<p>Quelles sont les quatre phases du processus "générique" d'intervention mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q12' id='q12a' value='a' />
+					<label for='q12a'>Phase de préparation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q12' id='q12b' value='b' />
+					<label for='q12b'>Phase de début</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q12' id='q12c' value='c' />
+					<label for='q12c'>Phase de réalisation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q12' id='q12d' value='d' />
+					<label for='q12d'>Phase de terminaison</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q12' id='q12e' value='e' />
+					<label for='q12e'>Phase d'évaluation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain12'>
+				Le cours identifie quatre phases du processus "générique" d'intervention: la phase de préparation, la phase de début, la phase de réalisation et la phase de terminaison.
+			</div>
+		</div>
+
+		<div class='question' id='q13'>
+			<h2>13. Habiletés pour l'intervention</h2>
+			<p>Parmi les suivantes, lesquelles sont mentionnées comme des habiletés nécessaires pour intervenir?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q13' id='q13a' value='a' />
+					<label for='q13a'>Écoute active</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q13' id='q13b' value='b' />
+					<label for='q13b'>Reflet</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q13' id='q13c' value='c' />
+					<label for='q13c'>Reformulation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q13' id='q13d' value='d' />
+					<label for='q13d'>Questions ouvertes et fermées</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q13' id='q13e' value='e' />
+					<label for='q13e'>Persuasion</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain13'>
+				Selon le cours, les habiletés nécessaires pour intervenir incluent: l'écoute active, le reflet, la reformulation, les questions ouvertes et fermées, et la focalisation. La persuasion n'est pas
+				explicitement mentionnée dans cette liste.
+			</div>
+		</div>
+
+		<div class='question' id='q14'>
+			<h2>14. Qualités de l'intervenant</h2>
+			<p>Parmi les suivantes, lesquelles sont mentionnées comme des qualités nécessaires pour l'intervention?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14a' value='a' />
+					<label for='q14a'>Curiosité</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14b' value='b' />
+					<label for='q14b'>Ouverture et non-jugement</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14c' value='c' />
+					<label for='q14c'>Conscience de soi</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14d' value='d' />
+					<label for='q14d'>Authenticité</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14e' value='e' />
+					<label for='q14e'>Directivité</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain14'>
+				Le cours mentionne les qualités suivantes comme nécessaires pour l'intervention: curiosité, ouverture et non-jugement, conscience de soi, authenticité et assurance. La directivité n'est pas
+				explicitement mentionnée dans cette liste.
+			</div>
+		</div>
+
+		<div class='question' id='q15'>
+			<h2>15. Compétences pour intervenir</h2>
+			<p>Parmi les suivantes, lesquelles sont mentionnées comme des compétences nécessaires pour intervenir?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15a' value='a' />
+					<label for='q15a'>Intervention sociale</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15b' value='b' />
+					<label for='q15b'>Réflexivité</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15c' value='c' />
+					<label for='q15c'>Contextualisation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15d' value='d' />
+					<label for='q15d'>Professionnalisme</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15e' value='e' />
+					<label for='q15e'>Expertise technique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain15'>
+				Selon le cours, les compétences nécessaires pour intervenir incluent: intervention sociale, réflexivité, contextualisation, professionnalisme et collaboration. L'expertise technique n'est pas
+				explicitement mentionnée dans cette liste.
+			</div>
+		</div>
+
+		<div class='question' id='q16'>
+			<h2>16. Méthodes complémentaires d'intervention</h2>
+			<p>Selon le cours, à quel niveau le travail social intervient-il?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16a' value='a' />
+					<label for='q16a'>Uniquement au niveau de l'individu et de sa famille</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16b' value='b' />
+					<label for='q16b'>Uniquement au niveau des structures sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16c' value='c' />
+					<label for='q16c'>Au point de rencontre entre les individus et la société, à plusieurs niveaux</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16d' value='d' />
+					<label for='q16d'>Principalement au niveau politique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain16'>
+				Selon le cours, le travail social intervient au point de rencontre entre les individus et la société, à la fois auprès des personnes et des structures sociales, à différents niveaux:
+				individu/couple/famille, groupe, institutions et communauté.
+			</div>
+		</div>
+
+		<div class='question' id='q17'>
+			<h2>17. Finalité de l'intervention sociale</h2>
+			<p>Quelle est la finalité convergente des différentes méthodes d'intervention sociale selon le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17a' value='a' />
+					<label for='q17a'>Mobiliser les acteurs et ressources dans un processus de changement en faveur d'un mieux-être des personnes et des collectivités</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17b' value='b' />
+					<label for='q17b'>Adapter les individus aux exigences de la société</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17c' value='c' />
+					<label for='q17c'>Transformer radicalement les structures sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17d' value='d' />
+					<label for='q17d'>Fournir des services sociaux de qualité</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain17'>
+				Selon le cours, la finalité convergente des différentes méthodes d'intervention est de "mobiliser les acteurs et ressources dans un processus de changement en faveur d'un mieux-être des
+				personnes et des collectivités".
+			</div>
+		</div>
+
+		<div class='question' id='q18'>
+			<h2>18. Intervention sur la relation individu-société</h2>
+			<p>Quels sont les trois types d'intervention sur la relation individu-société mentionnés dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q18' id='q18a' value='a' />
+					<label for='q18a'>Interférences</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q18' id='q18b' value='b' />
+					<label for='q18b'>Connexions</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q18' id='q18c' value='c' />
+					<label for='q18c'>Externalisation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q18' id='q18d' value='d' />
+					<label for='q18d'>Intégration</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q18' id='q18e' value='e' />
+					<label for='q18e'>Médiation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain18'>
+				Le cours mentionne trois types d'intervention sur la relation individu-société: interférences (influencer les rapports), connexions (resserrer le tissu social) et externalisation (déconstruire
+				les pratiques et discours).
+			</div>
+		</div>
+
+		<div class='question' id='q19'>
+			<h2>19. Types d'intervention sociale</h2>
+			<p>Selon le cours, quels types d'intervention sociale permettent d'agir à l'intersection des liens sociaux?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q19' id='q19a' value='a' />
+					<label for='q19a'>Intervention personnelle</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q19' id='q19b' value='b' />
+					<label for='q19b'>Intervention de groupe</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q19' id='q19c' value='c' />
+					<label for='q19c'>Intervention communautaire</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q19' id='q19d' value='d' />
+					<label for='q19d'>Intervention économique</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q19' id='q19e' value='e' />
+					<label for='q19e'>Intervention politique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain19'>
+				Le cours identifie trois types d'intervention sociale pour agir à l'intersection des liens sociaux: l'intervention personnelle (pouvoir d'agir personnel sur ses conditions d'existence),
+				l'intervention de groupe (pouvoir d'aide mutuelle en écho à ses besoins et buts partagés) et l'intervention communautaire (pouvoir collectif de transformation des problèmes collectifs en
+				projets collectifs).
+			</div>
+		</div>
+
+		<div class='question' id='q20'>
+			<h2>20. Approche intégrée</h2>
+			<p>Selon le cours, quels sont les éléments qui caractérisent l'approche intégrée en travail social?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q20' id='q20a' value='a' />
+					<label for='q20a'>Approche globale</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q20' id='q20b' value='b' />
+					<label for='q20b'>Polyvalence d'action</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q20' id='q20c' value='c' />
+					<label for='q20c'>Analyse critique</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q20' id='q20d' value='d' />
+					<label for='q20d'>Spécialisation technique</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q20' id='q20e' value='e' />
+					<label for='q20e'>Standardisation des pratiques</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain20'>
+				Selon le cours, l'approche intégrée en travail social est caractérisée par: une approche globale, une polyvalence d'action et une analyse critique. La spécialisation technique et la
+				standardisation des pratiques ne sont pas mentionnées comme des caractéristiques de cette approche.
+			</div>
+		</div>
+
+		<button type='button' id='checkAnswers'>Vérifier les réponses</button>
+	</form>
+
+	<div id='results'></div>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const checkAnswersButton = document.getElementById("checkAnswers");
+		if (checkAnswersButton) {
+			checkAnswersButton.addEventListener("click", function () {
+				// Réponses correctes pour les questions à choix unique (radio)
+				const correctRadioAnswers = {
+					q1: "b",
+					q3: "c",
+					q5: "b",
+					q6: "b",
+					q8: "b",
+					q10: "a",
+					q11: "b",
+					q16: "c",
+					q17: "a",
+				};
+
+				// Réponses correctes pour les questions à choix multiples (checkbox)
+				const correctCheckboxAnswers = {
+					q2: ["a", "b", "c", "d"], // Toutes sauf e
+					q4: ["a", "b", "c", "e"], // Toutes sauf d
+					q7: ["a", "b", "c"], // Toutes sauf d et e
+					q9: ["a", "b", "c", "d"], // Toutes sauf e
+					q12: ["a", "b", "c", "d"],
+					q13: ["a", "b", "c", "d"],
+					q14: ["a", "b", "c", "d"],
+					q15: ["a", "b", "c", "d"],
+					q18: ["a", "b", "c"],
+					q19: ["a", "b", "c"],
+					q20: ["a", "b", "c"],
+				};
+
+				let score = 0;
+				let totalQuestions = Object.keys(correctRadioAnswers).length + Object.keys(correctCheckboxAnswers).length;
+				let resultsHtml = "<h2>Résultats</h2>";
+
+				// Vérifier les questions à choix unique (radio)
+				for (let q in correctRadioAnswers) {
+					const selected = document.querySelector(`input[name="${q}"]:checked`) as HTMLInputElement | null;
+					// Trouver le div de la question
+					const questionDiv = document.getElementById(q);
+
+					if (selected) {
+						if (selected.value === correctRadioAnswers[q as keyof typeof correctRadioAnswers]) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				// Vérifier les questions à choix multiples (checkbox)
+				for (let q in correctCheckboxAnswers) {
+					const questionDiv = document.getElementById(q);
+					const selectedCheckboxes = document.querySelectorAll(`input[name="${q}"]:checked`) as NodeListOf<HTMLInputElement>;
+					const selectedValues = Array.from(selectedCheckboxes).map((cb) => cb.value);
+
+					// Vérifier si les réponses sélectionnées correspondent exactement aux réponses correctes
+					const correctForThisQuestion = correctCheckboxAnswers[q as keyof typeof correctCheckboxAnswers];
+					const isCorrect = selectedValues.length === correctForThisQuestion.length && selectedValues.every((val) => correctForThisQuestion.includes(val));
+
+					if (selectedValues.length > 0) {
+						if (isCorrect) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				resultsHtml += `<p style="font-weight: bold; font-size: 1.1em; margin-top: 15px;">Score: ${score}/${totalQuestions}</p>`;
+				resultsHtml += `<p>Consultez les explications sous chaque question pour plus de détails.</p>`;
+
+				const resultsDiv = document.getElementById("results");
+				if (resultsDiv) {
+					resultsDiv.innerHTML = resultsHtml;
+					resultsDiv.style.display = "block";
+					resultsDiv.style.padding = "15px";
+					resultsDiv.style.backgroundColor = score > totalQuestions / 2 ? "#d4edda" : "#f8d7da";
+					resultsDiv.style.border = "1px solid #ddd";
+					resultsDiv.style.borderRadius = "5px";
+					resultsDiv.style.marginTop = "20px";
+
+					// Défiler jusqu'aux résultats
+					resultsDiv.scrollIntoView({behavior: "smooth"});
+				}
+			});
+		}
+	});
+</script>
+
+<style>
+	.exam-content {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+		border-bottom: 2px solid #eaeaea;
+		padding-bottom: 0.5rem;
+	}
+
+	h2 {
+		font-size: 1.2rem;
+		color: var(--secondary-color);
+		margin-bottom: 0.5rem;
+	}
+
+	.question {
+		background-color: white;
+		padding: 15px;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		transition:
+			border 0.3s,
+			box-shadow 0.3s;
+		border: 1px solid #eaeaea;
+	}
+
+	.options {
+		margin-left: 20px;
+	}
+
+	.option {
+		margin: 10px 0;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.option input {
+		margin-top: 3px;
+		margin-right: 10px;
+	}
+
+	.option label {
+		flex: 1;
+	}
+
+	button {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		padding: 12px 24px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		margin-top: 20px;
+		transition: background-color 0.3s;
+		font-weight: bold;
+	}
+
+	button:hover {
+		background-color: var(--secondary-color);
+	}
+
+	#results {
+		margin-top: 20px;
+		padding: 15px;
+		border-radius: 5px;
+		display: none;
+	}
+
+	.explanation {
+		margin-top: 15px;
+		font-style: italic;
+		display: none;
+		padding: 12px;
+		border-left: 3px solid var(--primary-color);
+		background-color: #f8f9fa;
+		color: #495057;
+	}
+
+	@media (max-width: 768px) {
+		.exam-content {
+			padding: 1rem;
+		}
+
+		.question {
+			padding: 10px;
+		}
+
+		.option {
+			margin: 8px 0;
+		}
+	}
+</style>

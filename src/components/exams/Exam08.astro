@@ -1,0 +1,816 @@
+---
+export interface Props {
+	title: string;
+}
+
+const {title} = Astro.props;
+---
+
+<div class='exam-content'>
+	<h1>{title}</h1>
+	<p>Testez vos connaissances sur les concepts du cours 8 concernant les politiques sociales et le travail social.</p>
+
+	<form id='examForm'>
+		<!-- Questions à choix de réponses (radio) -->
+		<div class='question' id='q1'>
+			<h2>1. Définition des politiques sociales</h2>
+			<p>Selon Vaillancourt, les politiques sociales sont des interventions qui contribuent au bien-être et à la citoyenneté des individus et des collectivités d'une manière qui fait reculer:</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1a' value='a' />
+					<label for='q1a'>La pauvreté et l'exclusion sociale</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1b' value='b' />
+					<label for='q1b'>La marchandisation et la familialisation</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1c' value='c' />
+					<label for='q1c'>L'individualisme et le néolibéralisme</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1d' value='d' />
+					<label for='q1d'>La régulation étatique et le centrisme</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain1'>
+				Selon la définition de Vaillancourt présentée dans le cours, les politiques sociales sont des interventions de l'État qui contribuent au bien-être et à la citoyenneté d'une manière qui fait
+				reculer la marchandisation et la familialisation.
+			</div>
+		</div>
+
+		<div class='question' id='q2'>
+			<h2>2. Approches de régulation du social</h2>
+			<p>Quelle approche de régulation du social est caractérisée par des politiques sociales qui sont des co-constructions et leur mise en œuvre des co-productions?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q2' id='q2a' value='a' />
+					<label for='q2a'>L'État providence</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q2' id='q2b' value='b' />
+					<label for='q2b'>Le néo-libéralisme</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q2' id='q2c' value='c' />
+					<label for='q2c'>La perspective solidaire (ou partenariale)</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q2' id='q2d' value='d' />
+					<label for='q2d'>L'approche consumériste</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain2'>
+				La perspective solidaire (ou partenariale) est caractérisée par des politiques sociales conçues comme des co-constructions et mises en œuvre comme des co-productions. Cette approche valorise
+				le partenariat entre l'État, le secteur privé et le secteur communautaire, formant une économie plurielle.
+			</div>
+		</div>
+
+		<div class='question' id='q3'>
+			<h2>3. Typologie des États-providence</h2>
+			<p>Selon la typologie de Gosta Esping-Andersen, quel modèle d'État-providence fait la promotion de l'universalité des protections?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3a' value='a' />
+					<label for='q3a'>Le welfare state libéral</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3b' value='b' />
+					<label for='q3b'>Le modèle conservateur-corporatiste</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3c' value='c' />
+					<label for='q3c'>Le régime social-démocrate</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q3' id='q3d' value='d' />
+					<label for='q3d'>Le modèle néo-libéral</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain3'>
+				Dans la typologie de Gosta Esping-Andersen, le régime social-démocrate est celui qui fait la promotion de l'universalité des protections, contrairement aux modèles libéral et
+				conservateur-corporatiste.
+			</div>
+		</div>
+
+		<div class='question' id='q4'>
+			<h2>4. Financement des systèmes de santé</h2>
+			<p>Quel type de financement correspond au modèle canadien et québécois dans le secteur de la santé?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4a' value='a' />
+					<label for='q4a'>Financement à dominante assurance publique (Bismarckien)</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4b' value='b' />
+					<label for='q4b'>Financement à dominante impôt (Beveridgien)</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4c' value='c' />
+					<label for='q4c'>Financement à dominante privé ou mixte</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4d' value='d' />
+					<label for='q4d'>Financement par cotisation volontaire</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain4'>
+				Le Canada et le Québec utilisent un financement à dominante impôt (modèle Beveridgien), caractérisé par un financement par impôt, l'universalité et la gestion publique. C'est l'expression la
+				plus parfaite des orientations d'un État providence.
+			</div>
+		</div>
+
+		<div class='question' id='q5'>
+			<h2>5. Modèles de justice dans les soins de santé</h2>
+			<p>Quel type de justice est associé au financement par impôt du système de santé?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5a' value='a' />
+					<label for='q5a'>Justice commutative</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5b' value='b' />
+					<label for='q5b'>Justice distributive</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5c' value='c' />
+					<label for='q5c'>Justice réparatrice</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q5' id='q5d' value='d' />
+					<label for='q5d'>Justice procédurale</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain5'>
+				Le financement par impôt correspond à la justice distributive, où les soins sont considérés comme un droit, et chacun reçoit ce qui lui est dû sans lien entre la contribution et les services
+				reçus.
+			</div>
+		</div>
+
+		<div class='question' id='q6'>
+			<h2>6. Perspective du néo-libéralisme</h2>
+			<p>Comment le secteur communautaire est-il perçu dans l'approche néo-libérale?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6a' value='a' />
+					<label for='q6a'>Comme un partenaire essentiel dans la co-construction des politiques sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6b' value='b' />
+					<label for='q6b'>Comme une aubaine permettant de rendre des services à moindre coût</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6c' value='c' />
+					<label for='q6c'>Comme un contre-pouvoir nécessaire face à l'État</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6d' value='d' />
+					<label for='q6d'>Comme un obstacle au bon fonctionnement du marché</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain6'>
+				Dans l'approche néo-libérale, le secteur communautaire est perçu comme une aubaine permettant de rendre des services à moindre coût, notamment en santé et services sociaux, en réinsertion
+				sociale, et dans le secteur de l'environnement.
+			</div>
+		</div>
+
+		<div class='question' id='q7'>
+			<h2>7. Les volets des politiques sociales selon Rosanvallon</h2>
+			<p>Selon Rosanvallon, quels sont les quatre volets des politiques sociales?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7a' value='a' />
+					<label for='q7a'>Redistributif</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7b' value='b' />
+					<label for='q7b'>Capacitation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7c' value='c' />
+					<label for='q7c'>Régulation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7d' value='d' />
+					<label for='q7d'>Protection</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7e' value='e' />
+					<label for='q7e'>Individualisation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain7'>Selon Rosanvallon, les quatre volets aux politiques sociales sont: redistributif, capacitation, régulation et protection.</div>
+		</div>
+
+		<div class='question' id='q8'>
+			<h2>8. L'État providence et les idéologies</h2>
+			<p>Comment les marxistes perçoivent-ils l'État providence?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8a' value='a' />
+					<label for='q8a'>Il détourne les travailleurs du socialisme</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8b' value='b' />
+					<label for='q8b'>Il témoigne de la volonté de redistribuer la richesse</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8c' value='c' />
+					<label for='q8c'>Il est un frein aux lois du marché</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q8' id='q8d' value='d' />
+					<label for='q8d'>Il représente l'idéal socialiste à atteindre</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain8'>Pour les marxistes, l'État providence détourne les travailleurs du socialisme, car les mesures sociales ont pour effet de diminuer le militantisme.</div>
+		</div>
+
+		<div class='question' id='q9'>
+			<h2>9. Fondements des politiques sociales</h2>
+			<p>Parmi les suivants, lesquels sont des fondements des politiques sociales mentionnés dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9a' value='a' />
+					<label for='q9a'>Elles visent à corriger les failles du marché</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9b' value='b' />
+					<label for='q9b'>Elles visent à atténuer les inégalités sociales, économiques, de santé, en éducation, etc.</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9c' value='c' />
+					<label for='q9c'>Elles reposent sur une solidarité à l'intérieur de la société</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9d' value='d' />
+					<label for='q9d'>Elles reposent sur la légitimité de l'État à corriger les failles et imperfections du marché</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q9' id='q9e' value='e' />
+					<label for='q9e'>Elles visent à maintenir la domination des élites économiques</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain9'>
+				Les fondements des politiques sociales mentionnés dans le cours incluent: elles visent à corriger les failles du marché, elles visent à atténuer les inégalités sociales, économiques, de santé,
+				en éducation, etc., elles reposent sur une solidarité à l'intérieur de la société, et elles reposent sur la légitimité de l'État à corriger les failles et imperfections du marché.
+			</div>
+		</div>
+
+		<div class='question' id='q10'>
+			<h2>10. Types de financement des systèmes de santé</h2>
+			<p>Quel type de financement des systèmes de santé correspond au modèle américain?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10a' value='a' />
+					<label for='q10a'>Financement à dominante assurance publique (Bismarckien)</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10b' value='b' />
+					<label for='q10b'>Financement à dominante impôt (Beveridgien)</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10c' value='c' />
+					<label for='q10c'>Financement à dominante privé ou mixte</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q10' id='q10d' value='d' />
+					<label for='q10d'>Financement public intégral</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain10'>
+				Le modèle américain correspond à un financement à dominante privé ou mixte, caractérisé par une présence marquée d'intérêts privés dans le financement et dans la prestation de services.
+			</div>
+		</div>
+
+		<div class='question' id='q11'>
+			<h2>11. Définition du "social" dans le contexte des politiques sociales</h2>
+			<p>Selon le cours, que signifie l'affirmation "le social fait appel au politique pour corriger l'économique"?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11a' value='a' />
+					<label for='q11a'>Les problèmes sociaux sont causés par les politiques gouvernementales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11b' value='b' />
+					<label for='q11b'>Les politiques sociales utilisent le pouvoir politique pour corriger les failles du système économique</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11c' value='c' />
+					<label for='q11c'>L'économie doit être entièrement régulée par l'État</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q11' id='q11d' value='d' />
+					<label for='q11d'>La politique sociale est indépendante de l'économie</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain11'>
+				Cette affirmation signifie que les politiques sociales utilisent le pouvoir politique pour corriger les failles et les inégalités produites par le système économique, pour atteindre des
+				résultats que le système ne pourrait pas atteindre par lui-même.
+			</div>
+		</div>
+
+		<div class='question' id='q12'>
+			<h2>12. Justice commutative</h2>
+			<p>Qu'est-ce qui caractérise la justice commutative dans le domaine des soins de santé?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q12' id='q12a' value='a' />
+					<label for='q12a'>Les soins sont un droit, chacun reçoit ce qui lui est dû</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q12' id='q12b' value='b' />
+					<label for='q12b'>Les soins sont en fonction du rapport entre ce qu'on donne et ce qu'on reçoit</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q12' id='q12c' value='c' />
+					<label for='q12c'>Les soins sont gratuits pour tous les citoyens</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q12' id='q12d' value='d' />
+					<label for='q12d'>Les soins sont distribués selon les besoins, indépendamment des contributions</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain12'>
+				La justice commutative dans le domaine des soins de santé fait référence à un modèle où les soins sont en fonction du rapport entre ce qu'on donne et ce qu'on reçoit - on aura donc les
+				services qu'on peut se payer. C'est le modèle qui correspond à l'État providence libéral.
+			</div>
+		</div>
+
+		<div class='question' id='q13'>
+			<h2>13. Mobilisation et politique sociale</h2>
+			<p>Selon le cours, quel est le rapport entre les mouvements sociaux et les politiques sociales?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q13' id='q13a' value='a' />
+					<label for='q13a'>Les politiques sociales sont créées indépendamment des mouvements sociaux</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q13' id='q13b' value='b' />
+					<label for='q13b'>Les mouvements sociaux s'opposent systématiquement aux politiques sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q13' id='q13c' value='c' />
+					<label for='q13c'>Les mouvements sociaux produisent ou forcent à produire des politiques sociales</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q13' id='q13d' value='d' />
+					<label for='q13d'>Les politiques sociales visent à réprimer les mouvements sociaux</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain13'>
+				Selon le cours, ce sont les mouvements sociaux qui produisent (comme la loi 112) ou forcent à produire des politiques sociales. Une large part des politiques sociales trouve son origine dans
+				les luttes populaires.
+			</div>
+		</div>
+
+		<div class='question' id='q14'>
+			<h2>14. Gouvernance des politiques sociales</h2>
+			<p>Quelles sont les deux dimensions centrales de la gouvernance dans l'étude des politiques publiques?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14a' value='a' />
+					<label for='q14a'>Le degré de décentralisation des instances</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14b' value='b' />
+					<label for='q14b'>La composition démocratique des instances</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14c' value='c' />
+					<label for='q14c'>Le montant des financements alloués</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14d' value='d' />
+					<label for='q14d'>L'efficacité technique des programmes</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q14' id='q14e' value='e' />
+					<label for='q14e'>La rapidité de mise en œuvre des politiques</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain14'>
+				Les deux dimensions centrales de la gouvernance mentionnées dans le cours sont le degré de décentralisation des instances (leur proximité avec le local) et la composition démocratique des
+				instances (qui représente le local, les citoyens).
+			</div>
+		</div>
+
+		<div class='question' id='q15'>
+			<h2>15. Justice sociale selon David Alper</h2>
+			<p>Parmi les suivantes, lesquelles sont des composantes de la justice sociale selon le professeur David Alper?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15a' value='a' />
+					<label for='q15a'>S'occuper des personnes marginalisées</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15b' value='b' />
+					<label for='q15b'>Travailler vers une plus grande égalité entre les autochtones, nouveaux arrivants et Canadiens de souche</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15c' value='c' />
+					<label for='q15c'>Réduire les inégalités sociales et économiques</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15d' value='d' />
+					<label for='q15d'>S'occuper d'un meilleur environnement climatique</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q15' id='q15e' value='e' />
+					<label for='q15e'>Favoriser exclusivement la croissance économique</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain15'>
+				Selon le professeur David Alper, la justice sociale implique de s'occuper des personnes marginalisées, de travailler vers une plus grande égalité entre les autochtones, nouveaux arrivants et
+				Canadiens de souche, de réduire les inégalités sociales et économiques, et de s'occuper d'un meilleur environnement climatique.
+			</div>
+		</div>
+
+		<div class='question' id='q16'>
+			<h2>16. Impact des inégalités</h2>
+			<p>Selon le cours, quel est l'impact des inégalités sur les individus?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16a' value='a' />
+					<label for='q16a'>Elles ont un impact néfaste sur la santé des individus</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16b' value='b' />
+					<label for='q16b'>Elles encouragent la compétitivité et l'innovation</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16c' value='c' />
+					<label for='q16c'>Elles n'ont aucun impact démontré</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q16' id='q16d' value='d' />
+					<label for='q16d'>Elles renforcent l'autonomie individuelle</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain16'>
+				Selon le cours, les inégalités ont un impact néfaste sur la santé des individus. À l'inverse, l'égalité est bonne pour la santé, comme l'illustrent les exemples de la Norvège et de la
+				Finlande.
+			</div>
+		</div>
+
+		<div class='question' id='q17'>
+			<h2>17. Passagers clandestins</h2>
+			<p>Dans le contexte des politiques sociales et de la mobilisation, que désigne le terme "passagers clandestins"?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17a' value='a' />
+					<label for='q17a'>Les personnes qui reçoivent des prestations sociales sans y avoir droit</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17b' value='b' />
+					<label for='q17b'>Les personnes qui profitent des politiques sociales sans s'être mobilisées pour les obtenir</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17c' value='c' />
+					<label for='q17c'>Les travailleurs au noir qui échappent à l'impôt</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q17' id='q17d' value='d' />
+					<label for='q17d'>Les immigrants illégaux qui bénéficient des services publics</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain17'>
+				Le terme "passagers clandestins" désigne les personnes qui profitent des politiques sociales sans s'être mobilisées pour les obtenir. Le cours mentionne que l'augmentation des passagers
+				clandestins et la baisse de la militance peuvent mener à la baisse de la mobilisation, voire à la résignation.
+			</div>
+		</div>
+
+		<div class='question' id='q18'>
+			<h2>18. Quatre choses à savoir sur la justice sociale</h2>
+			<p>Selon David Alper, laquelle des affirmations suivantes n'est PAS considérée comme l'une des "quatre choses à savoir sur la justice sociale"?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q18' id='q18a' value='a' />
+					<label for='q18a'>Une responsabilité individuelle et collective</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q18' id='q18b' value='b' />
+					<label for='q18b'>Une poignée de personnes peut changer les choses</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q18' id='q18c' value='c' />
+					<label for='q18c'>Penser globalement, agir localement</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q18' id='q18d' value='d' />
+					<label for='q18d'>Les sociétés les plus égalitaires sont les sociétés les plus en santé</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q18' id='q18e' value='e' />
+					<label for='q18e'>La justice sociale doit être imposée par les gouvernements sans participation citoyenne</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain18'>
+				Selon David Alper, les "quatre choses à savoir sur la justice sociale" sont: une responsabilité individuelle et collective, une poignée de personnes peut changer les choses, penser globalement
+				et agir localement, et les sociétés les plus égalitaires sont les sociétés les plus en santé. L'idée que la justice sociale doit être imposée sans participation citoyenne n'est pas mentionnée
+				et contredit même l'idée de responsabilité individuelle et collective.
+			</div>
+		</div>
+
+		<div class='question' id='q19'>
+			<h2>19. État providence et la devise française</h2>
+			<p>D'après le cours, l'État providence est l'expression de quelle devise?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q19' id='q19a' value='a' />
+					<label for='q19a'>"L'union fait la force"</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q19' id='q19b' value='b' />
+					<label for='q19b'>"Liberté, Égalité, Fraternité"</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q19' id='q19c' value='c' />
+					<label for='q19c'>"Un pour tous, tous pour un"</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q19' id='q19d' value='d' />
+					<label for='q19d'>"Je me souviens"</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain19'>D'après le cours, l'État providence est "l'expression de la devise de la république française" qui est "Liberté, Égalité, Fraternité".</div>
+		</div>
+
+		<div class='question' id='q20'>
+			<h2>20. Perception des Québécois sur les politiques sociales</h2>
+			<p>
+				Selon le sondage de la Fondation Chagnon (2015) mentionné dans le cours, quel pourcentage des Québécois considère que les politiques sociales ont contribué de manière importante à la qualité
+				de vie?
+			</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q20' id='q20a' value='a' />
+					<label for='q20a'>50%</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q20' id='q20b' value='b' />
+					<label for='q20b'>67%</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q20' id='q20c' value='c' />
+					<label for='q20c'>83%</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q20' id='q20d' value='d' />
+					<label for='q20d'>97%</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain20'>
+				Selon le sondage de la Fondation Chagnon (2015) mentionné dans le cours, 83% des Québécois considèrent que les politiques sociales ont contribué de manière importante à la qualité de vie.
+			</div>
+		</div>
+
+		<button type='button' id='checkAnswers'>Vérifier les réponses</button>
+	</form>
+
+	<div id='results'></div>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const checkAnswersButton = document.getElementById("checkAnswers");
+		if (checkAnswersButton) {
+			checkAnswersButton.addEventListener("click", function () {
+				// Réponses correctes pour les questions à choix unique (radio)
+				const correctRadioAnswers = {
+					q1: "b",
+					q2: "c",
+					q3: "c",
+					q4: "b",
+					q5: "b",
+					q6: "b",
+					q8: "a",
+					q10: "c",
+					q11: "b",
+					q12: "b",
+					q13: "c",
+					q16: "a",
+					q17: "b",
+					q18: "e",
+					q19: "b",
+					q20: "c",
+				};
+
+				// Réponses correctes pour les questions à choix multiples (checkbox)
+				const correctCheckboxAnswers = {
+					q7: ["a", "b", "c", "d"],
+					q9: ["a", "b", "c", "d"],
+					q14: ["a", "b"],
+					q15: ["a", "b", "c", "d"],
+				};
+
+				let score = 0;
+				let totalQuestions = Object.keys(correctRadioAnswers).length + Object.keys(correctCheckboxAnswers).length;
+				let resultsHtml = "<h2>Résultats</h2>";
+
+				// Vérifier les questions à choix unique (radio)
+				for (let q in correctRadioAnswers) {
+					const selected = document.querySelector(`input[name="${q}"]:checked`) as HTMLInputElement | null;
+					// Trouver le div de la question
+					const questionDiv = document.getElementById(q);
+
+					if (selected) {
+						if (selected.value === correctRadioAnswers[q as keyof typeof correctRadioAnswers]) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				// Vérifier les questions à choix multiples (checkbox)
+				for (let q in correctCheckboxAnswers) {
+					const questionDiv = document.getElementById(q);
+					const selectedCheckboxes = document.querySelectorAll(`input[name="${q}"]:checked`) as NodeListOf<HTMLInputElement>;
+					const selectedValues = Array.from(selectedCheckboxes).map((cb) => cb.value);
+
+					// Vérifier si les réponses sélectionnées correspondent exactement aux réponses correctes
+					const correctForThisQuestion = correctCheckboxAnswers[q as keyof typeof correctCheckboxAnswers];
+					const isCorrect = selectedValues.length === correctForThisQuestion.length && selectedValues.every((val) => correctForThisQuestion.includes(val));
+
+					if (selectedValues.length > 0) {
+						if (isCorrect) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				resultsHtml += `<p style="font-weight: bold; font-size: 1.1em; margin-top: 15px;">Score: ${score}/${totalQuestions}</p>`;
+				resultsHtml += `<p>Consultez les explications sous chaque question pour plus de détails.</p>`;
+
+				const resultsDiv = document.getElementById("results");
+				if (resultsDiv) {
+					resultsDiv.innerHTML = resultsHtml;
+					resultsDiv.style.display = "block";
+					resultsDiv.style.padding = "15px";
+					resultsDiv.style.backgroundColor = score > totalQuestions / 2 ? "#d4edda" : "#f8d7da";
+					resultsDiv.style.border = "1px solid #ddd";
+					resultsDiv.style.borderRadius = "5px";
+					resultsDiv.style.marginTop = "20px";
+
+					// Défiler jusqu'aux résultats
+					resultsDiv.scrollIntoView({behavior: "smooth"});
+				}
+			});
+		}
+	});
+</script>
+
+<style>
+	.exam-content {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+		border-bottom: 2px solid #eaeaea;
+		padding-bottom: 0.5rem;
+	}
+
+	h2 {
+		font-size: 1.2rem;
+		color: var(--secondary-color);
+		margin-bottom: 0.5rem;
+	}
+
+	.question {
+		background-color: white;
+		padding: 15px;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		transition:
+			border 0.3s,
+			box-shadow 0.3s;
+		border: 1px solid #eaeaea;
+	}
+
+	.options {
+		margin-left: 20px;
+	}
+
+	.option {
+		margin: 10px 0;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.option input {
+		margin-top: 3px;
+		margin-right: 10px;
+	}
+
+	.option label {
+		flex: 1;
+	}
+
+	button {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		padding: 12px 24px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		margin-top: 20px;
+		transition: background-color 0.3s;
+		font-weight: bold;
+	}
+
+	button:hover {
+		background-color: var(--secondary-color);
+	}
+
+	#results {
+		margin-top: 20px;
+		padding: 15px;
+		border-radius: 5px;
+		display: none;
+	}
+
+	.explanation {
+		margin-top: 15px;
+		font-style: italic;
+		display: none;
+		padding: 12px;
+		border-left: 3px solid var(--primary-color);
+		background-color: #f8f9fa;
+		color: #495057;
+	}
+
+	@media (max-width: 768px) {
+		.exam-content {
+			padding: 1rem;
+		}
+
+		.question {
+			padding: 10px;
+		}
+
+		.option {
+			margin: 8px 0;
+		}
+	}
+</style>

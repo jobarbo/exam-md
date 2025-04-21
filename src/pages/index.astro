@@ -20,7 +20,7 @@ const chapters = await getAllChapters();
 			{
 				chapters.map((chapter) =>
 					chapter.hasExam ? (
-						<a href={`/chapitres/${chapter.id}`} class='chapter-card'>
+						<a href={`/chapitres/${chapter.id}`} class={chapter.id === "09" ? "chapter-card special-exam" : "chapter-card"}>
 							<h3>Chapitre {chapter.id}</h3>
 							<p>{chapter.title}</p>
 							<span class='exam-badge'>Questionnaire disponible</span>
@@ -117,6 +117,16 @@ const chapters = await getAllChapters();
 
 	.exam-badge.unavailable {
 		background-color: #6c757d;
+	}
+
+	.chapter-card.special-exam {
+		border: 2px solid var(--primary-color);
+		background-color: #f0f7fa;
+	}
+
+	.chapter-card.special-exam:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 4px 15px rgba(0, 102, 153, 0.3);
 	}
 
 	@media (max-width: 768px) {
