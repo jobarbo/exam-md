@@ -17,17 +17,45 @@ const {content, title} = Astro.props;
 <style>
 	.chapter-content {
 		background: white;
-		border-radius: 8px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-		padding: 2rem;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow);
+		padding: 2.5rem;
+		animation: fadeIn 0.6s ease;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.chapter-content::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 4px;
+		height: 100%;
+		background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
 	}
 
 	h1 {
 		margin-top: 0;
-		margin-bottom: 1.5rem;
-		color: var(--primary-color);
-		border-bottom: 2px solid #eaeaea;
-		padding-bottom: 0.5rem;
+		margin-bottom: 2rem;
+		color: var(--text-color);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+		padding-bottom: 1rem;
+		font-size: 2rem;
+		font-weight: 700;
+		position: relative;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+	}
+
+	h1::after {
+		content: "";
+		position: absolute;
+		bottom: -1px;
+		left: 0;
+		width: 100px;
+		height: 3px;
+		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+		border-radius: 3px;
 	}
 
 	.content {
@@ -35,14 +63,30 @@ const {content, title} = Astro.props;
 	}
 
 	.content :global(h2) {
-		margin-top: 2rem;
+		margin-top: 2.5rem;
 		margin-bottom: 1rem;
-		color: var(--secondary-color);
+		color: var(--primary-dark);
+		font-size: 1.5rem;
+		position: relative;
+		padding-bottom: 0.5rem;
+	}
+
+	.content :global(h2)::after {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 40px;
+		height: 2px;
+		background-color: var(--primary-light);
+		border-radius: 2px;
 	}
 
 	.content :global(h3) {
-		margin-top: 1.5rem;
+		margin-top: 1.8rem;
 		margin-bottom: 0.75rem;
+		color: var(--secondary-dark);
+		font-size: 1.3rem;
 	}
 
 	.content :global(ul),
@@ -53,30 +97,102 @@ const {content, title} = Astro.props;
 
 	.content :global(li) {
 		margin-bottom: 0.5rem;
+		position: relative;
+	}
+
+	.content :global(ul li)::marker {
+		color: var(--primary-color);
 	}
 
 	.content :global(p) {
-		margin-bottom: 1rem;
+		margin-bottom: 1.2rem;
+		line-height: 1.8;
 	}
 
 	.content :global(blockquote) {
 		border-left: 4px solid var(--primary-color);
-		padding-left: 1rem;
-		margin-left: 0;
-		color: #666;
+		padding: 1rem 1.5rem;
+		margin: 1.5rem 0;
+		color: var(--text-light);
+		background-color: rgba(59, 130, 246, 0.05);
+		border-radius: 0 var(--border-radius) var(--border-radius) 0;
+	}
+
+	.content :global(blockquote p) {
+		margin-bottom: 0;
 	}
 
 	.content :global(code) {
-		background-color: #f5f5f5;
+		background-color: #f1f5f9;
 		padding: 0.2rem 0.4rem;
-		border-radius: 4px;
-		font-family: monospace;
+		border-radius: var(--border-radius-sm);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+		font-size: 0.9em;
+		color: var(--primary-dark);
 	}
 
 	.content :global(pre) {
-		background-color: #f5f5f5;
-		padding: 1rem;
-		border-radius: 4px;
+		background-color: #1e293b;
+		color: #e2e8f0;
+		padding: 1.25rem;
+		border-radius: var(--border-radius);
 		overflow-x: auto;
+		margin: 1.5rem 0;
+	}
+
+	.content :global(a) {
+		color: var(--primary-color);
+		text-decoration: none;
+		border-bottom: 1px dashed rgba(59, 130, 246, 0.4);
+		transition: all 0.2s;
+	}
+
+	.content :global(a:hover) {
+		color: var(--primary-dark);
+		border-bottom-style: solid;
+	}
+
+	.content :global(img) {
+		max-width: 100%;
+		height: auto;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow);
+		margin: 1.5rem 0;
+	}
+
+	.content :global(hr) {
+		border: none;
+		height: 1px;
+		background: rgba(0, 0, 0, 0.1);
+		margin: 2rem 0;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.chapter-content {
+			padding: 1.5rem;
+		}
+
+		h1 {
+			font-size: 1.8rem;
+		}
+
+		.content :global(h2) {
+			font-size: 1.4rem;
+		}
+
+		.content :global(h3) {
+			font-size: 1.2rem;
+		}
 	}
 </style>

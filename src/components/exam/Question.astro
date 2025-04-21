@@ -10,12 +10,117 @@ const {id, title, question, explanation} = Astro.props;
 ---
 
 <div class='question' id={id}>
-	<h2>{title}</h2>
-	<p>{question}</p>
+	<div class='question-header'>
+		<h3>{title}</h3>
+		<span class='question-number'>{id.substring(1)}</span>
+	</div>
+	<p class='question-text'>{question}</p>
 	<div class='options'>
 		<slot />
 	</div>
 	<div class='explanation' id={`explain${id.substring(1)}`}>
-		{explanation}
+		<div class='explanation-header'>
+			<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
+				><circle cx='12' cy='12' r='10'></circle><line x1='12' y1='16' x2='12' y2='12'></line><line x1='12' y1='8' x2='12.01' y2='8'></line></svg
+			>
+			<span>Explication</span>
+		</div>
+		<div class='explanation-content'>
+			{explanation}
+		</div>
 	</div>
 </div>
+
+<style>
+	.question {
+		background-color: white;
+		padding: 1.5rem;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow);
+		margin-bottom: 2rem;
+		transition: all var(--transition-normal);
+		border-left: 4px solid var(--text-lighter);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.question:hover {
+		box-shadow: var(--shadow-md);
+	}
+
+	.question-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+
+	h3 {
+		font-size: 1.2rem;
+		color: var(--text-color);
+		margin: 0;
+		font-weight: 600;
+	}
+
+	.question-number {
+		background-color: var(--primary-color);
+		color: white;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.9rem;
+		font-weight: 600;
+	}
+
+	.question-text {
+		font-size: 1.05rem;
+		margin-bottom: 1.5rem;
+		line-height: 1.6;
+		color: var(--text-color);
+	}
+
+	.options {
+		margin-left: 0.5rem;
+		padding-left: 1rem;
+		border-left: 2px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.explanation {
+		margin-top: 1.5rem;
+		display: none;
+		border-radius: var(--border-radius);
+		overflow: hidden;
+		background-color: #f8fafc;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.explanation-header {
+		background-color: rgba(59, 130, 246, 0.1);
+		padding: 0.75rem 1rem;
+		display: flex;
+		align-items: center;
+		color: var(--primary-color);
+		font-weight: 500;
+		gap: 0.5rem;
+	}
+
+	.explanation-content {
+		padding: 1rem;
+		color: var(--text-light);
+		line-height: 1.6;
+	}
+
+	@media (max-width: 768px) {
+		.question {
+			padding: 1.25rem;
+		}
+
+		.options {
+			margin-left: 0;
+			padding-left: 0.5rem;
+		}
+	}
+</style>
