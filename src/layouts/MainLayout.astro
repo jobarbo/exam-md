@@ -2,8 +2,16 @@
 // Importer les fonctions pour obtenir les chapitres
 import {getAllChapters} from "../utils/markdown";
 
+// Définir l'interface pour le type de chapitre
+interface ChapterType {
+	id: string;
+	title: string;
+	hasExam: boolean;
+	isSpecial: boolean;
+}
+
 // Obtenir la liste des chapitres de manière dynamique
-const chapters = await getAllChapters();
+const chapters = (await getAllChapters()) as ChapterType[];
 ---
 
 <!doctype html>

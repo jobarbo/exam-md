@@ -12,7 +12,7 @@ const CHAPTER_TITLES: Record<string, string> = {
 	"09": "L'intervention personnelle en travail social",
 	"10": "L'intervention de groupe",
 	"11": "Dynamique des groupes en travail social",
-	"12": "Chapitre 12",
+	"12": "La recherche en travail social",
 	"13": "Chapitre 13",
 };
 
@@ -24,7 +24,7 @@ const chapterTitle = `Chapitre ${chapterId} - ${title}`;
 const examAvailable = hasExam(chapterId);
 
 // Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
-const isExamChapter = ["08", "09", "10", "11"].includes(chapterId);
+const isExamChapter = ["08", "09", "10", "11", "12"].includes(chapterId);
 
 // Dynamically import the exam component if available
 let ExamComponent;
