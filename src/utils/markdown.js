@@ -3,14 +3,14 @@ import {marked} from "marked";
 const CHAPTER_TITLES = {
 	"08": "Politiques sociales et travail social",
 	"09": "L'intervention personnelle en travail social",
-	10: "Chapitre 10",
+	10: "L'intervention de groupe",
 	11: "Chapitre 11",
 	12: "Chapitre 12",
 	13: "Chapitre 13",
 };
 
 // Liste des chapitres qui ont un questionnaire disponible
-const CHAPTERS_WITH_EXAM = ["08", "09"];
+const CHAPTERS_WITH_EXAM = ["08", "09", "10"];
 
 export async function getChapterMarkdown(chapterId) {
 	try {

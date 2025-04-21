@@ -1,0 +1,486 @@
+---
+export interface Props {
+	title: string;
+}
+
+const {title} = Astro.props;
+---
+
+<div class='exam-content'>
+	<h1>{title}</h1>
+	<p>Testez vos connaissances sur l'intervention de groupe en service social.</p>
+
+	<form id='examForm'>
+		<!-- Questions à choix de réponses (radio) -->
+		<div class='question' id='q1'>
+			<h2>1. Perspective historique</h2>
+			<p>Durant quelle période a commencé le développement du travail social de groupe en réponse aux besoins sociaux liés à l'industrialisation et l'urbanisation?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1a' value='a' />
+					<label for='q1a'>1750 à 1800</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1b' value='b' />
+					<label for='q1b'>1850 à 1930</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1c' value='c' />
+					<label for='q1c'>1930 à 1960</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q1' id='q1d' value='d' />
+					<label for='q1d'>1960 à 1980</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain1'>
+				D'après le cours, la période de 1850 à 1920-30 (environ) marque le début du travail social de groupe dans un contexte d'industrialisation et d'urbanisation où les réseaux sociaux traditionnels
+				(ex. familles) étaient moins aptes à répondre aux besoins sociaux.
+			</div>
+		</div>
+
+		<div class='question' id='q2'>
+			<h2>2. Développement au Québec</h2>
+			<p>Quels facteurs ont influencé le développement du travail social de groupe au Québec?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2a' value='a' />
+					<label for='q2a'>L'influence du milieu anglophone</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2b' value='b' />
+					<label for='q2b'>Le rôle de l'église dans l'éducation, la santé et les services sociaux</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2c' value='c' />
+					<label for='q2c'>Les travaux de Simone Paré</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2d' value='d' />
+					<label for='q2d'>L'influence des mouvements politiques séparatistes</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q2' id='q2e' value='e' />
+					<label for='q2e'>L'industrialisation rapide du territoire québécois</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain2'>
+				Le développement du travail social de groupe au Québec a été influencé par le milieu anglophone qui était très influencé par ce qui se faisait dans les milieux anglophones en Europe et aux
+				États-Unis, le rôle de l'église qui jouait un rôle déterminant dans des domaines tels l'éducation, la santé et les services sociaux, et les travaux de Simone Paré, pionnière au Québec durant
+				les années 1950-60-70.
+			</div>
+		</div>
+
+		<div class='question' id='q3'>
+			<h2>3. Lieux de développement</h2>
+			<p>Parmi les suivants, quels étaient les lieux où le travail social de groupe s'est développé au Québec?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q3' id='q3a' value='a' />
+					<label for='q3a'>Les centres de loisir (YMCA, Patro)</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q3' id='q3b' value='b' />
+					<label for='q3b'>Les orphelinats et "écoles de réforme"</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q3' id='q3c' value='c' />
+					<label for='q3c'>Le milieu paroissial</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q3' id='q3d' value='d' />
+					<label for='q3d'>Les universités</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q3' id='q3e' value='e' />
+					<label for='q3e'>Les hôpitaux psychiatriques</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain3'>
+				Le travail social de groupe s'est développé dans des organismes tels les centres de loisir (YMCA, Patro), dans des ressources telles des orphelinats et "écoles de réforme", et dans le milieu
+				paroissial où on dispensait diverses formations à caractère social.
+			</div>
+		</div>
+
+		<div class='question' id='q4'>
+			<h2>4. Types de groupes</h2>
+			<p>Quelles sont les deux principales catégories de groupes mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4a' value='a' />
+					<label for='q4a'>Groupes de thérapie et groupes d'éducation</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4b' value='b' />
+					<label for='q4b'>Groupes synchrones et groupes asynchrones</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4c' value='c' />
+					<label for='q4c'>Groupes de tâches et groupes d'aide</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q4' id='q4d' value='d' />
+					<label for='q4d'>Groupes virtuels et groupes en présentiel</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain4'>
+				D'après le cours, on peut distinguer deux principales catégories de groupes : les groupes de tâches (ex. équipe multidisciplinaire, comité consultatif) et les groupes d'aide (ex. groupes
+				d'éducation, de soutien, de thérapie).
+			</div>
+		</div>
+
+		<div class='question' id='q5'>
+			<h2>5. Types de groupes d'aide</h2>
+			<p>Parmi les suivants, lesquels sont des types de groupes d'aide mentionnés dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q5' id='q5a' value='a' />
+					<label for='q5a'>Groupes de thérapie</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q5' id='q5b' value='b' />
+					<label for='q5b'>Groupes d'éducation</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q5' id='q5c' value='c' />
+					<label for='q5c'>Groupes de croissance</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q5' id='q5d' value='d' />
+					<label for='q5d'>Groupes de soutien</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q5' id='q5e' value='e' />
+					<label for='q5e'>Groupes de socialisation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain5'>
+				Le cours identifie cinq principaux types de groupes d'aide en fonction de leur but : les groupes de thérapie, d'éducation, de croissance, de soutien et de socialisation.
+			</div>
+		</div>
+
+		<div class='question' id='q6'>
+			<h2>6. Habiletés vs aptitudes</h2>
+			<p>Quelle est la différence entre une "habileté" et une "aptitude" dans le contexte de l'intervention de groupe?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6a' value='a' />
+					<label for='q6a'>Les habiletés sont innées alors que les aptitudes peuvent être développées</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6b' value='b' />
+					<label for='q6b'>Les habiletés relèvent du "savoir-faire" tandis que les aptitudes relèvent du "savoir-être"</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6c' value='c' />
+					<label for='q6c'>Les habiletés sont spécifiques à certaines phases du groupe alors que les aptitudes sont constantes</label>
+				</div>
+				<div class='option'>
+					<input type='radio' name='q6' id='q6d' value='d' />
+					<label for='q6d'>Il n'y a pas de différence significative entre ces deux termes</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain6'>
+				Selon le cours, une habileté se réfère au "savoir-faire" (savoir poser des gestes avec adresse et dextérité), tandis que l'aptitude relève davantage du "savoir-être" (ex. la confiance en soi,
+				la flexibilité et la capacité d'adaptation).
+			</div>
+		</div>
+
+		<div class='question' id='q7'>
+			<h2>7. Phases de l'intervention de groupe</h2>
+			<p>Quelles sont les phases de l'intervention de groupe mentionnées dans le cours?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7a' value='a' />
+					<label for='q7a'>Phase pré-groupe</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7b' value='b' />
+					<label for='q7b'>Phase de début</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7c' value='c' />
+					<label for='q7c'>Phase de travail</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7d' value='d' />
+					<label for='q7d'>Phase de fin</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q7' id='q7e' value='e' />
+					<label for='q7e'>Phase d'évaluation</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain7'>
+				Le cours identifie quatre phases principales dans l'intervention de groupe : la phase pré-groupe, la phase de début, la phase de travail et la phase de fin.
+			</div>
+		</div>
+
+		<div class='question' id='q8'>
+			<h2>8. Favoriser la communication dans le groupe</h2>
+			<p>Selon le cours, quelles approches peuvent favoriser la communication entre les membres du groupe?</p>
+			<div class='options'>
+				<div class='option'>
+					<input type='checkbox' name='q8' id='q8a' value='a' />
+					<label for='q8a'>S'assurer que la communication ne soit pas unidirectionnelle</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q8' id='q8b' value='b' />
+					<label for='q8b'>Faire en sorte que la communication soit claire</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q8' id='q8c' value='c' />
+					<label for='q8c'>Reconnaître la connaissance expérientielle des membres du groupe</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q8' id='q8d' value='d' />
+					<label for='q8d'>Pouvoir amener la discussion sur des sujets délicats</label>
+				</div>
+				<div class='option'>
+					<input type='checkbox' name='q8' id='q8e' value='e' />
+					<label for='q8e'>Limiter les échanges aux sujets prévus à l'ordre du jour</label>
+				</div>
+			</div>
+			<div class='explanation' id='explain8'>
+				Pour favoriser la communication entre les membres du groupe, le cours mentionne qu'il faut s'assurer que la communication ne soit pas unidirectionnelle, faire en sorte que la communication
+				soit claire, reconnaître la connaissance expérientielle des membres du groupe, et pouvoir amener la discussion sur des sujets délicats.
+			</div>
+		</div>
+
+		<button type='button' id='checkAnswers'>Vérifier les réponses</button>
+	</form>
+
+	<div id='results'></div>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const checkAnswersButton = document.getElementById("checkAnswers");
+		if (checkAnswersButton) {
+			checkAnswersButton.addEventListener("click", function () {
+				// Réponses correctes pour les questions à choix unique (radio)
+				const correctRadioAnswers = {
+					q1: "b",
+					q4: "c",
+					q6: "b",
+				};
+
+				// Réponses correctes pour les questions à choix multiples (checkbox)
+				const correctCheckboxAnswers = {
+					q2: ["a", "b", "c"],
+					q3: ["a", "b", "c"],
+					q5: ["a", "b", "c", "d", "e"],
+					q7: ["a", "b", "c", "d"],
+					q8: ["a", "b", "c", "d"],
+				};
+
+				let score = 0;
+				let totalQuestions = Object.keys(correctRadioAnswers).length + Object.keys(correctCheckboxAnswers).length;
+				let resultsHtml = "<h2>Résultats</h2>";
+
+				// Vérifier les questions à choix unique (radio)
+				for (let q in correctRadioAnswers) {
+					const selected = document.querySelector(`input[name="${q}"]:checked`) as HTMLInputElement | null;
+					// Trouver le div de la question
+					const questionDiv = document.getElementById(q);
+
+					if (selected) {
+						if (selected.value === correctRadioAnswers[q as keyof typeof correctRadioAnswers]) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				// Vérifier les questions à choix multiples (checkbox)
+				for (let q in correctCheckboxAnswers) {
+					const questionDiv = document.getElementById(q);
+					const selectedCheckboxes = document.querySelectorAll(`input[name="${q}"]:checked`) as NodeListOf<HTMLInputElement>;
+					const selectedValues = Array.from(selectedCheckboxes).map((cb) => cb.value);
+
+					// Vérifier si les réponses sélectionnées correspondent exactement aux réponses correctes
+					const correctForThisQuestion = correctCheckboxAnswers[q as keyof typeof correctCheckboxAnswers];
+					const isCorrect = selectedValues.length === correctForThisQuestion.length && selectedValues.every((val) => correctForThisQuestion.includes(val));
+
+					if (selectedValues.length > 0) {
+						if (isCorrect) {
+							score++;
+							// Style pour réponse correcte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #28a745";
+								questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+						} else {
+							// Style pour réponse incorrecte
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #dc3545";
+								questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+						}
+					} else {
+						// Style pour question non répondue
+						if (questionDiv) {
+							questionDiv.style.border = "2px solid #ffc107";
+							questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+						}
+						resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+					}
+
+					// Afficher l'explication
+					const explanation = document.getElementById(`explain${q.substring(1)}`);
+					if (explanation) {
+						explanation.style.display = "block";
+					}
+				}
+
+				resultsHtml += `<p style="font-weight: bold; font-size: 1.1em; margin-top: 15px;">Score: ${score}/${totalQuestions}</p>`;
+				resultsHtml += `<p>Consultez les explications sous chaque question pour plus de détails.</p>`;
+
+				const resultsDiv = document.getElementById("results");
+				if (resultsDiv) {
+					resultsDiv.innerHTML = resultsHtml;
+					resultsDiv.style.display = "block";
+					resultsDiv.style.padding = "15px";
+					resultsDiv.style.backgroundColor = score > totalQuestions / 2 ? "#d4edda" : "#f8d7da";
+					resultsDiv.style.border = "1px solid #ddd";
+					resultsDiv.style.borderRadius = "5px";
+					resultsDiv.style.marginTop = "20px";
+
+					// Défiler jusqu'aux résultats
+					resultsDiv.scrollIntoView({behavior: "smooth"});
+				}
+			});
+		}
+	});
+</script>
+
+<style>
+	.exam-content {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+		border-bottom: 2px solid #eaeaea;
+		padding-bottom: 0.5rem;
+	}
+
+	h2 {
+		font-size: 1.2rem;
+		color: var(--secondary-color);
+		margin-bottom: 0.5rem;
+	}
+
+	.question {
+		background-color: white;
+		padding: 15px;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		transition:
+			border 0.3s,
+			box-shadow 0.3s;
+		border: 1px solid #eaeaea;
+	}
+
+	.options {
+		margin-left: 20px;
+	}
+
+	.option {
+		margin: 10px 0;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.option input {
+		margin-top: 3px;
+		margin-right: 10px;
+	}
+
+	.option label {
+		flex: 1;
+	}
+
+	button {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		padding: 12px 24px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		margin-top: 20px;
+		transition: background-color 0.3s;
+		font-weight: bold;
+	}
+
+	button:hover {
+		background-color: var(--secondary-color);
+	}
+
+	#results {
+		margin-top: 20px;
+		padding: 15px;
+		border-radius: 5px;
+		display: none;
+	}
+
+	.explanation {
+		margin-top: 15px;
+		font-style: italic;
+		display: none;
+		padding: 12px;
+		border-left: 3px solid var(--primary-color);
+		background-color: #f8f9fa;
+		color: #495057;
+	}
+
+	@media (max-width: 768px) {
+		.exam-content {
+			padding: 1rem;
+		}
+
+		.question {
+			padding: 10px;
+		}
+
+		.option {
+			margin: 8px 0;
+		}
+	}
+</style>
