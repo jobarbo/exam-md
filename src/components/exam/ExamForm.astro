@@ -1,0 +1,190 @@
+---
+export interface Props {
+	title: string;
+	examId: string;
+}
+
+const {title, examId} = Astro.props;
+---
+
+<div class='exam-content'>
+	<h1>{title}</h1>
+	<form id='examForm'>
+		<slot />
+		<button type='button' id='checkAnswers'>Vérifier les réponses</button>
+	</form>
+
+	<div id='results'></div>
+</div>
+
+<script define:vars={{examId}}>
+	// Cette fonction sera appelée avec les réponses correctes fournies par le fichier de données d'examen
+	function setupExamValidation(correctRadioAnswers, correctCheckboxAnswers) {
+		document.addEventListener("DOMContentLoaded", function () {
+			const checkAnswersButton = document.getElementById("checkAnswers");
+			if (checkAnswersButton) {
+				checkAnswersButton.addEventListener("click", function () {
+					let score = 0;
+					let totalQuestions = Object.keys(correctRadioAnswers).length + Object.keys(correctCheckboxAnswers).length;
+					let resultsHtml = "<h2>Résultats</h2>";
+
+					// Vérifier les questions à choix unique (radio)
+					for (let q in correctRadioAnswers) {
+						const selected = document.querySelector(`input[name="${q}"]:checked`);
+						const questionDiv = document.getElementById(q);
+
+						if (selected) {
+							if (selected.value === correctRadioAnswers[q]) {
+								score++;
+								// Style pour réponse correcte
+								if (questionDiv) {
+									questionDiv.style.border = "2px solid #28a745";
+									questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+								}
+								resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+							} else {
+								// Style pour réponse incorrecte
+								if (questionDiv) {
+									questionDiv.style.border = "2px solid #dc3545";
+									questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+								}
+								resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+							}
+						} else {
+							// Style pour question non répondue
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #ffc107";
+								questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+						}
+
+						// Afficher l'explication
+						const explanation = document.getElementById(`explain${q.substring(1)}`);
+						if (explanation) {
+							explanation.style.display = "block";
+						}
+					}
+
+					// Vérifier les questions à choix multiples (checkbox)
+					for (let q in correctCheckboxAnswers) {
+						const questionDiv = document.getElementById(q);
+						const selectedCheckboxes = document.querySelectorAll(`input[name="${q}"]:checked`);
+						const selectedValues = Array.from(selectedCheckboxes).map((cb) => cb.value);
+
+						// Vérifier si les réponses sélectionnées correspondent exactement aux réponses correctes
+						const correctForThisQuestion = correctCheckboxAnswers[q];
+						const isCorrect = selectedValues.length === correctForThisQuestion.length && selectedValues.every((val) => correctForThisQuestion.includes(val));
+
+						if (selectedValues.length > 0) {
+							if (isCorrect) {
+								score++;
+								// Style pour réponse correcte
+								if (questionDiv) {
+									questionDiv.style.border = "2px solid #28a745";
+									questionDiv.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+								}
+								resultsHtml += `<p style="border: 1px solid #c3e6cb; border-radius: 4px; padding: 8px; background-color: #d4edda; color: #155724; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Correct!</span></p>`;
+							} else {
+								// Style pour réponse incorrecte
+								if (questionDiv) {
+									questionDiv.style.border = "2px solid #dc3545";
+									questionDiv.style.boxShadow = "0 0 5px rgba(220, 53, 69, 0.5)";
+								}
+								resultsHtml += `<p style="border: 1px solid #f5c6cb; border-radius: 4px; padding: 8px; background-color: #f8d7da; color: #721c24; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Incorrect</span></p>`;
+							}
+						} else {
+							// Style pour question non répondue
+							if (questionDiv) {
+								questionDiv.style.border = "2px solid #ffc107";
+								questionDiv.style.boxShadow = "0 0 5px rgba(255, 193, 7, 0.5)";
+							}
+							resultsHtml += `<p style="border: 1px solid #ffeeba; border-radius: 4px; padding: 8px; background-color: #fff3cd; color: #856404; margin-bottom: 10px;">Question ${q.substring(1)}: <span style="font-weight: bold;">Non répondu</span></p>`;
+						}
+
+						// Afficher l'explication
+						const explanation = document.getElementById(`explain${q.substring(1)}`);
+						if (explanation) {
+							explanation.style.display = "block";
+						}
+					}
+
+					resultsHtml += `<p style="font-weight: bold; font-size: 1.1em; margin-top: 15px;">Score: ${score}/${totalQuestions}</p>`;
+					resultsHtml += `<p>Consultez les explications sous chaque question pour plus de détails.</p>`;
+
+					const resultsDiv = document.getElementById("results");
+					if (resultsDiv) {
+						resultsDiv.innerHTML = resultsHtml;
+						resultsDiv.style.display = "block";
+						resultsDiv.style.padding = "15px";
+						resultsDiv.style.backgroundColor = score > totalQuestions / 2 ? "#d4edda" : "#f8d7da";
+						resultsDiv.style.border = "1px solid #ddd";
+						resultsDiv.style.borderRadius = "5px";
+						resultsDiv.style.marginTop = "20px";
+
+						// Défiler jusqu'aux résultats
+						resultsDiv.scrollIntoView({behavior: "smooth"});
+					}
+				});
+			}
+		});
+	}
+
+	// Importer dynamiquement les réponses correctes pour cet examen spécifique
+	import(`/src/data/exams/exam${examId}.js`)
+		.then((module) => {
+			setupExamValidation(module.correctRadioAnswers, module.correctCheckboxAnswers);
+		})
+		.catch((error) => {
+			console.error(`Erreur lors du chargement des réponses pour l'examen ${examId}:`, error);
+		});
+</script>
+
+<style>
+	.exam-content {
+		background: white;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	h1 {
+		margin-top: 0;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+		border-bottom: 2px solid #eaeaea;
+		padding-bottom: 0.5rem;
+	}
+
+	button {
+		background-color: var(--primary-color);
+		color: white;
+		border: none;
+		padding: 12px 24px;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		margin-top: 20px;
+		transition: background-color 0.3s;
+		font-weight: bold;
+	}
+
+	button:hover {
+		background-color: var(--secondary-color);
+	}
+
+	#results {
+		margin-top: 20px;
+		padding: 15px;
+		border-radius: 5px;
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.exam-content {
+			padding: 1rem;
+		}
+	}
+</style>

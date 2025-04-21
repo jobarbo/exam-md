@@ -1,0 +1,21 @@
+---
+export interface Props {
+	id: string;
+	title: string;
+	question: string;
+	explanation: string;
+}
+
+const {id, title, question, explanation} = Astro.props;
+---
+
+<div class='question' id={id}>
+	<h2>{title}</h2>
+	<p>{question}</p>
+	<div class='options'>
+		<slot />
+	</div>
+	<div class='explanation' id={`explain${id.substring(1)}`}>
+		{explanation}
+	</div>
+</div>

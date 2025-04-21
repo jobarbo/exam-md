@@ -20,7 +20,7 @@ const chapters = await getAllChapters();
 			{
 				chapters.map((chapter) =>
 					chapter.hasExam ? (
-						<a href={`/chapitres/${chapter.id}`} class={chapter.id === "09" ? "chapter-card special-exam" : "chapter-card"}>
+						<a href={`/chapitres/${chapter.id}`} class={chapter.isSpecial ? "chapter-card special-exam" : "chapter-card"}>
 							<h3>Chapitre {chapter.id}</h3>
 							<p>{chapter.title}</p>
 							<span class='exam-badge'>Questionnaire disponible</span>

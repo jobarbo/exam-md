@@ -4,13 +4,16 @@ const CHAPTER_TITLES = {
 	"08": "Politiques sociales et travail social",
 	"09": "L'intervention personnelle en travail social",
 	10: "L'intervention de groupe",
-	11: "Chapitre 11",
+	11: "Dynamique des groupes en travail social",
 	12: "Chapitre 12",
 	13: "Chapitre 13",
 };
 
 // Liste des chapitres qui ont un questionnaire disponible
-const CHAPTERS_WITH_EXAM = ["08", "09", "10"];
+const CHAPTERS_WITH_EXAM = ["08", "09", "10", "11"];
+
+// Liste des chapitres considérés comme spéciaux (mise en évidence)
+const SPECIAL_CHAPTERS = ["09"];
 
 export async function getChapterMarkdown(chapterId) {
 	try {
@@ -53,11 +56,15 @@ export async function getChapterMarkdown(chapterId) {
 }
 
 export async function getAllChapters() {
-	return Object.entries(CHAPTER_TITLES).map(([id, title]) => ({
+	const chapters = Object.entries(CHAPTER_TITLES).map(([id, title]) => ({
 		id,
 		title,
 		hasExam: CHAPTERS_WITH_EXAM.includes(id),
+		isSpecial: SPECIAL_CHAPTERS.includes(id),
 	}));
+
+	// Trier les chapitres par ordre numérique
+	return chapters.sort((a, b) => parseInt(a.id) - parseInt(b.id));
 }
 
 // Fonction pour vérifier si un chapitre a un questionnaire disponible

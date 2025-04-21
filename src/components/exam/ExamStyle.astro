@@ -1,0 +1,62 @@
+---
+// Ce composant fournit les styles communs pour les examens et questions
+---
+
+<style is:global>
+	.question {
+		background-color: white;
+		padding: 15px;
+		border-radius: 5px;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		transition:
+			border 0.3s,
+			box-shadow 0.3s;
+		border: 1px solid #eaeaea;
+	}
+
+	.options {
+		margin-left: 20px;
+	}
+
+	.option {
+		margin: 10px 0;
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.option input {
+		margin-top: 3px;
+		margin-right: 10px;
+	}
+
+	.option label {
+		flex: 1;
+	}
+
+	.explanation {
+		margin-top: 15px;
+		font-style: italic;
+		display: none;
+		padding: 12px;
+		border-left: 3px solid var(--primary-color);
+		background-color: #f8f9fa;
+		color: #495057;
+	}
+
+	h2 {
+		font-size: 1.2rem;
+		color: var(--secondary-color);
+		margin-bottom: 0.5rem;
+	}
+
+	@media (max-width: 768px) {
+		.question {
+			padding: 10px;
+		}
+
+		.option {
+			margin: 8px 0;
+		}
+	}
+</style>

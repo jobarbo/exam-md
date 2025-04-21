@@ -1,8 +1,9 @@
 ---
-// Créer un tableau des chapitres pour vérifier la disponibilité des questionnaires
-const chaptersIds = ["08", "09", "10", "11", "12", "13"];
-// Chapitres avec questionnaire disponible
-const chaptersWithExam = ["08", "09"];
+// Importer les fonctions pour obtenir les chapitres
+import {getAllChapters} from "../utils/markdown";
+
+// Obtenir la liste des chapitres de manière dynamique
+const chapters = await getAllChapters();
 ---
 
 <!doctype html>
@@ -22,11 +23,11 @@ const chaptersWithExam = ["08", "09"];
 					<ul>
 						<li><a href='/'>Accueil</a></li>
 						{
-							chaptersIds.map((id) => (
+							chapters.map((chapter) => (
 								<li>
-									<a href={`/chapitres/${id}`} class={chaptersWithExam.includes(id) ? "has-exam" : "no-exam"}>
-										Chapitre {id}
-										{chaptersWithExam.includes(id) && <span class='nav-badge'>Exam</span>}
+									<a href={`/chapitres/${chapter.id}`} class={chapter.hasExam ? "has-exam" : "no-exam"}>
+										Chapitre {chapter.id}
+										{chapter.hasExam && <span class='nav-badge'>Exam</span>}
 									</a>
 								</li>
 							))
