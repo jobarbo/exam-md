@@ -13,7 +13,7 @@ const CHAPTER_TITLES = {
 const CHAPTERS_WITH_EXAM = ["08", "09", "10", "11"];
 
 // Liste des chapitres considérés comme spéciaux (mise en évidence)
-const SPECIAL_CHAPTERS = ["09"];
+const SPECIAL_CHAPTERS = [];
 
 export async function getChapterMarkdown(chapterId) {
 	try {
