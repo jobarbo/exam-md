@@ -2,22 +2,27 @@
 export interface Props {
 	title: string;
 	examId: string;
+	correctRadioAnswers?: Record<string, string>;
+	correctCheckboxAnswers?: Record<string, string[]>;
 }
 
-const {title, examId} = Astro.props;
+const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props;
 ---
 
 <div class='exam-content'>
 	<h1>{title}</h1>
 	<form id='examForm'>
 		<slot />
-		<button type='button' id='checkAnswers' class='btn-primary'>Vérifier les réponses</button>
+		<button type='button' id='checkAnswers' class='btn-primary'>
+			<span class='btn-text'>Vérifier les réponses</span>
+			<span class='btn-icon'>✓</span>
+		</button>
 	</form>
 
 	<div id='results'></div>
 </div>
 
-<script define:vars={{examId}}>
+<script define:vars={{examId, correctRadioAnswers, correctCheckboxAnswers}}>
 	// Cette fonction sera appelée avec les réponses correctes fournies par le fichier de données d'examen
 	function setupExamValidation(correctRadioAnswers, correctCheckboxAnswers) {
 		document.addEventListener("DOMContentLoaded", function () {
@@ -32,7 +37,11 @@ const {title, examId} = Astro.props;
 
 					let score = 0;
 					let totalQuestions = Object.keys(correctRadioAnswers).length + Object.keys(correctCheckboxAnswers).length;
-					let resultsHtml = `<div class="results-header"><h2>Résultats</h2><p class="results-summary"></p></div><div class="results-details">`;
+					let resultsHtml = `<div class="results-header">
+                        <h2>Résultats</h2>
+                        <p class="results-summary"></p>
+                    </div>
+                    <div class="results-details">`;
 
 					// Vérifier les questions à choix unique (radio)
 					for (let q in correctRadioAnswers) {
@@ -175,24 +184,30 @@ const {title, examId} = Astro.props;
 		});
 	}
 
-	// Importer dynamiquement les réponses correctes pour cet examen spécifique
-	import(`/src/data/exams/exam${examId}.js`)
-		.then((module) => {
-			setupExamValidation(module.correctRadioAnswers, module.correctCheckboxAnswers);
-		})
-		.catch((error) => {
-			console.error(`Erreur lors du chargement des réponses pour l'examen ${examId}:`, error);
-		});
+	// Use the answers passed from the component props
+	if (correctRadioAnswers && correctCheckboxAnswers) {
+		setupExamValidation(correctRadioAnswers, correctCheckboxAnswers);
+	} else {
+		// Fallback to dynamic import if answers aren't passed as props
+		import(`/src/data/exams/exam${examId}.js`)
+			.then((module) => {
+				setupExamValidation(module.correctRadioAnswers, module.correctCheckboxAnswers);
+			})
+			.catch((error) => {
+				console.error(`Erreur lors du chargement des réponses pour l'examen ${examId}:`, error);
+			});
+	}
 </script>
 
 <style>
+	/* Main container styling */
 	.exam-content {
 		background: white;
 		border-radius: var(--border-radius);
 		box-shadow: var(--shadow);
 		padding: 2.5rem;
 		max-width: 800px;
-		margin: 0 auto;
+		margin: 0 auto 3rem;
 		position: relative;
 		animation: fadeIn 0.6s ease;
 	}
@@ -229,20 +244,26 @@ const {title, examId} = Astro.props;
 		border-radius: 3px;
 	}
 
+	/* Button styling */
 	.btn-primary {
 		background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
 		color: white;
 		border: none;
-		padding: 0.75rem 1.5rem;
+		padding: 0.85rem 1.8rem;
 		border-radius: var(--border-radius);
 		cursor: pointer;
-		font-size: 1rem;
+		font-size: 1.05rem;
 		font-weight: 500;
 		margin-top: 2rem;
 		transition: all var(--transition-normal);
 		position: relative;
 		overflow: hidden;
 		box-shadow: var(--shadow-sm);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		letter-spacing: 0.02em;
 	}
 
 	.btn-primary:hover {
@@ -250,12 +271,24 @@ const {title, examId} = Astro.props;
 		transform: translateY(-2px);
 	}
 
+	.btn-primary .btn-icon {
+		font-size: 1.1rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+
 	.clicked {
 		transform: scale(0.95) !important;
 		box-shadow: var(--shadow-sm) !important;
 	}
 
-	#results {
+	/* Results section styling - using :global for dynamic content */
+	:global(#results) {
 		margin-top: 2.5rem;
 		border-radius: var(--border-radius);
 		background-color: white;
@@ -266,144 +299,168 @@ const {title, examId} = Astro.props;
 		opacity: 0;
 		transform: translateY(10px);
 		transition:
-			opacity 0.4s ease,
-			transform 0.4s ease;
+			opacity 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+			transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 	}
 
-	.results-visible {
+	:global(.results-visible) {
 		opacity: 1 !important;
 		transform: translateY(0) !important;
 	}
 
-	.results-header {
+	:global(.results-header) {
 		padding: 1.5rem;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		background: linear-gradient(to right, rgba(var(--primary-color-rgb), 0.05), rgba(var(--secondary-color-rgb), 0.05));
 	}
 
-	.results-header h2 {
+	:global(.results-header h2) {
 		margin: 0;
 		font-size: 1.5rem;
 		color: var(--text-color);
+		position: relative;
+		padding-left: 15px;
 	}
 
-	.results-summary {
+	:global(.results-header h2::before) {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 5px;
+		height: 70%;
+		background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+		border-radius: var(--border-radius-sm);
+	}
+
+	:global(.results-summary) {
 		font-size: 1.2rem;
 		font-weight: 600;
 		margin: 0;
+		padding: 0.5rem 1rem;
+		border-radius: var(--border-radius-sm);
+		background-color: rgba(0, 0, 0, 0.03);
 	}
 
-	.score-number {
+	:global(.score-number) {
 		font-size: 1.4rem;
 	}
 
-	.high-score {
+	:global(.high-score) {
 		color: var(--success-color);
 	}
 
-	.medium-score {
+	:global(.medium-score) {
 		color: var(--warning-color);
 	}
 
-	.low-score {
+	:global(.low-score) {
 		color: var(--error-color);
 	}
 
-	.results-details {
-		padding: 1rem;
+	:global(.results-details) {
+		padding: 1.25rem;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 1rem;
 	}
 
-	.result-item {
+	/* Result item styling */
+	:global(.result-item) {
 		display: flex;
 		align-items: center;
-		padding: 0.75rem;
+		padding: 0.85rem;
 		border-radius: var(--border-radius-sm);
-		margin-bottom: 0.5rem;
-		transition: transform 0.2s ease;
+		transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+		box-shadow: var(--shadow-sm);
+		border-left: 3px solid transparent;
+		background-color: rgba(255, 255, 255, 0.7);
+		backdrop-filter: blur(10px);
+		position: relative;
+		overflow: hidden;
 	}
 
-	.result-item:hover {
-		transform: translateX(3px);
+	:global(.result-item::after) {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 10%;
+		width: 80%;
+		height: 1px;
+		background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05), transparent);
 	}
 
-	.result-item.correct {
-		background-color: rgba(16, 185, 129, 0.1);
+	:global(.result-item:hover) {
+		transform: translateX(3px) translateY(-2px);
+		box-shadow: var(--shadow-md);
 	}
 
-	.result-item.incorrect {
-		background-color: rgba(239, 68, 68, 0.1);
+	:global(.result-item.correct) {
+		background-color: rgba(16, 185, 129, 0.05);
+		border-left-color: var(--success-color);
 	}
 
-	.result-item.unanswered {
-		background-color: rgba(245, 158, 11, 0.1);
+	:global(.result-item.incorrect) {
+		background-color: rgba(239, 68, 68, 0.05);
+		border-left-color: var(--error-color);
 	}
 
-	.result-icon {
-		width: 28px;
-		height: 28px;
+	:global(.result-item.unanswered) {
+		background-color: rgba(245, 158, 11, 0.05);
+		border-left-color: var(--warning-color);
+	}
+
+	:global(.result-icon) {
+		width: 32px;
+		height: 32px;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-right: 0.75rem;
 		font-weight: bold;
+		font-size: 0.9rem;
+		flex-shrink: 0;
 	}
 
-	.correct .result-icon {
+	:global(.correct .result-icon) {
 		background-color: var(--success-color);
 		color: white;
+		box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 	}
 
-	.incorrect .result-icon {
+	:global(.incorrect .result-icon) {
 		background-color: var(--error-color);
 		color: white;
+		box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 	}
 
-	.unanswered .result-icon {
+	:global(.unanswered .result-icon) {
 		background-color: var(--warning-color);
 		color: white;
+		box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 	}
 
-	.result-content {
+	:global(.result-content) {
 		flex: 1;
 	}
 
-	.result-content p {
+	:global(.result-content p) {
 		margin: 0;
+		line-height: 1.4;
 	}
 
-	.result-content span {
+	:global(.result-content span) {
 		font-weight: 600;
+		display: block;
+		margin-top: 0.2rem;
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	@media (max-width: 768px) {
-		.exam-content {
-			padding: 1.5rem;
-		}
-
-		.results-header {
-			flex-direction: column;
-			align-items: flex-start;
-		}
-
-		.results-summary {
-			margin-top: 0.5rem;
-		}
-	}
-
+	/* Global animations for validation states */
 	:global(.correct-answer) {
 		border-left: 4px solid var(--success-color) !important;
 		box-shadow: 0 0 15px rgba(16, 185, 129, 0.1) !important;
@@ -425,6 +482,29 @@ const {title, examId} = Astro.props;
 	:global(.explanation.visible) {
 		display: block;
 		animation: slideDown 0.4s ease-out;
+	}
+
+	/* Animations */
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes slideDown {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	@keyframes pulse-success {
@@ -457,14 +537,26 @@ const {title, examId} = Astro.props;
 		}
 	}
 
-	@keyframes slideDown {
-		from {
-			opacity: 0;
-			transform: translateY(-10px);
+	/* Responsive styles */
+	@media (max-width: 768px) {
+		.exam-content {
+			padding: 1.5rem;
+			margin-bottom: 2rem;
 		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
+
+		:global(.results-header) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		:global(.results-summary) {
+			margin-top: 0.75rem;
+			width: 100%;
+		}
+
+		:global(.results-details) {
+			grid-template-columns: 1fr;
+			padding: 1rem;
 		}
 	}
 </style>

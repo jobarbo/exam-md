@@ -5,9 +5,10 @@ import RadioOption from "../exam/RadioOption.astro";
 import CheckboxOption from "../exam/CheckboxOption.astro";
 import ExamStyle from "../exam/ExamStyle.astro";
 import {exam09Questions} from "../../data/exams/exam09.js";
+import {correctRadioAnswers, correctCheckboxAnswers} from "../../data/exams/exam09.js";
 ---
 
-<ExamForm examId='09' title="L'approche systémique">
+<ExamForm examId='09' title="L'approche systémique" correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers}>
 	<p class='description'>Ce questionnaire porte sur l'approche systémique en travail social, ses principes, ses concepts clés et ses applications dans l'intervention.</p>
 
 	{

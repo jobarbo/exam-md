@@ -5,6 +5,7 @@ import RadioOption from "../exam/RadioOption.astro";
 import CheckboxOption from "../exam/CheckboxOption.astro";
 import ExamStyle from "../exam/ExamStyle.astro";
 import {exam11Questions} from "../../data/exams/exam11.js";
+import {correctRadioAnswers, correctCheckboxAnswers} from "../../data/exams/exam11.js";
 
 export interface Props {
 	title: string;
@@ -14,7 +15,7 @@ const {title} = Astro.props;
 ---
 
 <ExamStyle />
-<ExamForm title={title} examId='11'>
+<ExamForm title={title} examId='11' correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers}>
 	{
 		exam11Questions.map((question) => (
 			<Question id={question.id} title={question.title} question={question.question} explanation={question.explanation}>

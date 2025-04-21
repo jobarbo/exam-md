@@ -5,9 +5,10 @@ import RadioOption from "../exam/RadioOption.astro";
 import CheckboxOption from "../exam/CheckboxOption.astro";
 import ExamStyle from "../exam/ExamStyle.astro";
 import {exam08Questions} from "../../data/exams/exam08.js";
+import {correctRadioAnswers, correctCheckboxAnswers} from "../../data/exams/exam08.js";
 ---
 
-<ExamForm examId='exam08' title='Intervention sociale personnelle'>
+<ExamForm examId='08' title='Intervention sociale personnelle' correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers}>
 	<p class='description'>Ce questionnaire porte sur l'intervention sociale personnelle, ses fonctions, méthodes et approches telles que présentées dans le cours.</p>
 
 	{

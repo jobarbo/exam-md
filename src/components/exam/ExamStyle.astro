@@ -1,36 +1,91 @@
 ---
-// Ce composant fournit les styles communs pour les examens et questions
+// Ce composant fournit les styles communs pour les questions, options et explications
 ---
 
 <style is:global>
+	/* Question container styling */
 	.question {
 		background-color: white;
-		padding: 15px;
-		border-radius: 5px;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		margin-bottom: 20px;
-		transition:
-			border 0.3s,
-			box-shadow 0.3s;
-		border: 1px solid #eaeaea;
+		padding: 20px;
+		border-radius: 12px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+		margin-bottom: 25px;
+		transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+		position: relative;
+		overflow: hidden;
 	}
 
+	.question:hover {
+		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+		transform: translateY(-2px);
+	}
+
+	.question::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 4px;
+		height: 100%;
+		background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+		opacity: 0.8;
+	}
+
+	/* Question title styling */
+	h2 {
+		font-size: 1.3rem;
+		color: var(--secondary-color);
+		margin-bottom: 1rem;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+		padding-bottom: 10px;
+		display: flex;
+		align-items: center;
+		letter-spacing: 0.01em;
+	}
+
+	h2::before {
+		content: "";
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background-color: var(--secondary-color);
+		margin-right: 10px;
+		box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.2);
+	}
+
+	.question .question-text {
+		font-size: 1.05rem;
+		line-height: 1.7;
+		margin-bottom: 1.2rem;
+		color: var(--text-color);
+		font-weight: 500;
+		letter-spacing: 0.01em;
+	}
+
+	/* Options styling */
 	.options {
 		margin-left: 20px;
+		margin-top: 18px;
 	}
 
 	.option {
-		margin: 12px 0;
+		margin: 14px 0;
 		display: flex;
 		align-items: flex-start;
 		position: relative;
-		padding: 8px 12px;
-		border-radius: var(--border-radius-sm);
-		transition: all var(--transition-fast);
+		padding: 12px 16px;
+		border-radius: 10px;
+		transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		background-color: rgba(255, 255, 255, 0.5);
 	}
 
 	.option:hover {
-		background-color: rgba(0, 0, 0, 0.02);
+		background-color: rgba(var(--primary-color-rgb), 0.03);
+		border-color: rgba(var(--primary-color-rgb), 0.1);
+		transform: translateY(-1px);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 	}
 
 	.option input {
@@ -41,25 +96,25 @@
 		accent-color: var(--primary-color);
 	}
 
-	/* Styling for checkbox and radio */
+	/* Checkboxes and radio buttons styling */
 	.option input[type="checkbox"],
 	.option input[type="radio"] {
 		-webkit-appearance: none;
 		appearance: none;
-		width: 20px;
-		height: 20px;
+		width: 22px;
+		height: 22px;
 		border: 2px solid var(--text-lighter);
 		outline: none;
 		margin-top: 2px;
 		position: relative;
-		transition: all var(--transition-normal);
+		transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 	}
 
 	.option input[type="checkbox"] {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 4px;
+		border-radius: 6px;
 	}
 
 	.option input[type="radio"] {
@@ -70,6 +125,7 @@
 	.option input[type="radio"]:checked {
 		border-color: var(--primary-color);
 		background-color: var(--primary-color);
+		box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
 	}
 
 	.option input[type="checkbox"]:checked::before {
@@ -87,8 +143,8 @@
 		position: absolute;
 		top: 4px;
 		left: 4px;
-		width: 8px;
-		height: 8px;
+		width: 10px;
+		height: 10px;
 		background-color: white;
 		border-radius: 50%;
 	}
@@ -96,25 +152,31 @@
 	.option label {
 		flex: 1;
 		cursor: pointer;
-		line-height: 1.5;
+		line-height: 1.6;
 		color: var(--text-color);
+		font-size: 1rem;
 	}
 
 	.option:has(input:checked) {
-		background-color: rgba(59, 130, 246, 0.05);
+		background-color: rgba(var(--primary-color-rgb), 0.05);
+		border-color: rgba(var(--primary-color-rgb), 0.15);
+		box-shadow: 0 2px 10px rgba(var(--primary-color-rgb), 0.08);
 	}
 
 	.option:has(input:checked) label {
 		font-weight: 500;
+		color: var(--primary-color);
 	}
 
-	/* Animation when option changes */
+	/* Option interaction animation */
 	@keyframes pulse {
 		0% {
 			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.2);
 		}
-		50% {
+		70% {
 			transform: scale(1.05);
+			box-shadow: 0 0 0 6px rgba(var(--primary-color-rgb), 0);
 		}
 		100% {
 			transform: scale(1);
@@ -122,32 +184,87 @@
 	}
 
 	.option input:active {
-		animation: pulse 0.3s ease;
+		animation: pulse 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 	}
 
+	/* Explanation styling */
 	.explanation {
-		margin-top: 15px;
+		margin-top: 18px;
 		font-style: italic;
-		display: none;
-		padding: 12px;
-		border-left: 3px solid var(--primary-color);
-		background-color: #f8f9fa;
-		color: #495057;
+		display: none; /* Hidden by default, shown when .visible class is added */
+		padding: 16px 20px;
+		border-left: 4px solid var(--primary-color);
+		background-color: rgba(var(--primary-color-rgb), 0.03);
+		color: var(--text-color);
+		border-radius: 0 12px 12px 0;
+		font-size: 0.95rem;
+		line-height: 1.7;
+		position: relative;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 	}
 
-	h2 {
-		font-size: 1.2rem;
-		color: var(--secondary-color);
-		margin-bottom: 0.5rem;
+	/* When explanation becomes visible */
+	.explanation.visible {
+		display: block;
+		animation: slideDown 0.4s ease-out forwards;
 	}
 
+	.explanation::before {
+		content: "Explication";
+		display: block;
+		font-weight: 600;
+		margin-bottom: 10px;
+		color: var(--primary-color);
+		font-style: normal;
+		letter-spacing: 0.02em;
+		font-size: 1rem;
+	}
+
+	/* Description styling */
+	.description {
+		margin-bottom: 2.5rem;
+		padding: 1.2rem 1.5rem;
+		border-radius: 12px;
+		background-color: rgba(var(--secondary-color-rgb), 0.03);
+		border-left: 4px solid var(--secondary-color);
+		line-height: 1.7;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+		color: var(--text-dark);
+		position: relative;
+	}
+
+	.description::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 40px;
+		height: 40px;
+		background: linear-gradient(135deg, transparent 50%, rgba(var(--secondary-color-rgb), 0.1) 50%);
+		border-radius: 0 12px 0 0;
+	}
+
+	/* Responsive adjustments */
 	@media (max-width: 768px) {
 		.question {
-			padding: 10px;
+			padding: 16px;
+			border-radius: 10px;
 		}
 
 		.option {
-			margin: 8px 0;
+			margin: 10px 0;
+			padding: 10px 12px;
+		}
+
+		.explanation {
+			padding: 14px;
+			font-size: 0.9rem;
+			border-radius: 0 10px 10px 0;
+		}
+
+		.description {
+			padding: 1rem 1.2rem;
+			margin-bottom: 2rem;
 		}
 	}
 </style>
