@@ -8,14 +8,15 @@ export const exam12Questions = [
 		question: "Selon le cours, quelles sont les différentes sources de connaissances? (plusieurs réponses possibles)",
 		type: "checkbox",
 		options: [
-			{value: "a", label: "L'expérience personnelle"},
+			{value: "a", label: "L'expérience personnelle et la culture à laquelle on appartient"},
 			{value: "b", label: "Ce que les autres nous transmettent"},
-			{value: "c", label: "La culture à laquelle on appartient"},
-			{value: "d", label: "Les écoles de pensées"},
-			{value: "e", label: "La recherche scientifique"},
+			{value: "c", label: "Les écoles de pensées et la recherche scientifique"},
+			{value: "d", label: "L'intuition et les émotions"},
+			{value: "e", label: "Les traditions mystiques et spirituelles"},
+			{value: "f", label: "L'autorité et le pouvoir hiérarchique"},
 		],
 		explanation:
-			"Toutes ces réponses sont des sources de connaissances mentionnées dans le cours. Les connaissances peuvent provenir de notre expérience personnelle, de ce que les autres nous transmettent, de notre culture, des écoles de pensées et de la recherche scientifique.",
+			"Les sources de connaissances mentionnées dans le cours incluent notre expérience personnelle, ce que les autres nous transmettent, notre culture, les écoles de pensées et la recherche scientifique.",
 	},
 	{
 		id: "q2",
@@ -42,6 +43,8 @@ export const exam12Questions = [
 			{value: "c", label: "Pour améliorer les pratiques, les services et les politiques"},
 			{value: "d", label: "Pour guider sa pratique et l'évaluer"},
 			{value: "e", label: "Pour justifier des coupes budgétaires dans les services sociaux"},
+			{value: "f", label: "Pour valoriser uniquement les approches quantitatives"},
+			{value: "g", label: "Pour imposer un modèle universel d'intervention sociale"},
 		],
 		explanation:
 			"On fait de la recherche en travail social parce que c'est une discipline professionnelle fondée sur des assises scientifiques, pour étudier et comprendre les enjeux sociaux, pour améliorer les pratiques, les services et les politiques, et pour guider et évaluer sa pratique.",
@@ -54,9 +57,11 @@ export const exam12Questions = [
 		options: [
 			{value: "a", label: "Consommateur critique"},
 			{value: "b", label: "Créateur et diffuseur"},
-			{value: "c", label: "Partenaire"},
-			{value: "d", label: "Chercheur"},
-			{value: "e", label: "Évaluateur"},
+			{value: "c", label: "Partenaire et chercheur"},
+			{value: "d", label: "Évaluateur"},
+			{value: "e", label: "Témoin passif"},
+			{value: "f", label: "Opposant à la recherche scientifique"},
+			{value: "g", label: "Applicateur automatique des résultats"},
 		],
 		explanation:
 			"Les travailleurs sociaux peuvent jouer plusieurs rôles face à la recherche: consommateur critique (s'informer, lire, rester à jour), créateur et diffuseur (observer des phénomènes pour générer des hypothèses), partenaire, chercheur et évaluateur.",
@@ -86,6 +91,8 @@ export const exam12Questions = [
 			{value: "c", label: "Les personnes LGBTQ+"},
 			{value: "d", label: "Les personnes immigrantes et réfugiées"},
 			{value: "e", label: "Les œuvres d'art contemporain"},
+			{value: "f", label: "Les technologies de l'information et de la communication"},
+			{value: "g", label: "Les phénomènes météorologiques"},
 		],
 		explanation:
 			"Les principaux domaines de recherche en travail social au Québec concernant les personnes et leur environnement incluent les enfants, adolescents et jeunes adultes, les personnes âgées, les personnes LGBTQ+ et les personnes immigrantes et réfugiées.",
@@ -187,10 +194,10 @@ export const correctRadioAnswers = {
 
 // Réponses correctes pour les questions à choix multiples (checkbox)
 export const correctCheckboxAnswers = {
-	q1: ["a", "b", "c", "d", "e"],
+	q1: ["a", "b", "c"],
 	q2: ["a", "b"],
 	q3: ["a", "b", "c", "d"],
-	q4: ["a", "b", "c", "d", "e"],
+	q4: ["a", "b", "c", "d"],
 	q5: ["a", "b"],
 	q6: ["a", "b", "c", "d"],
 	q12: ["a", "b", "c"],

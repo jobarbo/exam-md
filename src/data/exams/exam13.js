@@ -90,10 +90,12 @@ export const exam13Questions = [
 		question: "Quels éléments composent l'environnement dans le schéma du paradigme du TS? (plusieurs réponses possibles)",
 		type: "checkbox",
 		options: [
-			{value: "a", label: "Microsystème"},
-			{value: "b", label: "Mésosystème"},
-			{value: "c", label: "Exosystème"},
-			{value: "d", label: "Macrosystème"},
+			{value: "a", label: "Microsystème (famille immédiate et proche entourage)"},
+			{value: "b", label: "Mésosystème (relations entre les microsystèmes)"},
+			{value: "c", label: "Exosystème et macrosystème (environnements élargis et valeurs sociales)"},
+			{value: "d", label: "Chronosystème (dimension temporelle)"},
+			{value: "e", label: "Métasystème (facteurs de conscience sociale)"},
+			{value: "f", label: "Nanosystème (caractéristiques biologiques)"},
 		],
 		explanation:
 			"Dans le schéma du paradigme du TS, l'environnement comprend le microsystème, le mésosystème, l'exosystème et le macrosystème, correspondant à différents niveaux d'influence et d'interaction avec la personne.",
@@ -122,6 +124,9 @@ export const exam13Questions = [
 			{value: "b", label: "Une œuvre coproduite en collaboration avec le système-client et les divers acteurs sociaux"},
 			{value: "c", label: "Une interposition entre les systèmes-clients et les institutions"},
 			{value: "d", label: "Une démarche à caractère scientifique"},
+			{value: "e", label: "Une approche exclusivement directive et normative"},
+			{value: "f", label: "Une pratique standardisée applicable à tous les contextes"},
+			{value: "g", label: "Une intervention exclusivement centrée sur les problèmes individuels"},
 		],
 		explanation:
 			"En travail social, l'intervention est une entreprise de recherche de solutions sur mesure, une œuvre coproduite en collaboration avec le système-client et les divers acteurs sociaux, une interposition entre les systèmes-clients et les institutions, et une démarche à caractère scientifique.",
@@ -147,9 +152,11 @@ export const exam13Questions = [
 		type: "checkbox",
 		options: [
 			{value: "a", label: "Ces relations n'ont d'autre but que leur existence propre"},
-			{value: "b", label: "Ils produisent de la solidarité"},
-			{value: "c", label: "Ils sont réciproques"},
-			{value: "d", label: "Ces réseaux comportent une dimension de contrôle social"},
+			{value: "b", label: "Ils produisent de la solidarité et sont réciproques"},
+			{value: "c", label: "Ces réseaux comportent une dimension de contrôle social"},
+			{value: "d", label: "Ces réseaux sont formalisés par des structures administratives"},
+			{value: "e", label: "Ces relations sont toujours hiérarchiques et institutionnalisées"},
+			{value: "f", label: "Ces réseaux sont exclusivement professionnels"},
 		],
 		explanation:
 			"Les réseaux primaires au niveau microsystémique se caractérisent par des relations qui n'ont d'autre but que leur existence propre, qui produisent de la solidarité, qui sont réciproques, et qui comportent une dimension de contrôle social.",
@@ -161,10 +168,11 @@ export const exam13Questions = [
 		type: "checkbox",
 		options: [
 			{value: "a", label: "Conseiller (ex. thérapeute ou organisateur communautaire)"},
-			{value: "b", label: "Formateur/éducateur"},
-			{value: "c", label: "Intermédiaire, agent de liaison"},
-			{value: "d", label: 'Défenseur, "avocat" (défense de droits sociaux)'},
-			{value: "e", label: "Protecteur"},
+			{value: "b", label: "Formateur/éducateur et intermédiaire/agent de liaison"},
+			{value: "c", label: 'Défenseur, "avocat" (défense de droits sociaux) et protecteur'},
+			{value: "d", label: "Expert technique imposant des solutions préétablies"},
+			{value: "e", label: "Figure d'autorité sanctionnant les comportements non conformes"},
+			{value: "f", label: "Décideur administratif et gestionnaire de ressources"},
 		],
 		explanation:
 			'Les différents rôles du travailleur social mentionnés dans le cours comprennent: conseiller (ex. thérapeute ou organisateur communautaire), formateur/éducateur, intermédiaire/agent de liaison, médiateur/négociateur, défenseur/"avocat" (défense de droits sociaux) et protecteur.',
@@ -198,9 +206,9 @@ export const correctRadioAnswers = {
 export const correctCheckboxAnswers = {
 	q2: ["a", "b", "d"],
 	q4: ["a", "b", "c"],
-	q7: ["a", "b", "c", "d"],
+	q7: ["a", "b", "c"],
 	q9: ["a", "b", "c", "d"],
 	q10: ["a", "b"],
-	q11: ["a", "b", "c", "d"],
-	q12: ["a", "b", "c", "d", "e"],
+	q11: ["a", "b", "c"],
+	q12: ["a", "b", "c"],
 };
