@@ -18,9 +18,8 @@ const chapters = (await getAllChapters()) as ChapterType[];
 <MainLayout>
 	<section class='hero'>
 		<div class='hero-content'>
-			<h1>Notes d'Examen</h1>
-			<p>Bienvenue sur le site de notes d'examen. Vous trouverez ici les chapitres formatés pour faciliter votre étude.</p>
-			<a href='#chapters' class='btn btn-primary'>Explorer les chapitres</a>
+			<h1>Quiz Pratique</h1>
+			<p>Bienvenue sur le site de quiz pratique. Vous trouverez ici les chapitres formatés pour faciliter votre étude et votre préparation aux examens.</p>
 		</div>
 		<div class='hero-visual'>
 			<div class='hero-shape'></div>
@@ -59,7 +58,7 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		justify-content: space-between;
 		align-items: center;
 		padding: 3rem 0;
-		margin-bottom: 3rem;
+		margin-bottom: 0rem;
 		position: relative;
 	}
 
@@ -103,13 +102,13 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		display: flex;
 		justify-content: flex-end;
 		position: relative;
-		height: 350px;
+		height: 550px;
 	}
 
 	.hero-shape {
 		position: absolute;
-		width: 400px;
-		height: 400px;
+		width: 600px;
+		height: 600px;
 		background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
 		border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
 		filter: blur(1px);

@@ -9,7 +9,7 @@ const CHAPTER_TITLES = {
 	10: "L'intervention de groupe",
 	11: "Dynamique des groupes en travail social",
 	12: "La recherche en travail social",
-	13: "Chapitre 13",
+	13: "Modèle de l'analyse et de l'intervention en travail social",
 };
 
 // Fonction pour détecter dynamiquement les chapitres qui ont un questionnaire
@@ -31,7 +31,7 @@ function getChaptersWithExam() {
 	} catch (error) {
 		console.error("Erreur lors de la détection des examens:", error);
 		// Fallback sur les valeurs hardcodées en cas d'erreur
-		return ["08", "09", "10", "11", "12"];
+		return ["08", "09", "10", "11", "12", "13"];
 	}
 }
 
