@@ -297,6 +297,8 @@ export const exam14Questions = [
 		explanation:
 			"Les différents rôles du travailleur social mentionnés dans le cours comprennent: conseiller/thérapeute, formateur/éducateur, intermédiaire/agent de liaison, défenseur/avocat (défense de droits sociaux) et protecteur.",
 	},
+
+	// QUESTIONS SUPPLÉMENTAIRES (21-30)
 	{
 		id: "q21",
 		title: "Politiques sociales - Évolution historique",
@@ -311,8 +313,6 @@ export const exam14Questions = [
 		explanation:
 			"Depuis les années 1980, on observe un passage progressif d'un État providence à un État partenaire ou néolibéral, caractérisé par une réduction des interventions directes de l'État et une plus grande participation d'acteurs privés et communautaires.",
 	},
-
-	// INTERVENTION SOCIALE PERSONNELLE (COURS 9)
 	{
 		id: "q22",
 		title: "Intervention sociale personnelle - Étapes",
@@ -328,8 +328,6 @@ export const exam14Questions = [
 		explanation:
 			"Les quatre étapes principales de l'intervention sociale personnelle sont: l'évaluation de la situation, la planification de l'intervention, la réalisation de l'intervention et l'évaluation des résultats.",
 	},
-
-	// INTERVENTION DE GROUPE (COURS 10)
 	{
 		id: "q23",
 		title: "Intervention de groupe - Rôles à éviter",
@@ -345,8 +343,6 @@ export const exam14Questions = [
 		explanation:
 			"Plusieurs rôles dysfonctionnels peuvent émerger dans un groupe: le dominateur qui monopolise la parole, le bouc émissaire qui reçoit les projections négatives, le saboteur qui détourne l'attention, et le silencieux qui n'exprime pas ses opinions. L'expert qui partage ses connaissances est généralement considéré comme un rôle fonctionnel.",
 	},
-
-	// ORGANISATION COMMUNAUTAIRE (COURS 11)
 	{
 		id: "q24",
 		title: "Organisation communautaire - Stratégies d'action",
@@ -362,8 +358,6 @@ export const exam14Questions = [
 		explanation:
 			"Dans l'approche d'action sociale selon Rothman, les stratégies généralement utilisées incluent la confrontation et les manifestations, l'éducation populaire et la conscientisation, ainsi que le lobbying et la représentation politique.",
 	},
-
-	// RECHERCHE EN TRAVAIL SOCIAL (COURS 12)
 	{
 		id: "q25",
 		title: "Recherche en travail social - Méthodes",
@@ -379,8 +373,6 @@ export const exam14Questions = [
 		explanation:
 			"Les principales méthodes de recherche utilisées en travail social comprennent les méthodes quantitatives, les méthodes qualitatives, la recherche-action participative et la recherche évaluative.",
 	},
-
-	// PARADIGME DU TRAVAIL SOCIAL (COURS 13)
 	{
 		id: "q26",
 		title: "Paradigme du travail social - Identité professionnelle",
@@ -396,8 +388,6 @@ export const exam14Questions = [
 		explanation:
 			"L'identité professionnelle du travailleur social se caractérise par une expertise à la jonction de l'individu et du social, un engagement envers la justice sociale, et une pratique fondée sur des valeurs et une éthique professionnelle.",
 	},
-
-	// QUESTIONS PRATIQUES ET DE SYNTHÈSE
 	{
 		id: "q27",
 		title: "Cas pratique - Politiques sociales",
@@ -428,7 +418,6 @@ export const exam14Questions = [
 		explanation:
 			"L'approche à privilégier consiste à reconnaître l'expérience vécue par la personne et à travailler avec elle pour préserver sa dignité dans le processus, en accord avec les valeurs fondamentales du travail social que sont le respect de la dignité humaine et la promotion de la justice sociale.",
 	},
-
 	{
 		id: "q29",
 		title: "Question de synthèse - Intégration des méthodes",
@@ -444,7 +433,6 @@ export const exam14Questions = [
 		explanation:
 			"Face à l'isolement des personnes âgées dans un quartier, un travailleur social pourrait intégrer différentes méthodes: l'intervention individuelle pour accompagner les aînés isolés, l'intervention de groupe pour créer des espaces collectifs, l'organisation communautaire pour mobiliser les ressources locales, et l'action sur les politiques sociales pour développer des services adaptés.",
 	},
-
 	{
 		id: "q30",
 		title: "Question de synthèse - Éthique professionnelle",
