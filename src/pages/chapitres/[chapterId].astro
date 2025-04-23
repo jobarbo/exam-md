@@ -4,7 +4,15 @@ import ChapterContent from "../../components/ChapterContent.astro";
 import {hasExam} from "../../utils/markdown";
 
 export function getStaticPaths() {
-	return [{params: {chapterId: "08"}}, {params: {chapterId: "09"}}, {params: {chapterId: "10"}}, {params: {chapterId: "11"}}, {params: {chapterId: "12"}}, {params: {chapterId: "13"}}];
+	return [
+		{params: {chapterId: "08"}},
+		{params: {chapterId: "09"}},
+		{params: {chapterId: "10"}},
+		{params: {chapterId: "11"}},
+		{params: {chapterId: "12"}},
+		{params: {chapterId: "13"}},
+		{params: {chapterId: "14"}},
+	];
 }
 
 const CHAPTER_TITLES: Record<string, string> = {
@@ -13,7 +21,8 @@ const CHAPTER_TITLES: Record<string, string> = {
 	"10": "L'intervention de groupe",
 	"11": "Dynamique des groupes en travail social",
 	"12": "La recherche en travail social",
-	"13": "Chapitre 13",
+	"13": "La pratique en travail social",
+	"14": "Examen final",
 };
 
 const {chapterId} = Astro.params;
@@ -24,7 +33,7 @@ const chapterTitle = `Chapitre ${chapterId} - ${title}`;
 const examAvailable = hasExam(chapterId);
 
 // Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
-const isExamChapter = ["08", "09", "10", "11", "12", "13"].includes(chapterId);
+const isExamChapter = ["08", "09", "10", "11", "12", "13", "14"].includes(chapterId);
 
 // Dynamically import the exam component if available
 let ExamComponent;
