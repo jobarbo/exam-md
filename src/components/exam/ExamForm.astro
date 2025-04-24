@@ -342,6 +342,25 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 						resultsDiv.innerHTML = resultsHtml;
 						resultsDiv.style.display = "block";
 
+						// Sort the result items by question number
+						const resultItems = Array.from(resultsDiv.querySelectorAll(".result-item"));
+						const resultsDetails = resultsDiv.querySelector(".results-details");
+
+						if (resultsDetails && resultItems.length > 0) {
+							// Sort the result items by question number
+							resultItems.sort((a, b) => {
+								const aNumber = parseInt(a.querySelector("p").textContent.match(/Question (\d+)/)[1]);
+								const bNumber = parseInt(b.querySelector("p").textContent.match(/Question (\d+)/)[1]);
+								return aNumber - bNumber;
+							});
+
+							// Clear and re-append items in sorted order
+							resultsDetails.innerHTML = "";
+							resultItems.forEach((item) => {
+								resultsDetails.appendChild(item);
+							});
+						}
+
 						// Update score summary
 						const percentage = Math.round((score / totalQuestions) * 100);
 						const resultsSummary = resultsDiv.querySelector(".results-summary");
