@@ -1,0 +1,64 @@
+---
+import ExamForm from "../exam/ExamForm.astro";
+import Question from "../exam/Question.astro";
+import RadioOption from "../exam/RadioOption.astro";
+import CheckboxOption from "../exam/CheckboxOption.astro";
+import ExamStyle from "../exam/ExamStyle.astro";
+
+export interface Props {
+	examId: string;
+	title: string;
+	description?: string;
+}
+
+// Définition des interfaces pour les types de données
+interface QuestionOption {
+	value: string;
+	label: string;
+}
+
+interface QuestionItem {
+	id: string;
+	title: string;
+	question: string;
+	type: "radio" | "checkbox";
+	options: QuestionOption[];
+	explanation: string;
+}
+
+const {examId, title, description} = Astro.props;
+
+// Charger dynamiquement les données de l'examen
+const examModule = await import(`../../data/exams/exam${examId}.js`);
+const questions = examModule[`exam${examId}Questions`] as QuestionItem[];
+const {correctRadioAnswers, correctCheckboxAnswers} = examModule;
+
+// Descriptions par défaut pour chaque examen si non fournies
+const defaultDescriptions: Record<string, string> = {
+	"08": "Ce questionnaire porte sur les politiques sociales, leurs fonctions, modèles et approches tels que présentés dans le cours.",
+	"09": "Ce questionnaire porte sur l'intervention sociale personnelle, ses fonctions, méthodes et approches telles que présentées dans le cours.",
+	"10": "Ce questionnaire porte sur l'intervention de groupe, ses principes, ses processus et ses applications en travail social.",
+	"11": "Ce questionnaire porte sur l'organisation communautaire, ses méthodes et ses stratégies telles que présentées dans le cours.",
+	"12": "Ce questionnaire porte sur la recherche en travail social, ses objectifs, méthodes et domaines tels que présentés dans le cours.",
+	"13": "Ce questionnaire porte sur le paradigme du travail social et l'analyse multidimensionnelle tel que présenté dans le cours.",
+	"14": "Ce questionnaire final porte sur l'ensemble de la matière des cours 8 à 13. Il vous permet de réviser les concepts clés et de tester vos connaissances de manière synthétique.",
+};
+
+// Utiliser la description fournie ou celle par défaut
+const examDescription = description || defaultDescriptions[examId] || "";
+---
+
+<ExamForm examId={examId} title={title} correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers}>
+	<p class='description'>{examDescription}</p>
+
+	{
+		questions.map((q: QuestionItem) => (
+			<Question id={q.id} title={q.title} question={q.question} explanation={q.explanation}>
+				{q.type === "radio" && q.options.map((option: QuestionOption) => <RadioOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
+				{q.type === "checkbox" && q.options.map((option: QuestionOption) => <CheckboxOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
+			</Question>
+		))
+	}
+
+	<ExamStyle />
+</ExamForm>

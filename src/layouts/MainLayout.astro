@@ -12,6 +12,10 @@ interface ChapterType {
 
 // Obtenir la liste des chapitres de manière dynamique
 const chapters = (await getAllChapters()) as ChapterType[];
+
+// Get current path to determine active chapter
+const currentPath = Astro.url.pathname;
+const currentChapterId = currentPath.split("/").filter(Boolean).pop();
 ---
 
 <!doctype html>
@@ -41,7 +45,7 @@ const chapters = (await getAllChapters()) as ChapterType[];
 							chapters.map((chapter) => (
 								<li>
 									{chapter.hasExam ? (
-										<a href={`/chapitres/${chapter.id}`} class='nav-link has-exam'>
+										<a href={`/chapitres/${chapter.id}`} class={`nav-link has-exam ${currentChapterId === chapter.id ? "active" : ""}`}>
 											<span>Chapitre {chapter.id}</span>
 										</a>
 									) : (
@@ -100,6 +104,7 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		--primary-color: #3b82f6;
 		--primary-color-rgb: 59, 130, 246;
 		--primary-dark: #2563eb;
+		--primary-color-darker: #1d4ed8;
 		--primary-light: #60a5fa;
 		--secondary-color: #8b5cf6;
 		--secondary-color-rgb: 139, 92, 246;
@@ -431,6 +436,7 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		display: inline-flex;
 		align-items: center;
 		margin-bottom: 0;
+		font-size: 12px;
 	}
 
 	.nav-link::before {
@@ -469,6 +475,16 @@ const chapters = (await getAllChapters()) as ChapterType[];
 	.nav-link.no-exam span {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	.nav-link.active {
+		background-color: rgba(255, 255, 255, 0.2);
+		font-weight: 600;
+	}
+
+	.nav-link.active::before {
+		transform: translateY(0);
+		opacity: 1;
 	}
 
 	main {
@@ -564,6 +580,12 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		.nav-link:hover {
 			background-color: rgba(59, 130, 246, 0.05);
 			color: var(--primary-color);
+		}
+
+		.nav-link.active {
+			background-color: rgba(59, 130, 246, 0.1);
+			color: var(--primary-color);
+			font-weight: 600;
 		}
 
 		footer .container {

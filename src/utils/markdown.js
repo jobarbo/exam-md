@@ -16,18 +16,18 @@ const CHAPTER_TITLES = {
 // Fonction pour détecter dynamiquement les chapitres qui ont un questionnaire
 function getChaptersWithExam() {
 	try {
-		// Chemin vers le dossier des composants d'examen
-		const examComponentsDir = path.resolve("src/components/exams");
+		// Chemin vers le dossier des données d'examen
+		const examDataDir = path.resolve("src/data/exams");
 		// Liste tous les fichiers dans ce dossier
-		const files = fs.readdirSync(examComponentsDir);
+		const files = fs.readdirSync(examDataDir);
 
-		// Filtrer pour obtenir seulement les fichiers .astro d'examen
-		const examFiles = files.filter((file) => file.startsWith("Exam") && file.endsWith(".astro"));
+		// Filtrer pour obtenir seulement les fichiers .js d'examen
+		const examFiles = files.filter((file) => file.startsWith("exam") && file.endsWith(".js"));
 
 		// Extraire les IDs des chapitres
 		return examFiles.map((file) => {
-			// Exemple: "Exam08.astro" -> "08"
-			return file.replace("Exam", "").replace(".astro", "");
+			// Exemple: "exam08.js" -> "08"
+			return file.replace("exam", "").replace(".js", "");
 		});
 	} catch (error) {
 		console.error("Erreur lors de la détection des examens:", error);

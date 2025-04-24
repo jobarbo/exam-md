@@ -2,6 +2,7 @@
 import MainLayout from "../../layouts/MainLayout.astro";
 import ChapterContent from "../../components/ChapterContent.astro";
 import {hasExam} from "../../utils/markdown";
+import DynamicExam from "../../components/exams/DynamicExam.astro";
 
 export function getStaticPaths() {
 	return [
@@ -35,16 +36,18 @@ const examAvailable = hasExam(chapterId);
 // Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
 const isExamChapter = ["08", "09", "10", "11", "12", "13", "14"].includes(chapterId);
 
-// Dynamically import the exam component if available
-let ExamComponent;
-try {
-	if (isExamChapter) {
-		// Import the relevant exam component based on chapterId
-		const module = await import(`../../components/exams/Exam${chapterId}.astro`);
-		ExamComponent = module.default;
+// Variables pour vérifier si les données d'examen existent
+let examDataExists = false;
+
+// Vérifier si les données d'examen existent pour ce chapitre
+if (isExamChapter) {
+	try {
+		// Tentative d'importation pour vérifier si le module existe
+		await import(`../../data/exams/exam${chapterId}.js`);
+		examDataExists = true;
+	} catch (error) {
+		console.error(`Données d'examen non disponibles pour le chapitre ${chapterId}:`, error);
 	}
-} catch (error) {
-	console.error(`Failed to load exam component for chapter ${chapterId}:`, error);
 }
 
 // Pour les autres chapitres, on charge le contenu markdown
@@ -117,8 +120,8 @@ if (!isExamChapter) {
 		</div>
 
 		{
-			isExamChapter && ExamComponent ? (
-				<ExamComponent title={`Chapitre ${chapterId} - Examen`} />
+			isExamChapter && examDataExists ? (
+				<DynamicExam examId={chapterId} title={`Chapitre ${chapterId} - Examen`} />
 			) : examAvailable ? (
 				<div class='exam-not-available'>
 					<div class='icon-container'>

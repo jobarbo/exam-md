@@ -505,7 +505,21 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 	}
 
 	.btn-primary:hover {
-		background: linear-gradient(to right, var(--primary-color-darker), var(--primary-color-darker));
+		background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+		background-size: 200% 100%;
+		animation: gradientMove 2s ease infinite;
+	}
+
+	@keyframes gradientMove {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 
 	.btn-secondary:hover {
