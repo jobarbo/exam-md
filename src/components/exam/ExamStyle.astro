@@ -168,6 +168,81 @@
 		color: var(--primary-color);
 	}
 
+	/* Styles pour les options correctes et incorrectes après validation */
+	.option.correct-option {
+		background-color: rgba(16, 185, 129, 0.1);
+		border-color: rgba(16, 185, 129, 0.3);
+		position: relative;
+	}
+
+	.option.correct-option::after {
+		content: "✓";
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--success-color);
+		font-weight: bold;
+		font-size: 1.2rem;
+		animation: checkmarkAppear 0.3s ease-out;
+	}
+
+	.option.incorrect-option {
+		background-color: rgba(239, 68, 68, 0.1);
+		border-color: rgba(239, 68, 68, 0.3);
+		position: relative;
+	}
+
+	.option.incorrect-option::after {
+		content: "✕";
+		position: absolute;
+		right: 12px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--error-color);
+		font-weight: bold;
+		font-size: 1.2rem;
+		animation: crossAppear 0.3s ease-out;
+	}
+
+	.option.correct-option label {
+		color: var(--success-color);
+		font-weight: 600;
+	}
+
+	.option.incorrect-option label {
+		color: var(--error-color);
+		font-weight: 600;
+	}
+
+	@keyframes checkmarkAppear {
+		0% {
+			opacity: 0;
+			transform: translateY(-50%) scale(0);
+		}
+		50% {
+			transform: translateY(-50%) scale(1.2);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(-50%) scale(1);
+		}
+	}
+
+	@keyframes crossAppear {
+		0% {
+			opacity: 0;
+			transform: translateY(-50%) scale(0) rotate(0deg);
+		}
+		50% {
+			transform: translateY(-50%) scale(1.2) rotate(180deg);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(-50%) scale(1) rotate(180deg);
+		}
+	}
+
 	/* Option interaction animation */
 	@keyframes pulse {
 		0% {

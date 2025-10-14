@@ -4,12 +4,13 @@ export interface Props {
 	title: string;
 	question: string;
 	explanation: string;
+	type?: "radio" | "checkbox";
 }
 
-const {id, title, question, explanation} = Astro.props;
+const {id, title, question, explanation, type} = Astro.props;
 ---
 
-<div class='question' id={id}>
+<div class='question' id={id} data-question-type={type}>
 	<div class='question-header'>
 		<h3>{title}</h3>
 		<div class='question-controls'>
@@ -23,6 +24,13 @@ const {id, title, question, explanation} = Astro.props;
 		</div>
 	</div>
 	<p class='question-text'>{question}</p>
+	{
+		type === "checkbox" && (
+			<p class='question-hint'>
+				<strong>Note:</strong> Sélectionnez toutes les réponses qui s'appliquent (choix multiples)
+			</p>
+		)
+	}
 	<div class='options'>
 		<slot />
 	</div>
@@ -150,6 +158,20 @@ const {id, title, question, explanation} = Astro.props;
 		padding: 1rem;
 		color: var(--text-light);
 		line-height: 1.6;
+	}
+
+	.question-hint {
+		font-size: 0.9rem;
+		color: var(--primary-color);
+		background-color: rgba(59, 130, 246, 0.05);
+		padding: 0.5rem 0.75rem;
+		border-radius: var(--border-radius-sm);
+		margin-bottom: 1rem;
+		border-left: 3px solid var(--primary-color);
+	}
+
+	.question-hint strong {
+		font-weight: 600;
 	}
 
 	@media (max-width: 768px) {

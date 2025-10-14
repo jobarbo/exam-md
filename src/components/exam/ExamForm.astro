@@ -234,15 +234,32 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 					for (let q in correctRadioAnswers) {
 						const selected = document.querySelector(`input[name="${q}"]:checked`);
 						const questionDiv = document.getElementById(q);
+						const correctAnswer = correctRadioAnswers[q];
+
+						// Marquer visuellement toutes les options
+						const allOptions = document.querySelectorAll(`input[name="${q}"]`);
+						allOptions.forEach((option) => {
+							const optionParent = option.closest(".option");
+							if (optionParent) {
+								// Marquer la bonne réponse en vert
+								if (option.value === correctAnswer) {
+									optionParent.classList.add("correct-option");
+								}
+								// Marquer la réponse sélectionnée incorrecte en rouge
+								if (option.checked && option.value !== correctAnswer) {
+									optionParent.classList.add("incorrect-option");
+								}
+							}
+						});
 
 						if (selected) {
-							if (selected.value === correctRadioAnswers[q]) {
+							if (selected.value === correctAnswer) {
 								score++;
 								// Style pour réponse correcte
 								if (questionDiv) {
 									questionDiv.classList.add("correct-answer");
 								}
-								resultsHtml += `<div class="result-item correct">
+								resultsHtml += `<div class="result-item correct" data-question-id="${q}">
 									<div class="result-icon">✓</div>
 									<div class="result-content">
 										<p>Question ${q.substring(1)}: <span>Correct!</span></p>
@@ -253,7 +270,7 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 								if (questionDiv) {
 									questionDiv.classList.add("incorrect-answer");
 								}
-								resultsHtml += `<div class="result-item incorrect">
+								resultsHtml += `<div class="result-item incorrect" data-question-id="${q}">
 									<div class="result-icon">✕</div>
 									<div class="result-content">
 										<p>Question ${q.substring(1)}: <span>Incorrect</span></p>
@@ -265,7 +282,7 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 							if (questionDiv) {
 								questionDiv.classList.add("unanswered");
 							}
-							resultsHtml += `<div class="result-item unanswered">
+							resultsHtml += `<div class="result-item unanswered" data-question-id="${q}">
 								<div class="result-icon">!</div>
 								<div class="result-content">
 									<p>Question ${q.substring(1)}: <span>Non répondu</span></p>
@@ -285,9 +302,25 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 						const questionDiv = document.getElementById(q);
 						const selectedCheckboxes = document.querySelectorAll(`input[name="${q}"]:checked`);
 						const selectedValues = Array.from(selectedCheckboxes).map((cb) => cb.value);
+						const correctForThisQuestion = correctCheckboxAnswers[q];
+
+						// Marquer visuellement toutes les options
+						const allCheckboxes = document.querySelectorAll(`input[name="${q}"]`);
+						allCheckboxes.forEach((checkbox) => {
+							const optionParent = checkbox.closest(".option");
+							if (optionParent) {
+								// Marquer les bonnes réponses en vert
+								if (correctForThisQuestion.includes(checkbox.value)) {
+									optionParent.classList.add("correct-option");
+								}
+								// Marquer les réponses sélectionnées incorrectes en rouge
+								if (checkbox.checked && !correctForThisQuestion.includes(checkbox.value)) {
+									optionParent.classList.add("incorrect-option");
+								}
+							}
+						});
 
 						// Vérifier si les réponses sélectionnées correspondent exactement aux réponses correctes
-						const correctForThisQuestion = correctCheckboxAnswers[q];
 						const isCorrect = selectedValues.length === correctForThisQuestion.length && selectedValues.every((val) => correctForThisQuestion.includes(val));
 
 						if (selectedValues.length > 0) {
@@ -297,7 +330,7 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 								if (questionDiv) {
 									questionDiv.classList.add("correct-answer");
 								}
-								resultsHtml += `<div class="result-item correct">
+								resultsHtml += `<div class="result-item correct" data-question-id="${q}">
 									<div class="result-icon">✓</div>
 									<div class="result-content">
 										<p>Question ${q.substring(1)}: <span>Correct!</span></p>
@@ -308,7 +341,7 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 								if (questionDiv) {
 									questionDiv.classList.add("incorrect-answer");
 								}
-								resultsHtml += `<div class="result-item incorrect">
+								resultsHtml += `<div class="result-item incorrect" data-question-id="${q}">
 									<div class="result-icon">✕</div>
 									<div class="result-content">
 										<p>Question ${q.substring(1)}: <span>Incorrect</span></p>
@@ -320,7 +353,7 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 							if (questionDiv) {
 								questionDiv.classList.add("unanswered");
 							}
-							resultsHtml += `<div class="result-item unanswered">
+							resultsHtml += `<div class="result-item unanswered" data-question-id="${q}">
 								<div class="result-icon">!</div>
 								<div class="result-content">
 									<p>Question ${q.substring(1)}: <span>Non répondu</span></p>
@@ -376,6 +409,24 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 								resultsSummary.classList.add("low-score");
 							}
 						}
+
+						// Ajouter les gestionnaires de clic pour scroller vers les questions
+						resultsDiv.querySelectorAll(".result-item").forEach((item) => {
+							const questionId = item.getAttribute("data-question-id");
+							if (questionId) {
+								item.style.cursor = "pointer";
+								item.addEventListener("click", () => {
+									const questionElement = document.getElementById(questionId);
+									if (questionElement) {
+										questionElement.scrollIntoView({behavior: "smooth", block: "center"});
+										questionElement.classList.add("highlight");
+										setTimeout(() => {
+											questionElement.classList.remove("highlight");
+										}, 2000);
+									}
+								});
+							}
+						});
 
 						// Réinitialiser les questions marquées après la soumission
 						flaggedQuestions.clear();
@@ -683,6 +734,11 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 	:global(.result-item:hover) {
 		transform: translateX(3px) translateY(-2px);
 		box-shadow: var(--shadow-md);
+		cursor: pointer;
+	}
+
+	:global(.result-item:active) {
+		transform: translateX(1px) translateY(-1px);
 	}
 
 	:global(.result-item.correct) {
@@ -738,6 +794,22 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 	:global(.result-content p) {
 		margin: 0;
 		line-height: 1.4;
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	:global(.result-content p::after) {
+		content: "→";
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		font-size: 1rem;
+		color: currentColor;
+	}
+
+	:global(.result-item:hover .result-content p::after) {
+		opacity: 0.6;
 	}
 
 	:global(.result-content span) {

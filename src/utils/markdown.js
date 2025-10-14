@@ -4,13 +4,12 @@ import path from "path";
 
 // Titres des chapitres - ceci pourrait être dans un fichier JSON
 const CHAPTER_TITLES = {
-	"08": "Politiques sociales et travail social",
-	"09": "L'intervention personnelle en travail social",
-	10: "L'intervention de groupe",
-	11: "Dynamique des groupes en travail social",
-	12: "La recherche en travail social",
-	13: "La pratique en travail social",
-	14: "Examen final",
+	"01": "Fondement 1 - Problèmes sociaux et théories du travail social",
+	"02": "Fondement 2 - Pensée critique, épistémologie et paradigme",
+	"03": "Fondement 3 - Fonctionnalisme et Durkheim",
+	"04": "Fondement 4 - Marxisme et approche conflictuelle",
+	"05": "Fondement 5 - Constructivisme social",
+	"06": "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
 };
 
 // Fonction pour détecter dynamiquement les chapitres qui ont un questionnaire

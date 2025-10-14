@@ -5,25 +5,16 @@ import {hasExam} from "../../utils/markdown";
 import DynamicExam from "../../components/exams/DynamicExam.astro";
 
 export function getStaticPaths() {
-	return [
-		{params: {chapterId: "08"}},
-		{params: {chapterId: "09"}},
-		{params: {chapterId: "10"}},
-		{params: {chapterId: "11"}},
-		{params: {chapterId: "12"}},
-		{params: {chapterId: "13"}},
-		{params: {chapterId: "14"}},
-	];
+	return [{params: {chapterId: "01"}}, {params: {chapterId: "02"}}, {params: {chapterId: "03"}}, {params: {chapterId: "04"}}, {params: {chapterId: "05"}}, {params: {chapterId: "06"}}];
 }
 
 const CHAPTER_TITLES: Record<string, string> = {
-	"08": "Politiques sociales et travail social",
-	"09": "L'intervention personnelle en travail social",
-	"10": "L'intervention de groupe",
-	"11": "Dynamique des groupes en travail social",
-	"12": "La recherche en travail social",
-	"13": "La pratique en travail social",
-	"14": "Examen final",
+	"01": "Fondement 1 - Problèmes sociaux et théories du travail social",
+	"02": "Fondement 2 - Pensée critique, épistémologie et paradigme",
+	"03": "Fondement 3 - Fonctionnalisme et Durkheim",
+	"04": "Fondement 4 - Marxisme et approche conflictuelle",
+	"05": "Fondement 5 - Constructivisme social",
+	"06": "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
 };
 
 const {chapterId} = Astro.params;
@@ -34,7 +25,7 @@ const chapterTitle = `Chapitre ${chapterId} - ${title}`;
 const examAvailable = hasExam(chapterId);
 
 // Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
-const isExamChapter = ["08", "09", "10", "11", "12", "13", "14"].includes(chapterId);
+const isExamChapter = ["01", "02", "03", "04", "05", "06"].includes(chapterId);
 
 // Variables pour vérifier si les données d'examen existent
 let examDataExists = false;
@@ -94,7 +85,7 @@ if (!isExamChapter) {
 
 			<div class='navigation-buttons'>
 				{
-					parseInt(chapterId) > 8 && (
+					parseInt(chapterId) > 1 && (
 						<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
 							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 								<path d='m12 19-7-7 7-7' />
@@ -106,7 +97,7 @@ if (!isExamChapter) {
 				}
 
 				{
-					parseInt(chapterId) < 13 && (
+					parseInt(chapterId) < 6 && (
 						<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
 							<span>Chapitre suivant</span>
 							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
@@ -147,7 +138,7 @@ if (!isExamChapter) {
 
 		<div class='navigation-buttons bottom-nav'>
 			{
-				parseInt(chapterId) > 8 && (
+				parseInt(chapterId) > 1 && (
 					<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
 						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 							<path d='m12 19-7-7 7-7' />
@@ -159,7 +150,7 @@ if (!isExamChapter) {
 			}
 
 			{
-				parseInt(chapterId) < 13 && (
+				parseInt(chapterId) < 6 && (
 					<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
 						<span>Chapitre suivant</span>
 						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
