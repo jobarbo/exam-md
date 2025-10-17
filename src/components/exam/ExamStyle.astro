@@ -2,44 +2,123 @@
 // Ce composant fournit les styles communs pour les questions, options et explications
 ---
 
+<script is:inline>
+	// Add mouse-tracking shadow effect to questions
+	function initQuestionShadows() {
+		const questions = document.querySelectorAll(".question");
+
+		if (questions.length === 0) {
+			console.log("No questions found");
+			return;
+		}
+
+		console.log(`Found ${questions.length} questions, adding shadow effects`);
+
+		questions.forEach((question) => {
+			question.addEventListener("mousemove", (e) => {
+				const rect = question.getBoundingClientRect();
+				const x = e.clientX - rect.left;
+				const y = e.clientY - rect.top;
+
+				// Calculate shadow position based on mouse position
+				const centerX = rect.width / 2;
+				const centerY = rect.height / 2;
+
+				// Calculate offset from center (-1 to 1)
+				const offsetX = (x - centerX) / centerX;
+				const offsetY = (y - centerY) / centerY;
+
+				// Maximum shadow offset in pixels
+				const maxOffset = 2;
+
+				// Calculate shadow positions (opposite to mouse position for 3D effect)
+				const shadowX = -offsetX * maxOffset;
+				const shadowY = -offsetY * maxOffset;
+
+				// Blur increases as mouse moves away from center
+				const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
+				const blur = Math.min(10 + distance * 2, 2);
+
+				// Update CSS variables for the pseudo-element
+				question.style.setProperty("--shadow-x", `${shadowX}px`);
+				question.style.setProperty("--shadow-y", `${shadowY}px`);
+				question.style.setProperty("--shadow-blur", `${blur}px`);
+				question.style.setProperty("--shadow-opacity", Math.min(0.15 + distance * 0.1, 0.3));
+			});
+
+			question.addEventListener("mouseleave", () => {
+				// Reset to default values
+				question.style.setProperty("--shadow-x", "0px");
+				question.style.setProperty("--shadow-y", "2x");
+				question.style.setProperty("--shadow-blur", "4px");
+				question.style.setProperty("--shadow-opacity", "0.12");
+			});
+		});
+	}
+
+	// Initialize on DOMContentLoaded
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initQuestionShadows);
+	} else {
+		initQuestionShadows();
+	}
+
+	// Also re-initialize when navigating with view transitions
+	document.addEventListener("astro:page-load", initQuestionShadows);
+</script>
+
 <style is:global>
 	/* Question container styling */
 	.question {
 		background-color: #f6f6ff;
 		padding: 20px;
 		border-radius: 12px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+		box-shadow: 0 4px 12px rgba(48, 2, 105, 0.259);
 		margin-bottom: 25px;
-		transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 		position: relative;
-		overflow: hidden;
+		overflow: visible;
+		transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+
+		/* CSS variables for dynamic shadow */
+		--shadow-x: 0px;
+		--shadow-y: 4px;
+		--shadow-blur: 4x;
+		--shadow-opacity: 0.12;
 	}
 
-	.question:hover {
-		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-		transform: translateY(-2px);
-	}
-
-	.question::before {
+	/* Pseudo-element for dynamic shadow overlay */
+	.question::after {
 		content: "";
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 4px;
-		height: 100%;
-		background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-		opacity: 0.8;
+		right: 0;
+		bottom: 0;
+		border-radius: 12px;
+		pointer-events: none;
+		z-index: 10;
+		box-shadow:
+			inset var(--shadow-x) var(--shadow-y) var(--shadow-blur) rgba(59, 130, 246, var(--shadow-opacity)),
+			inset calc(var(--shadow-x) * 0.7) calc(var(--shadow-y) * 0.7) calc(var(--shadow-blur) * 1.2) rgba(139, 92, 246, calc(var(--shadow-opacity) * 0.8)),
+			inset calc(var(--shadow-x) * 0.5) calc(var(--shadow-y) * 0.5) calc(var(--shadow-blur) * 1.5) rgba(0, 0, 0, calc(var(--shadow-opacity) * 0.6));
+		transition: box-shadow 0.08s ease-out;
+	}
+
+	.question:hover::after {
+		z-index: 10;
 	}
 
 	/* Flagged question styling */
 	.question.flagged {
 		border: 2px solid rgba(var(--warning-color-rgb, 245, 158, 11), 0.3);
+		border-left: 4px solid var(--warning-color);
 		background-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.02);
 	}
 
-	.question.flagged::before {
-		background: var(--warning-color);
-		opacity: 1;
+	/* Ensure content is above the shadow pseudo-element */
+	.question > * {
+		position: relative;
+		z-index: 20;
 	}
 
 	/* Question header styling */
