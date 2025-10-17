@@ -1,9 +1,15 @@
 ---
+/**
+ * Dynamic Exam Component
+ * Loads and displays exam questions dynamically based on exam ID
+ */
+
 import ExamForm from "../exam/ExamForm.astro";
 import Question from "../exam/Question.astro";
 import RadioOption from "../exam/RadioOption.astro";
 import CheckboxOption from "../exam/CheckboxOption.astro";
 import ExamStyle from "../exam/ExamStyle.astro";
+import type {Question as QuestionType, ExamData} from "../../types/exam";
 
 export interface Props {
 	examId: string;
@@ -11,45 +17,30 @@ export interface Props {
 	description?: string;
 }
 
-// Définition des interfaces pour les types de données
-interface QuestionOption {
-	value: string;
-	label: string;
-}
-
-interface QuestionItem {
-	id: string;
-	title: string;
-	question: string;
-	type: "radio" | "checkbox";
-	options: QuestionOption[];
-	explanation: string;
-}
-
 const {examId, title, description} = Astro.props;
 
-// Charger dynamiquement les données de l'examen
-const examModule = await import(`../../data/exams/exam${examId}.js`);
-const questions = examModule[`exam${examId}Questions`] as QuestionItem[];
-const {correctRadioAnswers, correctCheckboxAnswers} = examModule;
+// Load exam data dynamically
+const examModule = await import(`../../data/exams/exam${examId}.ts`);
+const examData = examModule[`exam${examId}Data`] as ExamData;
 
-// Fonction pour mélanger les options pour chaque question
-function shuffleQuestionOptions(questions: QuestionItem[]): QuestionItem[] {
-	return questions.map((question) => {
-		// Créer une copie de la question pour ne pas modifier l'originale
-		const shuffledQuestion = {...question};
-
-		// Copier et mélanger les options
-		shuffledQuestion.options = [...question.options].sort(() => Math.random() - 0.5);
-
-		return shuffledQuestion;
-	});
+if (!examData) {
+	throw new Error(`Exam data not found for exam${examId}`);
 }
 
-// Mélanger les options pour toutes les questions
+const {questions, correctRadioAnswers, correctCheckboxAnswers} = examData;
+
+// Function to shuffle question options
+function shuffleQuestionOptions(questions: QuestionType[]): QuestionType[] {
+	return questions.map((question) => ({
+		...question,
+		options: [...question.options].sort(() => Math.random() - 0.5),
+	}));
+}
+
+// Shuffle options for all questions
 const shuffledQuestions = shuffleQuestionOptions(questions);
 
-// Descriptions par défaut pour chaque examen si non fournies
+// Default descriptions for each exam
 const defaultDescriptions: Record<string, string> = {
 	"01": "Ce questionnaire porte sur les problèmes sociaux et les principales écoles théoriques d'analyse en travail social.",
 	"02": "Ce questionnaire porte sur la pensée critique, l'épistémologie et les paradigmes en travail social.",
@@ -59,7 +50,6 @@ const defaultDescriptions: Record<string, string> = {
 	"06": "Ce questionnaire porte sur l'interactionnisme symbolique, la théorie de l'étiquetage et la tradition de Chicago.",
 };
 
-// Utiliser la description fournie ou celle par défaut
 const examDescription = description || defaultDescriptions[examId] || "";
 ---
 
@@ -67,10 +57,10 @@ const examDescription = description || defaultDescriptions[examId] || "";
 	<p class='description'>{examDescription}</p>
 
 	{
-		shuffledQuestions.map((q: QuestionItem) => (
+		shuffledQuestions.map((q) => (
 			<Question id={q.id} title={q.title} question={q.question} explanation={q.explanation} type={q.type}>
-				{q.type === "radio" && q.options.map((option: QuestionOption) => <RadioOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
-				{q.type === "checkbox" && q.options.map((option: QuestionOption) => <CheckboxOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
+				{q.type === "radio" && q.options.map((option) => <RadioOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
+				{q.type === "checkbox" && q.options.map((option) => <CheckboxOption id={`${q.id}-${option.value}`} name={q.id} value={option.value} label={option.label} />)}
 			</Question>
 		))
 	}

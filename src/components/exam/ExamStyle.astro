@@ -5,7 +5,7 @@
 <style is:global>
 	/* Question container styling */
 	.question {
-		background-color: white;
+		background-color: #f6f6ff;
 		padding: 20px;
 		border-radius: 12px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -31,19 +31,41 @@
 		opacity: 0.8;
 	}
 
-	/* Question title styling */
-	h2 {
-		font-size: 1.3rem;
-		color: var(--secondary-color);
+	/* Flagged question styling */
+	.question.flagged {
+		border: 2px solid rgba(var(--warning-color-rgb, 245, 158, 11), 0.3);
+		background-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.02);
+	}
+
+	.question.flagged::before {
+		background: var(--warning-color);
+		opacity: 1;
+	}
+
+	/* Question header styling */
+	.question-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		margin-bottom: 1rem;
 		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 		padding-bottom: 10px;
+	}
+
+	/* Question title styling */
+	h2,
+	h3 {
+		font-size: 1.3rem;
+		color: var(--secondary-color);
+		margin: 0;
 		display: flex;
 		align-items: center;
 		letter-spacing: 0.01em;
+		flex: 1;
 	}
 
-	h2::before {
+	h2::before,
+	h3::before {
 		content: "";
 		display: inline-block;
 		width: 8px;
@@ -52,6 +74,77 @@
 		background-color: var(--secondary-color);
 		margin-right: 10px;
 		box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.2);
+	}
+
+	/* Question controls styling */
+	.question-controls {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-shrink: 0;
+	}
+
+	/* Flag button styling */
+	.flag-button {
+		background: transparent;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
+		padding: 0.4rem;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--text-lighter);
+		width: 32px;
+		height: 32px;
+	}
+
+	.flag-button:hover {
+		background-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.1);
+		border-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.3);
+		color: var(--warning-color);
+		transform: scale(1.05);
+	}
+
+	.flag-button.active {
+		background-color: var(--warning-color);
+		border-color: var(--warning-color);
+		color: white;
+	}
+
+	.flag-button svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	/* Question number styling */
+	.question-number {
+		background-color: rgba(var(--secondary-color-rgb), 0.1);
+		color: var(--secondary-color);
+		font-weight: 600;
+		font-size: 0.85rem;
+		padding: 0.3rem 0.65rem;
+		border-radius: 6px;
+		min-width: 28px;
+		text-align: center;
+	}
+
+	/* Question hint styling */
+	.question-hint {
+		background-color: rgba(var(--primary-color-rgb), 0.05);
+		border-left: 3px solid var(--primary-color);
+		padding: 0.75rem 1rem;
+		border-radius: 0 8px 8px 0;
+		margin-bottom: 1rem;
+		font-size: 0.9rem;
+		color: var(--text-color);
+		line-height: 1.5;
+	}
+
+	.question-hint strong {
+		color: var(--primary-color);
+		font-weight: 600;
 	}
 
 	.question .question-text {
@@ -265,7 +358,6 @@
 	/* Explanation styling */
 	.explanation {
 		margin-top: 18px;
-		font-style: italic;
 		display: none; /* Hidden by default, shown when .visible class is added */
 		padding: 16px 20px;
 		border-left: 4px solid var(--primary-color);
@@ -284,15 +376,27 @@
 		animation: slideDown 0.4s ease-out forwards;
 	}
 
-	.explanation::before {
-		content: "Explication";
-		display: block;
+	/* Explanation header styling */
+	.explanation-header {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 		font-weight: 600;
 		margin-bottom: 10px;
 		color: var(--primary-color);
 		font-style: normal;
 		letter-spacing: 0.02em;
 		font-size: 1rem;
+	}
+
+	.explanation-header svg {
+		flex-shrink: 0;
+	}
+
+	/* Explanation content styling */
+	.explanation-content {
+		font-style: italic;
+		color: var(--text-color);
 	}
 
 	/* Description styling */

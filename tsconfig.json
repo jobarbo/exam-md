@@ -4,6 +4,14 @@
 	"exclude": ["dist", "**/*.temp.astro"],
 	"compilerOptions": {
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["src/components/*"],
+			"@layouts/*": ["src/layouts/*"],
+			"@utils/*": ["src/utils/*"],
+			"@data/*": ["src/data/*"],
+			"@assets/*": ["src/assets/*"]
+		}
 	}
 }

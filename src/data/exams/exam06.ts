@@ -1,7 +1,11 @@
-// Ce fichier contient les données pour l'examen sur l'interactionnisme symbolique et la théorie de l'étiquetage
-// Il sera importé dynamiquement par le composant ExamForm
+/**
+ * Examen 06: l'interactionnisme symbolique et la théorie de l'étiquetage
+ * Ce fichier contient toutes les questions et réponses pour l'examen 06
+ */
 
-export const exam06Questions = [
+import type { Question, ExamData } from '../../types/exam';
+
+export const exam06Questions: Question[] = [
 	{
 		id: "q1",
 		title: "Question 1",
@@ -288,7 +292,7 @@ export const exam06Questions = [
 ];
 
 // Réponses correctes pour les questions à choix unique (radio)
-export const correctRadioAnswers = {
+export const correctRadioAnswers: Record<string, string> = {
 	q2: "b",
 	q3: "b",
 	q4: "b",
@@ -307,10 +311,16 @@ export const correctRadioAnswers = {
 };
 
 // Réponses correctes pour les questions à choix multiples (checkbox)
-export const correctCheckboxAnswers = {
+export const correctCheckboxAnswers: Record<string, string[]> = {
 	q1: ["a", "b", "c"],
 	q5: ["a", "b", "c"],
 	q13: ["a", "b", "c", "d"],
 	q17: ["a", "b"],
 	q18: ["a", "b", "c"],
+};
+// Export complete exam data
+export const exam06Data: ExamData = {
+	questions: exam06Questions,
+	correctRadioAnswers,
+	correctCheckboxAnswers,
 };

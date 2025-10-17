@@ -1,7 +1,11 @@
-// Ce fichier contient les données pour l'examen sur le marxisme et l'approche conflictuelle
-// Il sera importé dynamiquement par le composant ExamForm
+/**
+ * Examen 04: le marxisme et l'approche conflictuelle
+ * Ce fichier contient toutes les questions et réponses pour l'examen 04
+ */
 
-export const exam04Questions = [
+import type { Question, ExamData } from '../../types/exam';
+
+export const exam04Questions: Question[] = [
 	{
 		id: "q1",
 		title: "Question 1",
@@ -290,7 +294,7 @@ export const exam04Questions = [
 ];
 
 // Réponses correctes pour les questions à choix unique (radio)
-export const correctRadioAnswers = {
+export const correctRadioAnswers: Record<string, string> = {
 	q1: "b",
 	q2: "b",
 	q3: "b",
@@ -310,9 +314,15 @@ export const correctRadioAnswers = {
 };
 
 // Réponses correctes pour les questions à choix multiples (checkbox)
-export const correctCheckboxAnswers = {
+export const correctCheckboxAnswers: Record<string, string[]> = {
 	q6: ["a", "b", "c", "d"],
 	q12: ["a", "b", "c"],
 	q13: ["a", "b", "c", "d"],
 	q16: ["a", "b", "c", "d"],
+};
+// Export complete exam data
+export const exam04Data: ExamData = {
+	questions: exam04Questions,
+	correctRadioAnswers,
+	correctCheckboxAnswers,
 };

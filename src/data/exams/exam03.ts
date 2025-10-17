@@ -1,7 +1,11 @@
-// Ce fichier contient les données pour l'examen sur le fonctionnalisme et Durkheim
-// Il sera importé dynamiquement par le composant ExamForm
+/**
+ * Examen 03: le fonctionnalisme et Durkheim
+ * Ce fichier contient toutes les questions et réponses pour l'examen 03
+ */
 
-export const exam03Questions = [
+import type { Question, ExamData } from '../../types/exam';
+
+export const exam03Questions: Question[] = [
 	{
 		id: "q1",
 		title: "Question 1",
@@ -219,7 +223,7 @@ export const exam03Questions = [
 ];
 
 // Réponses correctes pour les questions à choix unique (radio)
-export const correctRadioAnswers = {
+export const correctRadioAnswers: Record<string, string> = {
 	q2: "b",
 	q4: "b",
 	q5: "b",
@@ -235,8 +239,14 @@ export const correctRadioAnswers = {
 };
 
 // Réponses correctes pour les questions à choix multiples (checkbox)
-export const correctCheckboxAnswers = {
+export const correctCheckboxAnswers: Record<string, string[]> = {
 	q1: ["a", "b", "c"],
 	q3: ["a", "b", "c"],
 	q6: ["a", "b", "c", "d"],
+};
+// Export complete exam data
+export const exam03Data: ExamData = {
+	questions: exam03Questions,
+	correctRadioAnswers,
+	correctCheckboxAnswers,
 };

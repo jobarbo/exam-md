@@ -1,0 +1,109 @@
+---
+/**
+ * Button Component
+ * A reusable button component with consistent styling
+ */
+
+export interface Props {
+	variant?: 'primary' | 'secondary' | 'ghost';
+	size?: 'small' | 'medium' | 'large';
+	type?: 'button' | 'submit' | 'reset';
+	href?: string;
+	class?: string;
+}
+
+const {
+	variant = 'primary',
+	size = 'medium',
+	type = 'button',
+	href,
+	class: className = '',
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const additionalProps = href ? { href } : { type };
+---
+
+<Tag class:list={['btn', `btn-${variant}`, `btn-${size}`, className]} {...additionalProps}>
+	<slot />
+</Tag>
+
+<style>
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		border: none;
+		border-radius: var(--border-radius, 8px);
+		font-weight: 500;
+		text-decoration: none;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		font-family: inherit;
+	}
+
+	.btn:focus-visible {
+		outline: 2px solid var(--primary-color, #3b82f6);
+		outline-offset: 2px;
+	}
+
+	/* Variants */
+	.btn-primary {
+		background: linear-gradient(135deg, var(--primary-color, #3b82f6), var(--secondary-color, #8b5cf6));
+		color: white;
+		box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+	}
+
+	.btn-secondary {
+		background: white;
+		color: var(--text-color, #1f2937);
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.btn-secondary:hover {
+		background-color: var(--bg-color, #f9fafb);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.btn-ghost {
+		background: transparent;
+		color: var(--primary-color, #3b82f6);
+	}
+
+	.btn-ghost:hover {
+		background-color: rgba(59, 130, 246, 0.1);
+	}
+
+	/* Sizes */
+	.btn-small {
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+	}
+
+	.btn-medium {
+		padding: 0.75rem 1.5rem;
+		font-size: 1rem;
+	}
+
+	.btn-large {
+		padding: 1rem 2rem;
+		font-size: 1.125rem;
+	}
+
+	.btn:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+</style>
+
+
+

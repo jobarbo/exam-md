@@ -1,7 +1,11 @@
-// Ce fichier contient les données pour l'examen sur la pensée critique, l'épistémologie et le paradigme
-// Il sera importé dynamiquement par le composant ExamForm
+/**
+ * Examen 02: la pensée critique, l'épistémologie et le paradigme
+ * Ce fichier contient toutes les questions et réponses pour l'examen 02
+ */
 
-export const exam02Questions = [
+import type {Question, ExamData} from "../../types/exam";
+
+export const exam02Questions: Question[] = [
 	{
 		id: "q1",
 		title: "Question 1",
@@ -263,17 +267,16 @@ export const exam02Questions = [
 	{
 		id: "q19",
 		title: "Question 19",
-		question: "Quelle est la critique principale du positivisme dans les sciences sociales?",
-		type: "checkbox",
+		question: "Quelle est la principale différence entre le réalisme (Auguste Comte) et l'idéalisme?",
+		type: "radio",
 		options: [
-			{value: "a", label: "Il tend à ignorer le contexte socio-historique"},
-			{value: "b", label: "Il ignore les relations de pouvoir"},
-			{value: "c", label: "Il fait peu de différences entre les atomes et les personnes"},
-			{value: "d", label: "Il est trop récent"},
-			{value: "e", label: "Il coûte trop cher"},
+			{value: "a", label: "Le réalisme considère que la réalité est observable en elle-même, l'idéalisme affirme qu'elle ne peut être analysable qu'à partir des idées que nous nous en faisons"},
+			{value: "b", label: "Le réalisme est plus récent que l'idéalisme"},
+			{value: "c", label: "L'idéalisme est uniquement pour la psychologie"},
+			{value: "d", label: "Il n'y a pas de différence fondamentale"},
 		],
 		explanation:
-			"Les critiques du positivisme incluent: il tend à ignorer le contexte socio-historique qui forme les individus, il ignore les relations de pouvoir, et l'approche scientifique fait peu de différences entre les phénomènes naturels et les personnes qui vivent dans le monde et en sont sujets. (Source: Fondement_2/2.txt - Critique de l'application du positivisme dans les sciences sociales)",
+			"Le réalisme (Auguste Comte, 1789-1857) considère que la réalité est observable en elle-même et que cette observation est suffisante pour tirer des conclusions à son sujet. L'idéalisme affirme au contraire que la réalité ne peut être observable ou analysable qu'à partir des idées ou des catégories que nous nous en faisons. (Source: Fondement_2/2.txt - Réalisme vs Idéalisme)",
 	},
 	{
 		id: "q20",
@@ -293,7 +296,7 @@ export const exam02Questions = [
 ];
 
 // Réponses correctes pour les questions à choix unique (radio)
-export const correctRadioAnswers = {
+export const correctRadioAnswers: Record<string, string> = {
 	q1: "b",
 	q2: "b",
 	q4: "b",
@@ -307,14 +310,20 @@ export const correctRadioAnswers = {
 	q16: "a",
 	q17: "b",
 	q18: "b",
+	q19: "a",
 };
 
 // Réponses correctes pour les questions à choix multiples (checkbox)
-export const correctCheckboxAnswers = {
+export const correctCheckboxAnswers: Record<string, string[]> = {
 	q3: ["a", "b", "c", "d", "e"],
 	q5: ["a", "b", "c"],
 	q11: ["a", "b", "c"],
 	q13: ["a", "b", "c", "d", "e"],
-	q19: ["a", "b", "c"],
 	q20: ["a", "b", "c", "d"],
+};
+// Export complete exam data
+export const exam02Data: ExamData = {
+	questions: exam02Questions,
+	correctRadioAnswers,
+	correctCheckboxAnswers,
 };

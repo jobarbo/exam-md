@@ -1,0 +1,92 @@
+---
+/**
+ * Chapter Card Component
+ * Displays a chapter with its information and exam status
+ */
+
+import Card from './ui/Card.astro';
+import type { ChapterType } from '../types/chapter';
+
+export interface Props extends ChapterType {}
+
+const { id, title, hasExam, isSpecial } = Astro.props;
+---
+
+<Card href={hasExam ? `/chapitres/${id}` : undefined} disabled={!hasExam} special={isSpecial}>
+	<span class="chapter-number">{id}</span>
+	<h3>Chapitre {id}</h3>
+	<p class="chapter-title">{title}</p>
+	{
+		hasExam ? (
+			<span class="exam-badge available">Questionnaire disponible</span>
+		) : (
+			<span class="exam-badge unavailable">Questionnaire en préparation</span>
+		)
+	}
+</Card>
+
+<style>
+	.chapter-number {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		font-size: 3rem;
+		font-weight: 800;
+		color: rgba(0, 0, 0, 0.03);
+		line-height: 1;
+		transition: all var(--transition-normal);
+		pointer-events: none;
+	}
+
+	:global(a.card:not(.card-disabled):hover) .chapter-number {
+		color: rgba(59, 130, 246, 0.06);
+		transform: scale(1.1);
+	}
+
+	h3 {
+		margin-top: 0;
+		margin-bottom: 0.75rem;
+		color: var(--primary-color);
+		font-size: 1.25rem;
+		font-weight: 600;
+	}
+
+	.chapter-title {
+		margin: 0;
+		color: var(--text-light);
+		margin-bottom: auto;
+		padding-bottom: 1rem;
+		flex-grow: 1;
+	}
+
+	.exam-badge {
+		display: inline-flex;
+		align-items: center;
+		margin-top: 1rem;
+		padding: 0.3rem 0.75rem;
+		border-radius: 9999px;
+		font-size: 0.8rem;
+		font-weight: 500;
+		width: fit-content;
+		box-shadow: var(--shadow-sm);
+		transition: all var(--transition-normal);
+	}
+
+	.exam-badge.available {
+		background-color: var(--success-color);
+		color: white;
+	}
+
+	.exam-badge.unavailable {
+		background-color: var(--text-lighter);
+		color: white;
+	}
+
+	:global(a.card:not(.card-disabled):hover) .exam-badge {
+		transform: translateY(-2px);
+		box-shadow: var(--shadow);
+	}
+</style>
+
+
+

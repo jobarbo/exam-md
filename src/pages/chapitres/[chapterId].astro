@@ -1,8 +1,13 @@
 ---
+/**
+ * Dynamic Chapter Page
+ * Displays exam or content for a specific chapter
+ */
+
 import MainLayout from "../../layouts/MainLayout.astro";
 import ChapterContent from "../../components/ChapterContent.astro";
-import {hasExam} from "../../utils/markdown";
 import DynamicExam from "../../components/exams/DynamicExam.astro";
+import {hasExam} from "../../utils/markdown";
 
 export function getStaticPaths() {
 	return [{params: {chapterId: "01"}}, {params: {chapterId: "02"}}, {params: {chapterId: "03"}}, {params: {chapterId: "04"}}, {params: {chapterId: "05"}}, {params: {chapterId: "06"}}];
@@ -18,38 +23,37 @@ const CHAPTER_TITLES: Record<string, string> = {
 };
 
 const {chapterId} = Astro.params;
+
+if (!chapterId) {
+	return Astro.redirect("/404");
+}
+
 const title = CHAPTER_TITLES[chapterId] || `Chapitre ${chapterId}`;
 const chapterTitle = `Chapitre ${chapterId} - ${title}`;
-
-// Vérifier si ce chapitre a un questionnaire disponible
 const examAvailable = hasExam(chapterId);
 
-// Vérifier si c'est un chapitre qui doit afficher l'examen au lieu des notes
+// Chapters that should display exam instead of notes
 const isExamChapter = ["01", "02", "03", "04", "05", "06"].includes(chapterId);
 
-// Variables pour vérifier si les données d'examen existent
+// Check if exam data exists for this chapter
 let examDataExists = false;
-
-// Vérifier si les données d'examen existent pour ce chapitre
 if (isExamChapter) {
 	try {
-		// Tentative d'importation pour vérifier si le module existe
-		await import(`../../data/exams/exam${chapterId}.js`);
+		await import(`../../data/exams/exam${chapterId}.ts`);
 		examDataExists = true;
 	} catch (error) {
-		console.error(`Données d'examen non disponibles pour le chapitre ${chapterId}:`, error);
+		console.error(`Exam data not available for chapter ${chapterId}:`, error);
 	}
 }
 
-// Pour les autres chapitres, on charge le contenu markdown
+// Load markdown content for non-exam chapters
 let contentHtml = "";
-
 if (!isExamChapter) {
 	try {
 		const response = await fetch(`${Astro.url.origin}/markdown/${chapterId}.md`);
 		if (response.ok) {
 			const markdown = await response.text();
-			// Use simple HTML conversion
+			// Simple HTML conversion
 			contentHtml = markdown
 				.replace(/^# (.*)/gm, "<h1>$1</h1>")
 				.replace(/^## (.*)/gm, "<h2>$1</h2>")
@@ -64,29 +68,44 @@ if (!isExamChapter) {
 			contentHtml = `<h1>${chapterTitle}</h1><p>Le contenu n'est pas disponible.</p>`;
 		}
 	} catch (error) {
-		console.error(`Erreur lors du chargement du markdown: ${error}`);
+		console.error(`Error loading markdown:`, error);
 		contentHtml = `<h1>${chapterTitle}</h1><p>Erreur: ${error}</p>`;
 	}
 }
+
+const prevChapterId = parseInt(chapterId) > 1 ? (parseInt(chapterId) - 1).toString().padStart(2, "0") : null;
+const nextChapterId = parseInt(chapterId) < 6 ? (parseInt(chapterId) + 1).toString().padStart(2, "0") : null;
 ---
 
-<MainLayout>
+<MainLayout title={chapterTitle}>
 	<div class='chapter-container'>
 		<div class='chapter-header'>
-			<div class='breadcrumbs'>
-				<a href='/'
-					><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'
-						><path d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'></path><polyline points='9 22 9 12 15 12 15 22'></polyline></svg
-					></a
-				>
+			<nav class='breadcrumbs' aria-label='Breadcrumb'>
+				<a href='/'>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						width='20'
+						height='20'
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='currentColor'
+						stroke-width='2'
+						stroke-linecap='round'
+						stroke-linejoin='round'
+						aria-hidden='true'>
+						<path d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'></path>
+						<polyline points='9 22 9 12 15 12 15 22'></polyline>
+					</svg>
+					<span class='sr-only'>Accueil</span>
+				</a>
 				<span>/</span>
 				<span>Chapitre {chapterId}</span>
-			</div>
+			</nav>
 
 			<div class='navigation-buttons'>
 				{
-					parseInt(chapterId) > 1 && (
-						<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
+					prevChapterId && (
+						<a href={`/chapitres/${prevChapterId}`} class='nav-button prev'>
 							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 								<path d='m12 19-7-7 7-7' />
 								<path d='M19 12H5' />
@@ -97,8 +116,8 @@ if (!isExamChapter) {
 				}
 
 				{
-					parseInt(chapterId) < 6 && (
-						<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
+					nextChapterId && (
+						<a href={`/chapitres/${nextChapterId}`} class='nav-button next'>
 							<span>Chapitre suivant</span>
 							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 								<path d='M5 12h14' />
@@ -138,8 +157,8 @@ if (!isExamChapter) {
 
 		<div class='navigation-buttons bottom-nav'>
 			{
-				parseInt(chapterId) > 1 && (
-					<a href={`/chapitres/${(parseInt(chapterId) - 1).toString().padStart(2, "0")}`} class='nav-button prev'>
+				prevChapterId && (
+					<a href={`/chapitres/${prevChapterId}`} class='nav-button prev'>
 						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 							<path d='m12 19-7-7 7-7' />
 							<path d='M19 12H5' />
@@ -150,8 +169,8 @@ if (!isExamChapter) {
 			}
 
 			{
-				parseInt(chapterId) < 6 && (
-					<a href={`/chapitres/${(parseInt(chapterId) + 1).toString().padStart(2, "0")}`} class='nav-button next'>
+				nextChapterId && (
+					<a href={`/chapitres/${nextChapterId}`} class='nav-button next'>
 						<span>Chapitre suivant</span>
 						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
 							<path d='M5 12h14' />
@@ -165,6 +184,18 @@ if (!isExamChapter) {
 </MainLayout>
 
 <style>
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+
 	.chapter-container {
 		max-width: 1200px;
 		margin: 0 auto;
@@ -294,17 +325,6 @@ if (!isExamChapter) {
 		margin-top: 1rem;
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
 	@media (max-width: 768px) {
 		.navigation-buttons {
 			flex-direction: column;
@@ -316,12 +336,9 @@ if (!isExamChapter) {
 			justify-content: center;
 		}
 
-		.nav-button.prev {
-			margin-right: 0;
-		}
-
+		.nav-button.prev,
 		.nav-button.next {
-			margin-left: 0;
+			margin: 0;
 		}
 
 		.exam-not-available {
