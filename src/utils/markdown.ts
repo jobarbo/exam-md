@@ -3,25 +3,25 @@
  * Functions for loading and managing markdown content and chapter data
  */
 
-import { marked } from 'marked';
-import fs from 'fs';
-import path from 'path';
-import type { ChapterType, ChapterMetadata } from '../types/chapter';
+import {marked} from "marked";
+import fs from "fs";
+import path from "path";
+import type {ChapterType, ChapterMetadata} from "../types/chapter";
 
 // Chapter titles configuration
 const CHAPTER_TITLES: Record<string, string> = {
-	'01': 'Fondement 1 - Problèmes sociaux et théories du travail social',
-	'02': 'Fondement 2 - Pensée critique, épistémologie et paradigme',
-	'03': 'Fondement 3 - Fonctionnalisme et Durkheim',
-	'04': 'Fondement 4 - Marxisme et approche conflictuelle',
-	'05': 'Fondement 5 - Constructivisme social',
-	'06': "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
-	'08': 'Fondement 8 - Institutions et pouvoir',
-	'10': 'Fondement 10 - Approches critiques, transformationnelles et anti-oppressives',
-	'11': 'Fondement 11 - Modernité, colonialité et décolonialité',
-	'12': 'Fondement 12 - Théorie générale des systèmes et analyse écosystémique',
-	'13': "Fondement 13 - Théorie de l'attachement",
-	'14': 'Fondement 14 - Thérapies comportementales et cognitives (TCC)',
+	"01": "Fondement 1 - Problèmes sociaux et théories du travail social",
+	"02": "Fondement 2 - Pensée critique, épistémologie et paradigme",
+	"03": "Fondement 3 - Fonctionnalisme et Durkheim",
+	"04": "Fondement 4 - Marxisme et approche conflictuelle",
+	"05": "Fondement 5 - Constructivisme social",
+	"06": "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
+	"08": "Fondement 8 - Institutions et pouvoir",
+	"10": "Fondement 10 - Approches critiques, transformationnelles et anti-oppressives",
+	"11": "Fondement 11 - Modernité, colonialité et décolonialité",
+	"12": "Fondement 12 - Théorie générale des systèmes et analyse écosystémique",
+	"13": "Fondement 13 - Théorie de l'attachement",
+	"14": "Fondement 14 - Thérapies comportementales et cognitives (TCC)",
 };
 
 /**
@@ -29,23 +29,21 @@ const CHAPTER_TITLES: Record<string, string> = {
  */
 function getChaptersWithExam(): string[] {
 	try {
-		const examDataDir = path.resolve('src/data/exams');
+		const examDataDir = path.resolve("src/data/exams");
 		const files = fs.readdirSync(examDataDir);
 
 		// Filter to get only exam files (.ts or .js)
-		const examFiles = files.filter(
-			(file) => file.startsWith('exam') && (file.endsWith('.ts') || file.endsWith('.js'))
-		);
+		const examFiles = files.filter((file) => file.startsWith("exam") && (file.endsWith(".ts") || file.endsWith(".js")));
 
 		// Extract chapter IDs
 		return examFiles.map((file) => {
 			// Example: "exam01.ts" -> "01"
-			return file.replace('exam', '').replace(/\.(ts|js)$/, '');
+			return file.replace("exam", "").replace(/\.(ts|js)$/, "");
 		});
 	} catch (error) {
-		console.error('Error detecting exams:', error);
+		console.error("Error detecting exams:", error);
 		// Fallback to known exam chapters
-		return ['01', '02', '03', '04', '05', '06'];
+		return ["01", "02", "03", "04", "05", "06"];
 	}
 }
 
@@ -54,19 +52,19 @@ function getChaptersWithExam(): string[] {
  */
 function getAllAvailableChapters(): string[] {
 	try {
-		const markdownDir = path.resolve('public/markdown');
+		const markdownDir = path.resolve("public/markdown");
 		const files = fs.readdirSync(markdownDir);
 
 		// Filter to get only markdown files
-		const mdFiles = files.filter((file) => file.endsWith('.md'));
+		const mdFiles = files.filter((file) => file.endsWith(".md"));
 
 		// Extract chapter IDs
 		return mdFiles.map((file) => {
 			// Example: "01.md" -> "01"
-			return file.replace('.md', '');
+			return file.replace(".md", "");
 		});
 	} catch (error) {
-		console.error('Error detecting chapters:', error);
+		console.error("Error detecting chapters:", error);
 		// Fallback to known chapters
 		return Object.keys(CHAPTER_TITLES);
 	}
@@ -81,9 +79,7 @@ const SPECIAL_CHAPTERS: string[] = [];
 /**
  * Load markdown content for a specific chapter
  */
-export async function getChapterMarkdown(
-	chapterId: string
-): Promise<{ title: string; content: string } | null> {
+export async function getChapterMarkdown(chapterId: string): Promise<{title: string; content: string} | null> {
 	try {
 		console.log(`Loading chapter ${chapterId}`);
 		const title = CHAPTER_TITLES[chapterId] || `Chapitre ${chapterId}`;
@@ -112,7 +108,7 @@ export async function getChapterMarkdown(
 			console.error(`Error fetching ${chapterId}.md:`, fetchError);
 			return {
 				title,
-				content: `<h1>Chapitre ${chapterId}</h1><p>Erreur lors du chargement: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}</p>`,
+				content: `<h1>Chapitre ${chapterId}</h1><p>Erreur lors du chargement: ${fetchError instanceof Error ? fetchError.message : "Unknown error"}</p>`,
 			};
 		}
 	} catch (error) {
@@ -162,4 +158,3 @@ export function getChapterMetadata(chapterId: string): ChapterMetadata {
 		title: CHAPTER_TITLES[chapterId] || `Chapitre ${chapterId}`,
 	};
 }
-
