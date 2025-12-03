@@ -16,6 +16,12 @@ const CHAPTER_TITLES: Record<string, string> = {
 	'04': 'Fondement 4 - Marxisme et approche conflictuelle',
 	'05': 'Fondement 5 - Constructivisme social',
 	'06': "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
+	'08': 'Fondement 8 - Institutions et pouvoir',
+	'10': 'Fondement 10 - Approches critiques, transformationnelles et anti-oppressives',
+	'11': 'Fondement 11 - Modernité, colonialité et décolonialité',
+	'12': 'Fondement 12 - Théorie générale des systèmes et analyse écosystémique',
+	'13': "Fondement 13 - Théorie de l'attachement",
+	'14': 'Fondement 14 - Thérapies comportementales et cognitives (TCC)',
 };
 
 /**
@@ -121,7 +127,15 @@ export async function getChapterMarkdown(
 export async function getAllChapters(): Promise<ChapterType[]> {
 	const availableChapters = getAllAvailableChapters();
 
-	const chapters: ChapterType[] = availableChapters.map((id) => ({
+	// Combine chapters from markdown files AND chapters with exams
+	// This ensures all chapters with exams are included, even if they don't have markdown files
+	const allChapterIds = new Set([
+		...availableChapters,
+		...CHAPTERS_WITH_EXAM,
+		...Object.keys(CHAPTER_TITLES), // Also include all chapters defined in CHAPTER_TITLES
+	]);
+
+	const chapters: ChapterType[] = Array.from(allChapterIds).map((id) => ({
 		id,
 		title: CHAPTER_TITLES[id] || `Chapitre ${id}`,
 		hasExam: CHAPTERS_WITH_EXAM.includes(id),

@@ -4,71 +4,61 @@
  * The primary layout wrapper for all pages
  */
 
-import type { ChapterType } from '../types/chapter';
-import { getAllChapters } from '../utils/markdown';
-import '../styles/global.css';
+import type {ChapterType} from "../types/chapter";
+import {getAllChapters} from "../utils/markdown";
+import "../styles/global.css";
 
 // Get chapters dynamically
 const chapters = (await getAllChapters()) as ChapterType[];
 
 // Get current path to determine active chapter
 const currentPath = Astro.url.pathname;
-const currentChapterId = currentPath.split('/').filter(Boolean).pop();
+const currentChapterId = currentPath.split("/").filter(Boolean).pop();
 
 export interface Props {
 	title?: string;
 	description?: string;
 }
 
-const { title = 'Quiz Pratique', description = 'Site de quiz pratique pour vos examens' } = Astro.props;
+const {title = "Quiz Pratique", description = "Site de quiz pratique pour vos examens"} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang='fr'>
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content={description} />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width' />
+		<meta name='description' content={description} />
+		<meta name='generator' content={Astro.generator} />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<link rel='preconnect' href='https://fonts.googleapis.com' />
+		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+		<link href='https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' rel='stylesheet' />
 		<title>{title}</title>
 	</head>
 	<body>
-		<header class="site-header">
-			<div class="container">
-				<a href="/" class="site-logo">
+		<header class='site-header'>
+			<div class='container'>
+				<a href='/' class='site-logo'>
 					<h1>Quiz Pratique</h1>
 				</a>
-				<nav class="site-nav">
-					<button class="menu-toggle" aria-label="Toggle menu">
+				<nav class='site-nav'>
+					<button class='menu-toggle' aria-label='Toggle menu'>
 						<span></span>
 						<span></span>
 						<span></span>
 					</button>
-					<ul class="nav-menu">
+					<ul class='nav-menu'>
 						{
 							chapters.map((chapter) => (
 								<li>
 									{chapter.hasExam ? (
-										<a
-											href={`/chapitres/${chapter.id}`}
-											class:list={[
-												'nav-link',
-												'has-exam',
-												{ active: currentChapterId === chapter.id },
-											]}
-										>
-											<span>Chapitre {chapter.id}</span>
+										<a href={`/chapitres/${chapter.id}`} class:list={["nav-link", "has-exam", {active: currentChapterId === chapter.id}]}>
+											<span>ch. {chapter.id}</span>
 										</a>
 									) : (
-										<span class="nav-link no-exam">
-											<span>Chapitre {chapter.id}</span>
+										<span class='nav-link no-exam'>
+											<span>ch. {chapter.id}</span>
 										</span>
 									)}
 								</li>
@@ -79,45 +69,40 @@ const { title = 'Quiz Pratique', description = 'Site de quiz pratique pour vos e
 			</div>
 		</header>
 
-		<main class="site-main container">
+		<main class='site-main container'>
 			<slot />
 		</main>
 
-		<footer class="site-footer">
-			<div class="container">
+		<footer class='site-footer'>
+			<div class='container'>
 				<p>&copy; {new Date().getFullYear()} Gioia Bastien</p>
 			</div>
 		</footer>
 
 		<script>
 			// Mobile menu toggle
-			document.addEventListener('DOMContentLoaded', () => {
-				const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
-				const navMenu = document.querySelector<HTMLElement>('.nav-menu');
+			document.addEventListener("DOMContentLoaded", () => {
+				const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+				const navMenu = document.querySelector<HTMLElement>(".nav-menu");
 
 				if (menuToggle && navMenu) {
-					menuToggle.addEventListener('click', () => {
-						menuToggle.classList.toggle('active');
-						navMenu.classList.toggle('active');
-						
+					menuToggle.addEventListener("click", () => {
+						menuToggle.classList.toggle("active");
+						navMenu.classList.toggle("active");
+
 						// Update aria-expanded
-						const isExpanded = menuToggle.classList.contains('active');
-						menuToggle.setAttribute('aria-expanded', String(isExpanded));
+						const isExpanded = menuToggle.classList.contains("active");
+						menuToggle.setAttribute("aria-expanded", String(isExpanded));
 					});
 				}
 
 				// Close menu when clicking outside
-				document.addEventListener('click', (e) => {
+				document.addEventListener("click", (e) => {
 					const target = e.target as HTMLElement;
-					if (
-						navMenu &&
-						menuToggle &&
-						!target.closest('nav') &&
-						navMenu.classList.contains('active')
-					) {
-						menuToggle.classList.remove('active');
-						navMenu.classList.remove('active');
-						menuToggle.setAttribute('aria-expanded', 'false');
+					if (navMenu && menuToggle && !target.closest("nav") && navMenu.classList.contains("active")) {
+						menuToggle.classList.remove("active");
+						navMenu.classList.remove("active");
+						menuToggle.setAttribute("aria-expanded", "false");
 					}
 				});
 			});
