@@ -182,17 +182,20 @@ export const exam13Questions: Question[] = [
 	{
 		id: "q13",
 		title: "Question 13",
-		question: "Quels sont les risques associés à l'usage abusif des théories de l'attachement en protection de la jeunesse selon Tessier?",
-		type: "checkbox",
+		question: "Pourquoi Tessier critique-t-il l'usage abusif des théories de l'attachement en protection de la jeunesse?",
+		type: "radio",
 		options: [
-			{value: "a", label: "Naturalisation des rapports humains"},
-			{value: "b", label: "Fixation de délais arbitraires pour le placement à long terme ou l'adoption"},
-			{value: "c", label: "Risques d'exclusions discriminatoires, notamment pour les familles pauvres"},
-			{value: "d", label: "Refus de considérer la théorie dans son contexte historique"},
-			{value: "e", label: "Tous les enfants développent un attachement sécure"},
+			{
+				value: "a",
+				label:
+					"Parce qu'il s'inscrit dans un mouvement contestable de naturalisation des rapports humains et justifie des règles normatives rigides",
+			},
+			{value: "b", label: "Parce que la théorie de l'attachement est trop récente pour être appliquée"},
+			{value: "c", label: "Parce qu'elle ne s'applique qu'aux enfants adoptés"},
+			{value: "d", label: "Parce qu'elle ignore toute considération juridique"},
 		],
 		explanation:
-			"Selon Tessier, l'usage abusif des théories de l'attachement en protection de la jeunesse présente des risques: naturalisation des rapports humains, fixation de délais arbitraires, risques d'exclusions discriminatoires (les enfants signalés sont en grande majorité issus de familles pauvres), et refus de considérer la théorie dans son contexte historique. (Source: Fondement_13/13 - Tessier.txt)",
+			"Tessier critique cet usage car il s'inscrit dans un mouvement contestable de naturalisation des rapports humains et sert à justifier des règles juridiques à portée obligatoire qui rigidifient les décisions. (Source: Fondement_13/13 - Tessier.txt)",
 	},
 	{
 		id: "q14",
@@ -307,6 +310,7 @@ export const correctRadioAnswers: Record<string, string> = {
 	q7: "a",
 	q9: "a",
 	q10: "a",
+	q13: "a",
 	q12: "a",
 	q14: "a",
 	q15: "a",
@@ -321,7 +325,6 @@ export const correctCheckboxAnswers: Record<string, string[]> = {
 	q5: ["a", "b", "c", "d"],
 	q8: ["a", "b", "c", "d"],
 	q11: ["a", "b", "c", "d"],
-	q13: ["a", "b", "c", "d"],
 	q16: ["a", "b", "c", "d", "e"],
 	q19: ["a", "b", "c", "d", "e"],
 };
@@ -332,4 +335,6 @@ export const exam13Data: ExamData = {
 	correctRadioAnswers,
 	correctCheckboxAnswers,
 };
+
+
 
