@@ -15,9 +15,10 @@ export interface Props {
 	examId: string;
 	title: string;
 	description?: string;
+	sampleSize?: number;
 }
 
-const {examId, title, description} = Astro.props;
+const {examId, title, description, sampleSize} = Astro.props;
 
 // Load exam data dynamically
 const examModule = await import(`../../data/exams/exam${examId}.ts`);
@@ -42,24 +43,18 @@ const shuffledQuestions = shuffleQuestionOptions(questions);
 
 // Default descriptions for each exam
 const defaultDescriptions: Record<string, string> = {
-	"01": "Ce questionnaire porte sur les problèmes sociaux et les principales écoles théoriques d'analyse en travail social.",
-	"02": "Ce questionnaire porte sur la pensée critique, l'épistémologie et les paradigmes en travail social.",
-	"03": "Ce questionnaire porte sur le fonctionnalisme, Durkheim et le paradigme positiviste.",
-	"04": "Ce questionnaire porte sur le marxisme, l'approche conflictuelle et l'analyse critique des problèmes sociaux.",
-	"05": "Ce questionnaire porte sur le constructivisme social et la construction des problèmes sociaux.",
-	"06": "Ce questionnaire porte sur l'interactionnisme symbolique, la théorie de l'étiquetage et la tradition de Chicago.",
-	"08": "Ce questionnaire porte sur les institutions et le pouvoir, notamment les travaux de Foucault et Goffman sur les institutions totales, la surveillance, la discipline et la métaphore théâtrale.",
-	"10": "Ce questionnaire porte sur les approches critiques, transformationnelles et anti-oppressives, incluant la théorie critique, le féminisme, l'intersectionnalité et la pratique anti-oppressive en travail social.",
-	"11": "Ce questionnaire porte sur la modernité, la colonialité et la décolonialité, incluant les théories postcoloniales et décoloniales, la colonialité du pouvoir, du savoir et de l'être.",
-	"12": "Ce questionnaire porte sur la théorie générale des systèmes et l'analyse écosystémique, incluant les concepts de système, cybernétique, communication et les modèles écologiques de Bronfenbrenner.",
-	"13": "Ce questionnaire porte sur la théorie de l'attachement, incluant les travaux de Bowlby et Ainsworth, les patterns d'attachement (sécure, évitant, résistant, désorganisé), la Situation Etrange, et les critiques de l'usage de cette théorie en protection de la jeunesse.",
-	"14": "Ce questionnaire porte sur les thérapies comportementales et cognitives (TCC), incluant les trois vagues (comportementale, cognitive, émotionnelle), les théories de l'apprentissage (Pavlov, Skinner, Bandura), les techniques d'exposition, de restructuration cognitive et de pleine conscience.",
+	"101": "Ce questionnaire porte sur la formation en gérontologie : le CREGÉS et la formation de la relève, ainsi que les lectures de Dridi (2012), Leclerc (2000) et Rousseau-Tremblay et Couturier (2012). 5 questions sont tirées au hasard parmi 10.",
+	"102": "Ce questionnaire porte sur les principales théories en gérontologie sociale (rôles, désengagement, activité, continuité, sous-culture, échange social, économie politique, parcours de vie) et sur l'âgisme selon Lagacé (2013). 5 questions sont tirées au hasard parmi 10.",
+	"103": "Ce questionnaire porte sur les aspects démographiques du vieillissement : portrait des aînés au Québec (ISQ), vidéo de l'AFP, Légaré (2009) et Statistique Canada (2022). 5 questions sont tirées au hasard parmi 10.",
+	"104": "Ce questionnaire porte sur le vieillissement biologique (sénescence, théories intrinsèques et extrinsèques), le vieillissement en santé selon Cardinal et al. (2008) et la maladie d'Alzheimer selon Phaneuf (2007). 5 questions sont tirées au hasard parmi 10.",
+	"105": "Ce questionnaire porte sur les aspects psychologiques du vieillissement selon Hétu (2016) : autonomie et bien-être, modèles du cycle de vie, transitions et crises, ainsi que le deuil chez les aînés. 5 questions sont tirées au hasard parmi 10.",
+	"106": "Ce questionnaire porte sur les aspects sociaux du vieillissement : soutien social, horloge sociale, âgisme (conférence de Lagacé) et exclusion sociale selon Billette et Lavoie (2010). 5 questions sont tirées au hasard parmi 10.",
 };
 
 const examDescription = description || defaultDescriptions[examId] || "";
 ---
 
-<ExamForm examId={examId} title={title} correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers}>
+<ExamForm examId={examId} title={title} correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers} sampleSize={sampleSize}>
 	<p class='description'>{examDescription}</p>
 
 	{

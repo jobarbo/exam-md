@@ -4,9 +4,17 @@
 
 export interface ChapterType {
 	id: string;
+	number: number;
+	module: string;
 	title: string;
 	hasExam: boolean;
 	isSpecial: boolean;
+}
+
+export interface ModuleType {
+	id: string;
+	title: string;
+	subtitle: string;
 }
 
 export interface ChapterMetadata {
@@ -14,6 +22,3 @@ export interface ChapterMetadata {
 	title: string;
 	description?: string;
 }
-
-
-

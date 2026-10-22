@@ -7,28 +7,50 @@
 import MainLayout from "../layouts/MainLayout.astro";
 import ChapterCard from "../components/ChapterCard.astro";
 import type {ChapterType} from "../types/chapter";
-import {getAllChapters} from "../utils/markdown";
+import {getAllChapters, MODULES, EXAM_TITLE} from "../utils/markdown";
 
 const chapters = (await getAllChapters()) as ChapterType[];
+const firstChapter = chapters.find((chapter) => chapter.hasExam);
 ---
 
-<MainLayout title='Quiz Pratique - Accueil' description='Bienvenue sur le site de quiz pratique'>
+<MainLayout title={`Quiz Pratique - ${EXAM_TITLE}`} description='Quiz de révision pour l’examen 1 sur le vieillissement'>
 	<section class='hero'>
 		<div class='hero-content'>
-			<h1>Quiz Pratique</h1>
-			<p>Bienvenue sur le site de quiz pratique. Vous trouverez ici les chapitres formatés pour faciliter votre étude et votre préparation aux examens.</p>
+			<h1>{EXAM_TITLE}</h1>
+			<p>
+				Un quiz par cours. À chaque ouverture, 5 questions sont tirées au hasard parmi 10. Chaque réponse est accompagnée d’une explication et de la source (notes de cours ou
+				lecture, avec la page).
+			</p>
+			{
+				firstChapter && (
+					<a href={`/chapitres/${firstChapter.id}`} class='btn start-button'>
+						Commencer par le Cours {firstChapter.number}
+					</a>
+				)
+			}
 		</div>
 		<div class='hero-visual'>
 			<div class='hero-shape'></div>
 		</div>
 	</section>
 
-	<section id='chapters' class='chapters'>
-		<h2>Chapitres disponibles</h2>
-		<div class='chapter-grid'>
-			{chapters.map((chapter) => <ChapterCard {...chapter} />)}
-		</div>
-	</section>
+	{
+		MODULES.map((module) => (
+			<section class='chapters' aria-labelledby={`module-${module.id}`}>
+				<h2 id={`module-${module.id}`}>
+					{module.title}
+					<span class='module-subtitle'>{module.subtitle}</span>
+				</h2>
+				<div class='chapter-grid'>
+					{chapters
+						.filter((chapter) => chapter.module === module.id)
+						.map((chapter) => (
+							<ChapterCard {...chapter} />
+						))}
+				</div>
+			</section>
+		))
+	}
 </MainLayout>
 
 <style>
@@ -73,7 +95,7 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		display: flex;
 		justify-content: flex-end;
 		position: relative;
-		height: 550px;
+		height: 320px;
 	}
 
 	.hero-shape {
@@ -107,25 +129,46 @@ const chapters = (await getAllChapters()) as ChapterType[];
 		}
 	}
 
+	.start-button {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		border-radius: var(--border-radius);
+		background: var(--primary-color);
+		color: white;
+		font-weight: 600;
+		text-decoration: none;
+		transition: background-color var(--transition-normal);
+	}
+
+	.start-button:hover {
+		background: var(--primary-dark);
+	}
+
 	/* Chapters Section */
 	.chapters {
-		padding: 0 0 5rem 0;
+		padding: 0 0 4rem 0;
 	}
 
 	.chapters h2 {
 		margin-bottom: 2.5rem;
-		text-align: center;
 		position: relative;
 		color: var(--text-color);
-		font-size: 2rem;
+		font-size: 1.75rem;
+	}
+
+	.module-subtitle {
+		display: block;
+		margin-top: 0.25rem;
+		font-size: 1rem;
+		font-weight: 400;
+		color: var(--text-light);
 	}
 
 	.chapters h2::after {
 		content: "";
 		position: absolute;
 		bottom: -10px;
-		left: 50%;
-		transform: translateX(-50%);
+		left: 0;
 		width: 60px;
 		height: 3px;
 		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));

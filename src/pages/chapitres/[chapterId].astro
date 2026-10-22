@@ -1,207 +1,80 @@
 ---
 /**
- * Dynamic Chapter Page
- * Displays exam or content for a specific chapter
+ * Course Page
+ * Displays the quiz of one course, with navigation to the other courses
  */
 
 import MainLayout from "../../layouts/MainLayout.astro";
-import ChapterContent from "../../components/ChapterContent.astro";
 import DynamicExam from "../../components/exams/DynamicExam.astro";
-import {hasExam} from "../../utils/markdown";
+import {getCourses, getCourse, EXAM_TITLE, MODULES} from "../../utils/markdown";
 
 export function getStaticPaths() {
-	return [
-		{params: {chapterId: "01"}},
-		{params: {chapterId: "02"}},
-		{params: {chapterId: "03"}},
-		{params: {chapterId: "04"}},
-		{params: {chapterId: "05"}},
-		{params: {chapterId: "06"}},
-		{params: {chapterId: "08"}},
-		{params: {chapterId: "10"}},
-		{params: {chapterId: "11"}},
-		{params: {chapterId: "12"}},
-		{params: {chapterId: "13"}},
-		{params: {chapterId: "14"}},
-	];
+	return getCourses().map((course) => ({params: {chapterId: course.id}}));
 }
 
-const CHAPTER_TITLES: Record<string, string> = {
-	"01": "Fondement 1 - Problèmes sociaux et théories du travail social",
-	"02": "Fondement 2 - Pensée critique, épistémologie et paradigme",
-	"03": "Fondement 3 - Fonctionnalisme et Durkheim",
-	"04": "Fondement 4 - Marxisme et approche conflictuelle",
-	"05": "Fondement 5 - Constructivisme social",
-	"06": "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
-	"08": "Fondement 8 - Institutions et pouvoir",
-	"10": "Fondement 10 - Approches critiques, transformationnelles et anti-oppressives",
-	"11": "Fondement 11 - Modernité, colonialité et décolonialité",
-	"12": "Fondement 12 - Théorie générale des systèmes et analyse écosystémique",
-	"13": "Fondement 13 - Théorie de l'attachement",
-	"14": "Fondement 14 - Thérapies comportementales et cognitives (TCC)",
-};
-
 const {chapterId} = Astro.params;
+const course = chapterId ? getCourse(chapterId) : undefined;
 
-if (!chapterId) {
+if (!course) {
 	return Astro.redirect("/404");
 }
 
-const title = CHAPTER_TITLES[chapterId] || `Chapitre ${chapterId}`;
-const chapterTitle = `Chapitre ${chapterId} - ${title}`;
-const examAvailable = hasExam(chapterId);
-
-// Chapters that should display exam instead of notes
-const isExamChapter = ["01", "02", "03", "04", "05", "06", "08", "10", "11", "12", "13", "14"].includes(chapterId);
-
-// Check if exam data exists for this chapter
-let examDataExists = false;
-if (isExamChapter) {
-	try {
-		await import(`../../data/exams/exam${chapterId}.ts`);
-		examDataExists = true;
-	} catch (error) {
-		console.error(`Exam data not available for chapter ${chapterId}:`, error);
-	}
-}
-
-// Load markdown content for non-exam chapters
-let contentHtml = "";
-if (!isExamChapter) {
-	try {
-		const response = await fetch(`${Astro.url.origin}/markdown/${chapterId}.md`);
-		if (response.ok) {
-			const markdown = await response.text();
-			// Simple HTML conversion
-			contentHtml = markdown
-				.replace(/^# (.*)/gm, "<h1>$1</h1>")
-				.replace(/^## (.*)/gm, "<h2>$1</h2>")
-				.replace(/^### (.*)/gm, "<h3>$1</h3>")
-				.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-				.replace(/\*(.*?)\*/g, "<em>$1</em>")
-				.replace(/\n\n/g, "</p><p>")
-				.replace(/^(.+)$/gm, "$1<br>")
-				.trim();
-			contentHtml = `<p>${contentHtml}</p>`;
-		} else {
-			contentHtml = `<h1>${chapterTitle}</h1><p>Le contenu n'est pas disponible.</p>`;
-		}
-	} catch (error) {
-		console.error(`Error loading markdown:`, error);
-		contentHtml = `<h1>${chapterTitle}</h1><p>Erreur: ${error}</p>`;
-	}
-}
-
-// Define valid chapter IDs for navigation
-const validChapterIds = ["01", "02", "03", "04", "05", "06", "08", "10", "11", "12"];
-const currentIndex = validChapterIds.indexOf(chapterId);
-const prevChapterId = currentIndex > 0 ? validChapterIds[currentIndex - 1] : null;
-const nextChapterId = currentIndex < validChapterIds.length - 1 ? validChapterIds[currentIndex + 1] : null;
+const courses = getCourses().filter((c) => c.hasExam);
+const currentIndex = courses.findIndex((c) => c.id === course.id);
+const prevCourse = currentIndex > 0 ? courses[currentIndex - 1] : null;
+const nextCourse = currentIndex < courses.length - 1 ? courses[currentIndex + 1] : null;
+const module = MODULES.find((m) => m.id === course.module);
+const pageTitle = `Cours ${course.number} – ${course.title}`;
 ---
 
-<MainLayout title={chapterTitle}>
+<MainLayout title={`${pageTitle} | ${EXAM_TITLE}`}>
 	<div class='chapter-container'>
 		<div class='chapter-header'>
-			<nav class='breadcrumbs' aria-label='Breadcrumb'>
-				<a href='/'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						width='20'
-						height='20'
-						viewBox='0 0 24 24'
-						fill='none'
-						stroke='currentColor'
-						stroke-width='2'
-						stroke-linecap='round'
-						stroke-linejoin='round'
-						aria-hidden='true'>
-						<path d='m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'></path>
-						<polyline points='9 22 9 12 15 12 15 22'></polyline>
-					</svg>
-					<span class='sr-only'>Accueil</span>
-				</a>
-				<span>/</span>
-				<span>Chapitre {chapterId}</span>
+			<nav class='breadcrumbs' aria-label="Fil d'Ariane">
+				<a href='/'>Accueil</a>
+				<span aria-hidden='true'>/</span>
+				<span>{module ? `${module.title} – ${module.subtitle}` : EXAM_TITLE}</span>
+				<span aria-hidden='true'>/</span>
+				<span aria-current='page'>Cours {course.number}</span>
 			</nav>
-
-			<div class='navigation-buttons'>
-				{
-					prevChapterId && (
-						<a href={`/chapitres/${prevChapterId}`} class='nav-button prev'>
-							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-								<path d='m12 19-7-7 7-7' />
-								<path d='M19 12H5' />
-							</svg>
-							<span>Chapitre précédent</span>
-						</a>
-					)
-				}
-
-				{
-					nextChapterId && (
-						<a href={`/chapitres/${nextChapterId}`} class='nav-button next'>
-							<span>Chapitre suivant</span>
-							<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-								<path d='M5 12h14' />
-								<path d='m12 5 7 7-7 7' />
-							</svg>
-						</a>
-					)
-				}
-			</div>
+			<p class='course-progress'>Cours {currentIndex + 1} sur {courses.length}</p>
 		</div>
 
-		{
-			isExamChapter && examDataExists ? (
-				<DynamicExam examId={chapterId} title={`Chapitre ${chapterId} - Examen`} />
-			) : examAvailable ? (
-				<div class='exam-not-available'>
-					<div class='icon-container'>
-						<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-							<path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2' />
-							<rect width='8' height='4' x='8' y='2' rx='1' ry='1' />
-							<path d='M12 11h4' />
-							<path d='M12 16h4' />
-							<path d='M8 11h.01' />
-							<path d='M8 16h.01' />
-						</svg>
-					</div>
-					<h2>Le questionnaire pour ce chapitre est en cours de développement</h2>
-					<p>Nous travaillons actuellement sur le questionnaire pour le Chapitre {chapterId}. Revenez bientôt!</p>
-					<a href='/' class='btn back-button'>
-						Retour à l'accueil
-					</a>
-				</div>
-			) : (
-				<ChapterContent title={chapterTitle} content={contentHtml} />
-			)
-		}
+		<DynamicExam examId={course.id} title={pageTitle} sampleSize={5} />
 
-		<div class='navigation-buttons bottom-nav'>
+		<nav class='navigation-buttons bottom-nav' aria-label='Navigation entre les cours'>
 			{
-				prevChapterId && (
-					<a href={`/chapitres/${prevChapterId}`} class='nav-button prev'>
-						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+				prevCourse && (
+					<a href={`/chapitres/${prevCourse.id}`} class='nav-button prev'>
+						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
 							<path d='m12 19-7-7 7-7' />
 							<path d='M19 12H5' />
 						</svg>
-						<span>Chapitre précédent</span>
+						<span class='nav-button-text'>
+							<span class='nav-button-label'>Cours précédent</span>
+							<span>Cours {prevCourse.number} – {prevCourse.title}</span>
+						</span>
 					</a>
 				)
 			}
 
+			<a href='/' class='nav-button home'>Tous les cours</a>
+
 			{
-				nextChapterId && (
-					<a href={`/chapitres/${nextChapterId}`} class='nav-button next'>
-						<span>Chapitre suivant</span>
-						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+				nextCourse && (
+					<a href={`/chapitres/${nextCourse.id}`} class='nav-button next'>
+						<span class='nav-button-text'>
+							<span class='nav-button-label'>Cours suivant</span>
+							<span>Cours {nextCourse.number} – {nextCourse.title}</span>
+						</span>
+						<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
 							<path d='M5 12h14' />
 							<path d='m12 5 7 7-7 7' />
 						</svg>
 					</a>
 				)
 			}
-		</div>
+		</nav>
 	</div>
 </MainLayout>
 
@@ -307,44 +180,30 @@ const nextChapterId = currentIndex < validChapterIds.length - 1 ? validChapterId
 		margin-left: auto;
 	}
 
-	.exam-not-available {
-		background: white;
-		border-radius: var(--border-radius);
-		box-shadow: var(--shadow);
-		padding: 3rem 2rem;
-		text-align: center;
-		margin: 2rem 0;
-		animation: fadeIn 0.6s ease;
-	}
 
-	.icon-container {
-		width: 90px;
-		height: 90px;
-		border-radius: 50%;
-		background: rgba(59, 130, 246, 0.1);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 0 auto 1.5rem;
-		color: var(--primary-color);
-	}
-
-	.exam-not-available h2 {
-		color: var(--text-color);
-		margin-bottom: 1rem;
-		font-size: 1.5rem;
-	}
-
-	.exam-not-available p {
-		margin-bottom: 2rem;
+	.course-progress {
+		margin: 0;
 		color: var(--text-light);
-		max-width: 500px;
-		margin-left: auto;
-		margin-right: auto;
+		font-size: 0.875rem;
 	}
 
-	.back-button {
-		margin-top: 1rem;
+	.nav-button-text {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.nav-button.next .nav-button-text {
+		text-align: right;
+	}
+
+	.nav-button-label {
+		font-size: 0.75rem;
+		font-weight: 400;
+		color: var(--text-light);
+	}
+
+	.navigation-buttons {
+		align-items: center;
 	}
 
 	@media (max-width: 768px) {
@@ -361,10 +220,6 @@ const nextChapterId = currentIndex < validChapterIds.length - 1 ? validChapterId
 		.nav-button.prev,
 		.nav-button.next {
 			margin: 0;
-		}
-
-		.exam-not-available {
-			padding: 2rem 1rem;
 		}
 	}
 </style>

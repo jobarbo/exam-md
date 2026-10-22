@@ -9,16 +9,16 @@ import type { ChapterType } from '../types/chapter';
 
 export interface Props extends ChapterType {}
 
-const { id, title, hasExam, isSpecial } = Astro.props;
+const { id, number, title, hasExam, isSpecial } = Astro.props;
 ---
 
 <Card href={hasExam ? `/chapitres/${id}` : undefined} disabled={!hasExam} special={isSpecial}>
-	<span class="chapter-number">{id}</span>
-	<h3>Chapitre {id}</h3>
+	<span class="chapter-number">{number}</span>
+	<h3>Cours {number}</h3>
 	<p class="chapter-title">{title}</p>
 	{
 		hasExam ? (
-			<span class="exam-badge available">Questionnaire disponible</span>
+			<span class="exam-badge available">5 questions au hasard parmi 10</span>
 		) : (
 			<span class="exam-badge unavailable">Questionnaire en préparation</span>
 		)

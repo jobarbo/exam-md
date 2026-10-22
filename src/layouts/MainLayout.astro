@@ -5,7 +5,7 @@
  */
 
 import type {ChapterType} from "../types/chapter";
-import {getAllChapters} from "../utils/markdown";
+import {getAllChapters, EXAM_TITLE} from "../utils/markdown";
 import "../styles/global.css";
 
 // Get chapters dynamically
@@ -41,24 +41,33 @@ const {title = "Quiz Pratique", description = "Site de quiz pratique pour vos ex
 			<div class='container'>
 				<a href='/' class='site-logo'>
 					<h1>Quiz Pratique</h1>
+					<span class='site-subtitle'>{EXAM_TITLE}</span>
 				</a>
-				<nav class='site-nav'>
-					<button class='menu-toggle' aria-label='Toggle menu'>
+				<nav class='site-nav' aria-label='Cours'>
+					<button class='menu-toggle' aria-label='Ouvrir le menu des cours' aria-expanded='false'>
 						<span></span>
 						<span></span>
 						<span></span>
 					</button>
 					<ul class='nav-menu'>
+						<li>
+							<a href='/' class:list={["nav-link", "has-exam", {active: currentPath === "/"}]}>Accueil</a>
+						</li>
 						{
 							chapters.map((chapter) => (
 								<li>
 									{chapter.hasExam ? (
-										<a href={`/chapitres/${chapter.id}`} class:list={["nav-link", "has-exam", {active: currentChapterId === chapter.id}]}>
-											<span>ch. {chapter.id}</span>
+										<a
+											href={`/chapitres/${chapter.id}`}
+											title={chapter.title}
+											aria-current={currentChapterId === chapter.id ? "page" : undefined}
+											class:list={["nav-link", "has-exam", {active: currentChapterId === chapter.id}]}>
+											<span class='nav-number'>Cours {chapter.number}</span>
+											<span class='nav-title'>{chapter.title}</span>
 										</a>
 									) : (
 										<span class='nav-link no-exam'>
-											<span>ch. {chapter.id}</span>
+											<span class='nav-number'>Cours {chapter.number}</span>
 										</span>
 									)}
 								</li>
@@ -138,6 +147,21 @@ const {title = "Quiz Pratique", description = "Site de quiz pratique pour vos ex
 		color: var(--primary-color);
 	}
 
+	.site-logo {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.site-subtitle {
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--text-light);
+	}
+
+	.nav-title {
+		display: none;
+	}
+
 	.site-logo h1 {
 		margin: 0;
 		font-size: 1.5rem;
@@ -163,7 +187,8 @@ const {title = "Quiz Pratique", description = "Site de quiz pratique pour vos ex
 
 	.nav-link {
 		display: block;
-		padding: 0.5rem 0.2rem;
+		padding: 0.5rem 0.75rem;
+		white-space: nowrap;
 		border-radius: var(--border-radius-sm);
 		color: var(--text-light);
 		text-decoration: none;
@@ -274,6 +299,18 @@ const {title = "Quiz Pratique", description = "Site de quiz pratique pour vos ex
 		.nav-link {
 			width: 100%;
 			text-align: left;
+			white-space: normal;
+		}
+
+		.nav-menu {
+			min-width: 280px;
+		}
+
+		.nav-title {
+			display: block;
+			font-size: 0.8rem;
+			font-weight: 400;
+			opacity: 0.8;
 		}
 
 		.site-main {

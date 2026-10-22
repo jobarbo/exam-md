@@ -6,23 +6,26 @@
 import {marked} from "marked";
 import fs from "fs";
 import path from "path";
-import type {ChapterType, ChapterMetadata} from "../types/chapter";
+import type {ChapterType, ChapterMetadata, ModuleType} from "../types/chapter";
 
-// Chapter titles configuration
-const CHAPTER_TITLES: Record<string, string> = {
-	"01": "Fondement 1 - Problèmes sociaux et théories du travail social",
-	"02": "Fondement 2 - Pensée critique, épistémologie et paradigme",
-	"03": "Fondement 3 - Fonctionnalisme et Durkheim",
-	"04": "Fondement 4 - Marxisme et approche conflictuelle",
-	"05": "Fondement 5 - Constructivisme social",
-	"06": "Fondement 6 - Interactionnisme symbolique et théorie de l'étiquetage",
-	"08": "Fondement 8 - Institutions et pouvoir",
-	"10": "Fondement 10 - Approches critiques, transformationnelles et anti-oppressives",
-	"11": "Fondement 11 - Modernité, colonialité et décolonialité",
-	"12": "Fondement 12 - Théorie générale des systèmes et analyse écosystémique",
-	"13": "Fondement 13 - Théorie de l'attachement",
-	"14": "Fondement 14 - Thérapies comportementales et cognitives (TCC)",
-};
+// Exam and course structure (single source of truth for navigation)
+export const EXAM_TITLE = "Examen 1 – Vieillissement";
+
+export const MODULES: ModuleType[] = [
+	{id: "1", title: "Module 1", subtitle: "Gérontologie sociale"},
+	{id: "2", title: "Module 2", subtitle: "Vieillissement démographique, biologique, psychologique et sociologique"},
+];
+
+const COURSES: {id: string; number: number; module: string; title: string}[] = [
+	{id: "101", number: 1, module: "1", title: "La formation en gérontologie"},
+	{id: "102", number: 2, module: "1", title: "Principales théories en gérontologie sociale"},
+	{id: "103", number: 3, module: "2", title: "Aspects démographiques"},
+	{id: "104", number: 4, module: "2", title: "Aspects biologiques et maladie d'Alzheimer"},
+	{id: "105", number: 5, module: "2", title: "Aspects psychologiques"},
+	{id: "106", number: 6, module: "2", title: "Aspects sociaux, âgisme et exclusion"},
+];
+
+const CHAPTER_TITLES: Record<string, string> = Object.fromEntries(COURSES.map((c) => [c.id, `Cours ${c.number} – ${c.title}`]));
 
 /**
  * Dynamically detect chapters that have an exam available
@@ -37,36 +40,13 @@ function getChaptersWithExam(): string[] {
 
 		// Extract chapter IDs
 		return examFiles.map((file) => {
-			// Example: "exam01.ts" -> "01"
+			// Example: "exam101.ts" -> "101"
 			return file.replace("exam", "").replace(/\.(ts|js)$/, "");
 		});
 	} catch (error) {
 		console.error("Error detecting exams:", error);
 		// Fallback to known exam chapters
-		return ["01", "02", "03", "04", "05", "06"];
-	}
-}
-
-/**
- * Dynamically detect all available chapters from markdown files
- */
-function getAllAvailableChapters(): string[] {
-	try {
-		const markdownDir = path.resolve("public/markdown");
-		const files = fs.readdirSync(markdownDir);
-
-		// Filter to get only markdown files
-		const mdFiles = files.filter((file) => file.endsWith(".md"));
-
-		// Extract chapter IDs
-		return mdFiles.map((file) => {
-			// Example: "01.md" -> "01"
-			return file.replace(".md", "");
-		});
-	} catch (error) {
-		console.error("Error detecting chapters:", error);
-		// Fallback to known chapters
-		return Object.keys(CHAPTER_TITLES);
+		return ["101", "102", "103", "104", "105", "106"];
 	}
 }
 
@@ -121,25 +101,25 @@ export async function getChapterMarkdown(chapterId: string): Promise<{title: str
  * Get all available chapters with their metadata
  */
 export async function getAllChapters(): Promise<ChapterType[]> {
-	const availableChapters = getAllAvailableChapters();
+	return getCourses();
+}
 
-	// Combine chapters from markdown files AND chapters with exams
-	// This ensures all chapters with exams are included, even if they don't have markdown files
-	const allChapterIds = new Set([
-		...availableChapters,
-		...CHAPTERS_WITH_EXAM,
-		...Object.keys(CHAPTER_TITLES), // Also include all chapters defined in CHAPTER_TITLES
-	]);
-
-	const chapters: ChapterType[] = Array.from(allChapterIds).map((id) => ({
-		id,
-		title: CHAPTER_TITLES[id] || `Chapitre ${id}`,
-		hasExam: CHAPTERS_WITH_EXAM.includes(id),
-		isSpecial: SPECIAL_CHAPTERS.includes(id),
+/**
+ * Get all courses of the exam, in course order
+ */
+export function getCourses(): ChapterType[] {
+	return COURSES.map((course) => ({
+		...course,
+		hasExam: CHAPTERS_WITH_EXAM.includes(course.id),
+		isSpecial: SPECIAL_CHAPTERS.includes(course.id),
 	}));
+}
 
-	// Sort chapters numerically
-	return chapters.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+/**
+ * Get one course by its id (ex: "101")
+ */
+export function getCourse(chapterId: string): ChapterType | undefined {
+	return getCourses().find((course) => course.id === chapterId);
 }
 
 /**

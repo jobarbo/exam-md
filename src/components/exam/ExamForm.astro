@@ -4,9 +4,11 @@ export interface Props {
 	examId: string;
 	correctRadioAnswers?: Record<string, string>;
 	correctCheckboxAnswers?: Record<string, string[]>;
+	sampleSize?: number;
 }
 
 const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props;
+const sampleSize = Astro.props.sampleSize ?? null;
 ---
 
 <div class='exam-content'>
@@ -30,6 +32,14 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 				<span class='btn-text'>Afficher toutes les questions</span>
 				<span class='btn-icon'>👁️</span>
 			</button>
+			{
+				sampleSize && (
+					<button type='button' id='newDraw' class='btn-secondary' onclick='window.location.reload()'>
+						<span class='btn-text'>Nouveau tirage</span>
+						<span class='btn-icon'>🔀</span>
+					</button>
+				)
+			}
 			<button type='button' id='checkAnswers' class='btn-primary'>
 				<span class='btn-text'>Vérifier les réponses</span>
 				<span class='btn-icon'>✓</span>
@@ -40,16 +50,63 @@ const {title, examId, correctRadioAnswers, correctCheckboxAnswers} = Astro.props
 	<div id='results'></div>
 </div>
 
-<script define:vars={{examId, correctRadioAnswers, correctCheckboxAnswers}}>
+<script define:vars={{examId, correctRadioAnswers, correctCheckboxAnswers, sampleSize}}>
+	// Tire au hasard `sampleSize` questions, retire les autres du DOM, renumérote 1..N
+	// et ne garde que les réponses correctes des questions tirées
+	function drawQuestionSample(correctRadioAnswers, correctCheckboxAnswers) {
+		const container = document.getElementById("questionsContainer");
+		const questions = Array.from(container.querySelectorAll(".question"));
+		for (let i = questions.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[questions[i], questions[j]] = [questions[j], questions[i]];
+		}
+		const drawn = questions.slice(0, sampleSize);
+		questions.slice(sampleSize).forEach((q) => q.remove());
+
+		const radio = {...correctRadioAnswers};
+		const checkbox = {...correctCheckboxAnswers};
+		Object.keys(correctRadioAnswers).forEach((key) => delete correctRadioAnswers[key]);
+		Object.keys(correctCheckboxAnswers).forEach((key) => delete correctCheckboxAnswers[key]);
+
+		drawn.forEach((question, index) => {
+			const oldId = question.id;
+			const newNumber = String(index + 1);
+			const newId = `q${newNumber}`;
+
+			if (oldId in radio) correctRadioAnswers[newId] = radio[oldId];
+			if (oldId in checkbox) correctCheckboxAnswers[newId] = checkbox[oldId];
+
+			question.id = newId;
+			question.querySelector("h3").textContent = `Question ${newNumber}`;
+			question.querySelector(".question-number").textContent = newNumber;
+			question.querySelector(".flag-button").setAttribute("data-question-id", newId);
+			question.querySelector(".explanation").id = `explain${newNumber}`;
+			question.querySelectorAll("input").forEach((input) => {
+				input.name = newId;
+				input.id = input.id.replace(`${oldId}-`, `${newId}-`);
+			});
+			question.querySelectorAll("label[for]").forEach((label) => {
+				label.htmlFor = label.htmlFor.replace(`${oldId}-`, `${newId}-`);
+			});
+
+			container.appendChild(question);
+		});
+	}
+
 	// Cette fonction sera appelée avec les réponses correctes fournies par le fichier de données d'examen
 	function setupExamValidation(correctRadioAnswers, correctCheckboxAnswers) {
 		document.addEventListener("DOMContentLoaded", function () {
+			if (sampleSize) {
+				drawQuestionSample(correctRadioAnswers, correctCheckboxAnswers);
+			}
+
 			// Initialiser le suivi des questions marquées
 			let flaggedQuestions = new Set();
 			let isShowingOnlyFlagged = false;
 
 			// Charger les questions marquées du localStorage si disponibles
-			const storedFlagged = localStorage.getItem(`exam-${examId}-flagged`);
+			// (pas pour un tirage aléatoire : les numéros changent à chaque chargement)
+			const storedFlagged = sampleSize ? null : localStorage.getItem(`exam-${examId}-flagged`);
 			if (storedFlagged) {
 				try {
 					const parsedFlagged = JSON.parse(storedFlagged);
