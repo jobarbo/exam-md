@@ -16,9 +16,10 @@ export interface Props {
 	title: string;
 	description?: string;
 	sampleSize?: number;
+	eyebrow?: string;
 }
 
-const {examId, title, description, sampleSize} = Astro.props;
+const {examId, title, description, sampleSize, eyebrow} = Astro.props;
 
 // Load exam data dynamically
 const examModule = await import(`../../data/exams/exam${examId}.ts`);
@@ -54,8 +55,7 @@ const defaultDescriptions: Record<string, string> = {
 const examDescription = description || defaultDescriptions[examId] || "";
 ---
 
-<ExamForm examId={examId} title={title} correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers} sampleSize={sampleSize}>
-	<p class='description'>{examDescription}</p>
+<ExamForm examId={examId} title={title} correctRadioAnswers={correctRadioAnswers} correctCheckboxAnswers={correctCheckboxAnswers} sampleSize={sampleSize} eyebrow={eyebrow} description={examDescription}>
 
 	{
 		shuffledQuestions.map((q) => (

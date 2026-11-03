@@ -9,7 +9,7 @@ import path from "path";
 import type {ChapterType, ChapterMetadata, ModuleType} from "../types/chapter";
 
 // Exam and course structure (single source of truth for navigation)
-export const EXAM_TITLE = "Examen 1 – Vieillissement";
+export const EXAM_TITLE = "Examen 1\u00a0– Vieillissement";
 
 export const MODULES: ModuleType[] = [
 	{id: "1", title: "Module 1", subtitle: "Gérontologie sociale"},

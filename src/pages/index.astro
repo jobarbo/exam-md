@@ -1,7 +1,7 @@
 ---
 /**
  * Home Page
- * Landing page displaying all available chapters
+ * Landing page listing every course of the exam, grouped by module
  */
 
 import MainLayout from "../layouts/MainLayout.astro";
@@ -11,36 +11,52 @@ import {getAllChapters, MODULES, EXAM_TITLE} from "../utils/markdown";
 
 const chapters = (await getAllChapters()) as ChapterType[];
 const firstChapter = chapters.find((chapter) => chapter.hasExam);
+const courseCount = chapters.filter((chapter) => chapter.hasExam).length;
 ---
 
 <MainLayout title={`Quiz Pratique - ${EXAM_TITLE}`} description='Quiz de révision pour l’examen 1 sur le vieillissement'>
 	<section class='hero'>
-		<div class='hero-content'>
-			<h1>{EXAM_TITLE}</h1>
-			<p>
-				Un quiz par cours. À chaque ouverture, 5 questions sont tirées au hasard parmi 10. Chaque réponse est accompagnée d’une explication et de la source (notes de cours ou
-				lecture, avec la page).
-			</p>
-			{
-				firstChapter && (
-					<a href={`/chapitres/${firstChapter.id}`} class='btn start-button'>
-						Commencer par le Cours {firstChapter.number}
-					</a>
-				)
-			}
-		</div>
-		<div class='hero-visual'>
-			<div class='hero-shape'></div>
-		</div>
+		<span class='eyebrow'>Révision</span>
+		<h1>{EXAM_TITLE}</h1>
+		<p class='hero-lead'>
+			Un quiz par cours pour réviser la matière des notes et des lectures. Chaque réponse est expliquée et renvoie à sa source, avec la page.
+		</p>
+
+		<ul class='hero-facts' aria-label='Fonctionnement des quiz'>
+			<li>
+				<strong>{courseCount}</strong>
+				<span>cours</span>
+			</li>
+			<li>
+				<strong>5</strong>
+				<span>questions tirées au hasard parmi 10</span>
+			</li>
+			<li>
+				<strong>100&nbsp;%</strong>
+				<span>des réponses sourcées</span>
+			</li>
+		</ul>
+
+		{
+			firstChapter && (
+				<a href={`/chapitres/${firstChapter.id}`} class='btn btn-primary hero-cta'>
+					Commencer par le Cours {firstChapter.number}
+					<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
+						<path d='M5 12h14' />
+						<path d='m12 5 7 7-7 7' />
+					</svg>
+				</a>
+			)
+		}
 	</section>
 
 	{
 		MODULES.map((module) => (
-			<section class='chapters' aria-labelledby={`module-${module.id}`}>
-				<h2 id={`module-${module.id}`}>
-					{module.title}
-					<span class='module-subtitle'>{module.subtitle}</span>
-				</h2>
+			<section class='module' aria-labelledby={`module-${module.id}`}>
+				<header class='module-header'>
+					<span class='eyebrow'>{module.title}</span>
+					<h2 id={`module-${module.id}`}>{module.subtitle}</h2>
+				</header>
 				<div class='chapter-grid'>
 					{chapters
 						.filter((chapter) => chapter.module === module.id)
@@ -54,180 +70,97 @@ const firstChapter = chapters.find((chapter) => chapter.hasExam);
 </MainLayout>
 
 <style>
-	/* Hero Section */
 	.hero {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 3rem 0;
-		margin-bottom: 0;
-		position: relative;
-	}
-
-	.hero-content {
-		flex: 1;
-		max-width: 600px;
-		position: relative;
-		z-index: 2;
+		padding: 2.5rem 0 3.5rem;
+		max-width: 760px;
+		animation: fadeIn 0.5s var(--ease) both;
 	}
 
 	.hero h1 {
-		font-size: 3rem;
-		line-height: 1.1;
-		margin-bottom: 1.5rem;
-		background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		animation: slideUp 0.6s ease-out;
+		margin: 0.75rem 0 1rem;
 	}
 
-	.hero p {
-		font-size: 1.25rem;
-		color: var(--text-light);
-		max-width: 550px;
-		margin: 0 0 2rem 0;
-		animation: slideUp 0.6s 0.1s ease-out both;
+	.hero-lead {
+		font-size: 1.15rem;
+		color: var(--text-muted);
+		max-width: 620px;
 	}
 
-	.hero-visual {
-		flex: 1;
+	.hero-facts {
 		display: flex;
-		justify-content: flex-end;
-		position: relative;
-		height: 320px;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		list-style: none;
+		margin: 2rem 0;
 	}
 
-	.hero-shape {
-		position: absolute;
-		width: 600px;
-		height: 600px;
-		background: linear-gradient(135deg, var(--primary-light), var(--secondary-color));
-		border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-		filter: blur(1px);
-		opacity: 0.1;
-		animation: morphing 15s ease-in-out infinite;
-		right: -100px;
-		top: -50px;
+	.hero-facts li {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+		padding: 0.6rem 1rem;
+		border-radius: var(--radius-md);
+		background: var(--surface);
+		border: 1px solid var(--border);
+		font-size: 0.9rem;
+		color: var(--text-muted);
 	}
 
-	@keyframes morphing {
-		0% {
-			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-		}
-		25% {
-			border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%;
-		}
-		50% {
-			border-radius: 70% 30% 50% 50% / 40% 60% 40% 60%;
-		}
-		75% {
-			border-radius: 40% 60% 70% 30% / 70% 30% 70% 30%;
-		}
-		100% {
-			border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-		}
+	.hero-facts strong {
+		font-family: var(--font-display);
+		font-size: 1.35rem;
+		font-weight: 500;
+		color: var(--text);
 	}
 
-	.start-button {
-		display: inline-block;
-		padding: 0.75rem 1.5rem;
-		border-radius: var(--border-radius);
-		background: var(--primary-color);
-		color: white;
-		font-weight: 600;
-		text-decoration: none;
-		transition: background-color var(--transition-normal);
+	.hero-cta svg {
+		transition: transform var(--transition-fast) var(--ease);
 	}
 
-	.start-button:hover {
-		background: var(--primary-dark);
+	.hero-cta:hover svg {
+		transform: translateX(3px);
 	}
 
-	/* Chapters Section */
-	.chapters {
-		padding: 0 0 4rem 0;
+	.module {
+		padding-top: 2.5rem;
+		border-top: 1px solid var(--border);
+		margin-bottom: 3rem;
 	}
 
-	.chapters h2 {
-		margin-bottom: 2.5rem;
-		position: relative;
-		color: var(--text-color);
-		font-size: 1.75rem;
+	.module-header {
+		margin-bottom: 1.5rem;
 	}
 
-	.module-subtitle {
-		display: block;
-		margin-top: 0.25rem;
-		font-size: 1rem;
-		font-weight: 400;
-		color: var(--text-light);
-	}
-
-	.chapters h2::after {
-		content: "";
-		position: absolute;
-		bottom: -10px;
-		left: 0;
-		width: 60px;
-		height: 3px;
-		background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-		border-radius: 3px;
+	.module-header h2 {
+		margin-top: 0.4rem;
+		font-size: clamp(1.35rem, 1vw + 1rem, 1.75rem);
 	}
 
 	.chapter-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-		gap: 2rem;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1rem;
 	}
 
-	/* Responsive Design */
-	@media (max-width: 992px) {
+	@media (max-width: 640px) {
 		.hero {
-			flex-direction: column;
-			padding: 2rem 0;
+			padding: 1rem 0 2.5rem;
 		}
 
-		.hero-content {
-			max-width: 100%;
-			text-align: center;
-			margin-bottom: 3rem;
+		.hero-lead {
+			font-size: 1.05rem;
 		}
 
-		.hero h1 {
-			font-size: 2.5rem;
-		}
-
-		.hero-visual {
+		.hero-facts li {
 			width: 100%;
-			justify-content: center;
 		}
 
-		.hero-shape {
-			right: auto;
+		.hero-cta {
+			width: 100%;
 		}
-	}
 
-	@media (max-width: 768px) {
 		.chapter-grid {
 			grid-template-columns: 1fr;
-		}
-
-		.hero h1 {
-			font-size: 2rem;
-		}
-
-		.hero p {
-			font-size: 1.1rem;
-		}
-
-		.hero-visual {
-			height: 250px;
-		}
-
-		.hero-shape {
-			width: 300px;
-			height: 300px;
 		}
 	}
 </style>

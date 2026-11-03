@@ -2,527 +2,320 @@
 // Ce composant fournit les styles communs pour les questions, options et explications
 ---
 
-<script is:inline>
-	// Add mouse-tracking shadow effect to questions
-	function initQuestionShadows() {
-		const questions = document.querySelectorAll(".question");
-
-		if (questions.length === 0) {
-			console.log("No questions found");
-			return;
-		}
-
-		console.log(`Found ${questions.length} questions, adding shadow effects`);
-
-		questions.forEach((question) => {
-			question.addEventListener("mousemove", (e) => {
-				const rect = question.getBoundingClientRect();
-				const x = e.clientX - rect.left;
-				const y = e.clientY - rect.top;
-
-				// Calculate shadow position based on mouse position
-				const centerX = rect.width / 2;
-				const centerY = rect.height / 2;
-
-				// Calculate offset from center (-1 to 1)
-				const offsetX = (x - centerX) / centerX;
-				const offsetY = (y - centerY) / centerY;
-
-				// Maximum shadow offset in pixels
-				const maxOffset = 2.5;
-
-				// Calculate shadow positions (opposite to mouse position for 3D effect)
-				const shadowX = -offsetX * maxOffset;
-				const shadowY = -offsetY * maxOffset;
-
-				// Blur increases as mouse moves away from center
-				const distance = Math.sqrt(offsetX * offsetX + offsetY * offsetY);
-				const blur = Math.min(10 + distance * 2, 2);
-
-				// Update CSS variables for the pseudo-element
-				question.style.setProperty("--shadow-x", `${shadowX}px`);
-				question.style.setProperty("--shadow-y", `${shadowY}px`);
-				question.style.setProperty("--shadow-blur", `${blur}px`);
-				question.style.setProperty("--shadow-opacity", Math.min(0.15 + distance * 0.1, 0.3));
-			});
-
-			question.addEventListener("mouseleave", () => {
-				// Reset to default values
-				question.style.setProperty("--shadow-x", "0px");
-				question.style.setProperty("--shadow-y", "2x");
-				question.style.setProperty("--shadow-blur", "4px");
-				question.style.setProperty("--shadow-opacity", "0.12");
-			});
-		});
-	}
-
-	// Initialize on DOMContentLoaded
-	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", initQuestionShadows);
-	} else {
-		initQuestionShadows();
-	}
-
-	// Also re-initialize when navigating with view transitions
-	document.addEventListener("astro:page-load", initQuestionShadows);
-</script>
-
 <style is:global>
-	/* Question container styling */
+	/* Exam description */
+	.description {
+		margin-top: 1rem;
+		margin-bottom: 0;
+		font-size: 1.05rem;
+		color: var(--text-muted);
+		max-width: 680px;
+	}
+
+	/* Question card */
 	.question {
-		background-color: #f6f6ff;
-		padding: 20px;
-		border-radius: 12px;
-		box-shadow: 0 4px 12px rgba(48, 2, 105, 0.259);
-		margin-bottom: 25px;
 		position: relative;
-		overflow: visible;
-		transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
-
-		/* CSS variables for dynamic shadow */
-		--shadow-x: 0px;
-		--shadow-y: 4px;
-		--shadow-blur: 4x;
-		--shadow-opacity: 0.12;
+		padding: 1.5rem;
+		margin-bottom: 1rem;
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		border: 1px solid var(--border);
+		transition: border-color var(--transition-normal) var(--ease);
 	}
 
-	/* Pseudo-element for dynamic shadow overlay */
-	.question::after {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		border-radius: 12px;
-		pointer-events: none;
-		z-index: 10;
-		box-shadow:
-			inset var(--shadow-x) var(--shadow-y) var(--shadow-blur) rgba(59, 130, 246, var(--shadow-opacity)),
-			inset calc(var(--shadow-x) * 0.7) calc(var(--shadow-y) * 0.7) calc(var(--shadow-blur) * 1.2) rgba(139, 92, 246, calc(var(--shadow-opacity) * 0.8)),
-			inset calc(var(--shadow-x) * 0.5) calc(var(--shadow-y) * 0.5) calc(var(--shadow-blur) * 1.5) rgba(0, 0, 0, calc(var(--shadow-opacity) * 0.6));
-		transition: box-shadow 0.08s ease-out;
+	.question.is-answered {
+		border-color: var(--border-strong);
 	}
 
-	.question:hover::after {
-		z-index: 10;
-	}
-
-	/* Flagged question styling */
 	.question.flagged {
-		border: 2px solid rgba(var(--warning-color-rgb, 245, 158, 11), 0.3);
-		border-left: 4px solid var(--warning-color);
-		background-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.02);
+		border-color: color-mix(in srgb, var(--warning) 55%, var(--border));
+		box-shadow: inset 3px 0 0 var(--warning);
 	}
 
-	/* Ensure content is above the shadow pseudo-element */
-	.question > * {
-		position: relative;
-		z-index: 20;
-	}
-
-	/* Question header styling */
 	.question-header {
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 1rem;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-		padding-bottom: 10px;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
 	}
 
-	/* Question title styling */
-	h2,
-	h3 {
-		font-size: 1.3rem;
-		color: var(--secondary-color);
+	.question-header h3 {
 		margin: 0;
-		display: flex;
-		align-items: center;
-		letter-spacing: 0.01em;
-		flex: 1;
+		font-family: var(--font-sans);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--accent);
 	}
 
-	h2::before,
-	h3::before {
-		content: "";
-		display: inline-block;
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background-color: var(--secondary-color);
-		margin-right: 10px;
-		box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.2);
-	}
-
-	/* Question controls styling */
 	.question-controls {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
-		flex-shrink: 0;
 	}
 
-	/* Flag button styling */
+	/* The number duplicates the title; kept for the script, hidden visually */
+	.question-number {
+		display: none;
+	}
+
 	.flag-button {
-		background: transparent;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 8px;
-		padding: 0.4rem;
-		cursor: pointer;
-		transition: all 0.2s ease;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		justify-content: center;
-		color: var(--text-lighter);
-		width: 32px;
+		gap: 0.35rem;
 		height: 32px;
+		padding: 0 0.6rem;
+		border-radius: 999px;
+		border: 1px solid transparent;
+		background: transparent;
+		color: var(--text-subtle);
+		cursor: pointer;
+		font: 500 0.8rem/1 var(--font-sans);
+		transition:
+			color var(--transition-fast) var(--ease),
+			background-color var(--transition-fast) var(--ease),
+			border-color var(--transition-fast) var(--ease);
+	}
+
+	.flag-button::after {
+		content: "Marquer";
 	}
 
 	.flag-button:hover {
-		background-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.1);
-		border-color: rgba(var(--warning-color-rgb, 245, 158, 11), 0.3);
-		color: var(--warning-color);
-		transform: scale(1.05);
+		color: var(--warning);
+		background: var(--warning-soft);
 	}
 
 	.flag-button.active {
-		background-color: var(--warning-color);
-		border-color: var(--warning-color);
-		color: white;
+		color: var(--warning);
+		background: var(--warning-soft);
+		border-color: color-mix(in srgb, var(--warning) 35%, transparent);
+	}
+
+	.flag-button.active::after {
+		content: "Marquée";
 	}
 
 	.flag-button svg {
-		width: 16px;
-		height: 16px;
-	}
-
-	/* Question number styling */
-	.question-number {
-		background-color: rgba(var(--secondary-color-rgb), 0.1);
-		color: var(--secondary-color);
-		font-weight: 600;
-		font-size: 0.85rem;
-		padding: 0.3rem 0.65rem;
-		border-radius: 6px;
-		min-width: 28px;
-		text-align: center;
-	}
-
-	/* Question hint styling */
-	.question-hint {
-		background-color: rgba(var(--primary-color-rgb), 0.05);
-		border-left: 3px solid var(--primary-color);
-		padding: 0.75rem 1rem;
-		border-radius: 0 8px 8px 0;
-		margin-bottom: 1rem;
-		font-size: 0.9rem;
-		color: var(--text-color);
-		line-height: 1.5;
-	}
-
-	.question-hint strong {
-		color: var(--primary-color);
-		font-weight: 600;
+		width: 14px;
+		height: 14px;
 	}
 
 	.question .question-text {
-		font-size: 1.05rem;
-		line-height: 1.7;
-		margin-bottom: 1.2rem;
-		color: var(--text-color);
-		font-weight: 500;
-		letter-spacing: 0.01em;
+		margin-bottom: 1.25rem;
+		font-size: 1.125rem;
+		font-weight: 600;
+		line-height: 1.5;
+		color: var(--text);
 	}
 
-	/* Options styling */
+	.question-hint {
+		display: inline-flex;
+		margin-bottom: 1rem;
+		padding: 0.3rem 0.7rem;
+		border-radius: 999px;
+		background: var(--accent-soft);
+		color: var(--accent);
+		font-size: 0.8rem;
+		font-weight: 500;
+	}
+
+	.question-hint strong {
+		display: none;
+	}
+
+	/* Options */
 	.options {
-		margin-left: 20px;
-		margin-top: 18px;
+		display: grid;
+		gap: 0.5rem;
+		counter-reset: option;
 	}
 
 	.option {
-		margin: 5px 0;
+		position: relative;
 		display: flex;
 		align-items: flex-start;
-		position: relative;
-		padding: 4px 8px;
-		border-radius: 10px;
-		transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
-		border: 1px solid rgba(0, 0, 0, 0.05);
-		background-color: rgba(255, 255, 255, 0.5);
+		gap: 0.85rem;
+		padding: 0.8rem 1rem;
+		border-radius: var(--radius-md);
+		border: 1px solid var(--border);
+		background: var(--surface);
+		counter-increment: option;
+		transition:
+			border-color var(--transition-fast) var(--ease),
+			background-color var(--transition-fast) var(--ease);
 	}
 
-	.option:hover {
-		background-color: rgba(var(--primary-color-rgb), 0.03);
-		border-color: rgba(var(--primary-color-rgb), 0.1);
-		transform: translateY(-1px);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	/* Letter badge (A, B, C…) acts as the radio/checkbox indicator */
+	.option::before {
+		content: counter(option, upper-alpha);
+		display: grid;
+		place-items: center;
+		flex-shrink: 0;
+		width: 28px;
+		height: 28px;
+		border-radius: 999px;
+		border: 1px solid var(--border-strong);
+		background: var(--surface);
+		color: var(--text-muted);
+		font-size: 0.8rem;
+		font-weight: 700;
+		transition: all var(--transition-fast) var(--ease);
 	}
 
+	.option:has(input[type="checkbox"])::before {
+		border-radius: 7px;
+	}
+
+	/* The native input covers the whole row: the full row is clickable and keyboard accessible */
 	.option input {
-		margin-top: 3px;
-		margin-right: 12px;
-		cursor: pointer;
-		padding: 0;
-		accent-color: var(--primary-color);
-	}
-
-	/* Checkboxes and radio buttons styling */
-	.option input[type="checkbox"],
-	.option input[type="radio"] {
-		-webkit-appearance: none;
-		appearance: none;
-		width: 22px;
-		height: 22px;
-		border: 2px solid var(--text-lighter);
-		outline: none;
-		margin-top: 2px;
-		position: relative;
-		transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
-	}
-
-	.option input[type="checkbox"] {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 6px;
-	}
-
-	.option input[type="radio"] {
-		border-radius: 50%;
-	}
-
-	.option input[type="checkbox"]:checked,
-	.option input[type="radio"]:checked {
-		border-color: var(--primary-color);
-		background-color: var(--primary-color);
-		box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
-	}
-
-	.option input[type="checkbox"]:checked::before {
-		content: "";
-		position: relative;
-		width: 5px;
-		height: 10px;
-		border-right: 2px solid white;
-		border-bottom: 2px solid white;
-		transform: rotate(45deg);
-	}
-
-	.option input[type="radio"]:checked::before {
-		content: "";
 		position: absolute;
-		top: 4px;
-		left: 4px;
-		width: 10px;
-		height: 10px;
-		background-color: white;
-		border-radius: 50%;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		opacity: 0;
+		cursor: pointer;
+		z-index: 1;
 	}
 
 	.option label {
 		flex: 1;
+		padding-top: 0.15rem;
+		line-height: 1.5;
+		color: var(--text);
 		cursor: pointer;
-		line-height: 1.6;
-		color: var(--text-color);
-		font-size: 1rem;
+	}
+
+	.option:hover {
+		border-color: var(--border-strong);
+		background: var(--surface-2);
+	}
+
+	.option:has(input:focus-visible) {
+		box-shadow: var(--focus-ring);
 	}
 
 	.option:has(input:checked) {
-		background-color: rgba(var(--primary-color-rgb), 0.05);
-		border-color: rgba(var(--primary-color-rgb), 0.15);
-		box-shadow: 0 2px 10px rgba(var(--primary-color-rgb), 0.08);
+		border-color: var(--accent);
+		background: var(--accent-soft);
 	}
 
-	.option:has(input:checked) label {
-		font-weight: 500;
-		color: var(--primary-color);
+	.option:has(input:checked)::before {
+		border-color: var(--accent);
+		background: var(--accent);
+		color: var(--accent-contrast);
 	}
 
-	/* Styles pour les options correctes et incorrectes après validation */
-	.option.correct-option {
-		background-color: rgba(16, 185, 129, 0.1);
-		border-color: rgba(16, 185, 129, 0.3);
-		position: relative;
+	/* After validation */
+	.options .option.correct-option {
+		border-color: var(--success);
+		background: var(--success-soft);
+	}
+
+	.options .option.correct-option::before {
+		border-color: var(--success);
+		background: var(--success);
+		color: var(--surface);
+	}
+
+	.options .option.incorrect-option {
+		border-color: var(--danger);
+		background: var(--danger-soft);
+	}
+
+	.options .option.incorrect-option::before {
+		border-color: var(--danger);
+		background: var(--danger);
+		color: var(--surface);
+	}
+
+	.option.correct-option::after,
+	.option.incorrect-option::after {
+		align-self: center;
+		flex-shrink: 0;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		animation: fadeIn 0.3s var(--ease);
 	}
 
 	.option.correct-option::after {
-		content: "✓";
-		position: absolute;
-		right: 12px;
-		top: 50%;
-		transform: translateY(-50%);
-		color: var(--success-color);
-		font-weight: bold;
-		font-size: 1.2rem;
-		animation: checkmarkAppear 0.3s ease-out;
-	}
-
-	.option.incorrect-option {
-		background-color: rgba(239, 68, 68, 0.1);
-		border-color: rgba(239, 68, 68, 0.3);
-		position: relative;
+		content: "✓ Bonne réponse";
+		color: var(--success);
 	}
 
 	.option.incorrect-option::after {
-		content: "✕";
-		position: absolute;
-		right: 12px;
-		top: 50%;
-		transform: translateY(-50%);
-		color: var(--error-color);
-		font-weight: bold;
-		font-size: 1.2rem;
-		animation: crossAppear 0.3s ease-out;
+		content: "✕ Votre choix";
+		color: var(--danger);
 	}
 
-	.option.correct-option label {
-		color: var(--success-color);
-		font-weight: 600;
-	}
-
-	.option.incorrect-option label {
-		color: var(--error-color);
-		font-weight: 600;
-	}
-
-	@keyframes checkmarkAppear {
-		0% {
-			opacity: 0;
-			transform: translateY(-50%) scale(0);
-		}
-		50% {
-			transform: translateY(-50%) scale(1.2);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(-50%) scale(1);
-		}
-	}
-
-	@keyframes crossAppear {
-		0% {
-			opacity: 0;
-			transform: translateY(-50%) scale(0) rotate(0deg);
-		}
-		50% {
-			transform: translateY(-50%) scale(1.2) rotate(180deg);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(-50%) scale(1) rotate(180deg);
-		}
-	}
-
-	/* Option interaction animation */
-	@keyframes pulse {
-		0% {
-			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.2);
-		}
-		70% {
-			transform: scale(1.05);
-			box-shadow: 0 0 0 6px rgba(var(--primary-color-rgb), 0);
-		}
-		100% {
-			transform: scale(1);
-		}
-	}
-
-	.option input:active {
-		animation: pulse 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-	}
-
-	/* Explanation styling */
+	/* Explanation */
 	.explanation {
-		margin-top: 18px;
-		display: none; /* Hidden by default, shown when .visible class is added */
-		padding: 16px 20px;
-		border-left: 4px solid var(--primary-color);
-		background-color: rgba(var(--primary-color-rgb), 0.03);
-		color: var(--text-color);
-		border-radius: 0 12px 12px 0;
+		display: none;
+		margin-top: 1.25rem;
+		padding: 1rem 1.25rem;
+		border-radius: var(--radius-md);
+		background: var(--surface-2);
 		font-size: 0.95rem;
-		line-height: 1.7;
-		position: relative;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+		line-height: 1.65;
 	}
 
-	/* When explanation becomes visible */
 	.explanation.visible {
 		display: block;
-		animation: slideDown 0.4s ease-out forwards;
+		animation: fadeIn 0.35s var(--ease);
 	}
 
-	/* Explanation header styling */
 	.explanation-header {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		font-weight: 600;
-		margin-bottom: 10px;
-		color: var(--primary-color);
-		font-style: normal;
-		letter-spacing: 0.02em;
-		font-size: 1rem;
+		gap: 0.45rem;
+		margin-bottom: 0.4rem;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
 	}
 
 	.explanation-header svg {
+		width: 16px;
+		height: 16px;
 		flex-shrink: 0;
 	}
 
-	/* Explanation content styling */
 	.explanation-content {
-		font-style: italic;
-		color: var(--text-color);
+		color: var(--text);
 	}
 
-	/* Description styling */
-	.description {
-		margin-bottom: 2.5rem;
-		padding: 1.2rem 1.5rem;
-		border-radius: 12px;
-		background-color: rgba(var(--secondary-color-rgb), 0.03);
-		border-left: 4px solid var(--secondary-color);
-		line-height: 1.7;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-		color: var(--text-dark);
-		position: relative;
-	}
-
-	.description::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		right: 0;
-		width: 40px;
-		height: 40px;
-		background: linear-gradient(135deg, transparent 50%, rgba(var(--secondary-color-rgb), 0.1) 50%);
-		border-radius: 0 12px 0 0;
-	}
-
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
+	@media (max-width: 640px) {
 		.question {
-			padding: 16px;
-			border-radius: 10px;
+			padding: 1.1rem;
+		}
+
+		.question .question-text {
+			font-size: 1.05rem;
 		}
 
 		.option {
-			margin: 10px 0;
-			padding: 10px 12px;
+			padding: 0.75rem 0.85rem;
+			flex-wrap: wrap;
 		}
 
-		.explanation {
-			padding: 14px;
-			font-size: 0.9rem;
-			border-radius: 0 10px 10px 0;
+		.option.correct-option::after,
+		.option.incorrect-option::after {
+			width: 100%;
+			padding-left: calc(28px + 0.85rem);
 		}
 
-		.description {
-			padding: 1rem 1.2rem;
-			margin-bottom: 2rem;
+		.flag-button::after {
+			content: none;
+		}
+
+		.flag-button.active::after {
+			content: none;
 		}
 	}
 </style>

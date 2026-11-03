@@ -1,7 +1,7 @@
 ---
 /**
  * Chapter Card Component
- * Displays a chapter with its information and exam status
+ * Displays a course with its number, title and quiz status
  */
 
 import Card from './ui/Card.astro';
@@ -13,80 +13,90 @@ const { id, number, title, hasExam, isSpecial } = Astro.props;
 ---
 
 <Card href={hasExam ? `/chapitres/${id}` : undefined} disabled={!hasExam} special={isSpecial}>
-	<span class="chapter-number">{number}</span>
-	<h3>Cours {number}</h3>
-	<p class="chapter-title">{title}</p>
-	{
-		hasExam ? (
-			<span class="exam-badge available">5 questions au hasard parmi 10</span>
-		) : (
-			<span class="exam-badge unavailable">Questionnaire en préparation</span>
-		)
-	}
+	<div class="card-top">
+		<span class="course-number">{String(number).padStart(2, "0")}</span>
+		<span class="course-label">Cours {number}</span>
+	</div>
+	<h3>{title}</h3>
+	<div class="card-bottom">
+		{
+			hasExam ? (
+				<span class="exam-badge available">5 questions · banque de 10</span>
+			) : (
+				<span class="exam-badge unavailable">En préparation</span>
+			)
+		}
+		{hasExam && (
+			<svg class="card-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M5 12h14" />
+				<path d="m12 5 7 7-7 7" />
+			</svg>
+		)}
+	</div>
 </Card>
 
 <style>
-	.chapter-number {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		font-size: 3rem;
-		font-weight: 800;
-		color: rgba(0, 0, 0, 0.03);
-		line-height: 1;
-		transition: all var(--transition-normal);
-		pointer-events: none;
+	.card-top {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		margin-bottom: 1.25rem;
 	}
 
-	:global(a.card:not(.card-disabled):hover) .chapter-number {
-		color: rgba(59, 130, 246, 0.06);
-		transform: scale(1.1);
+	.course-number {
+		font-family: var(--font-display);
+		font-size: 2.25rem;
+		line-height: 1;
+		color: var(--accent);
+	}
+
+	.course-label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--text-subtle);
 	}
 
 	h3 {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		color: var(--primary-color);
-		font-size: 1.25rem;
-		font-weight: 600;
-	}
-
-	.chapter-title {
-		margin: 0;
-		color: var(--text-light);
-		margin-bottom: auto;
-		padding-bottom: 1rem;
+		font-size: 1.15rem;
+		line-height: 1.35;
+		margin-bottom: 1.5rem;
 		flex-grow: 1;
 	}
 
-	.exam-badge {
-		display: inline-flex;
+	.card-bottom {
+		display: flex;
 		align-items: center;
-		margin-top: 1rem;
-		padding: 0.3rem 0.75rem;
-		border-radius: 9999px;
+		justify-content: space-between;
+	}
+
+	.exam-badge {
 		font-size: 0.8rem;
 		font-weight: 500;
-		width: fit-content;
-		box-shadow: var(--shadow-sm);
-		transition: all var(--transition-normal);
+		padding: 0.3rem 0.65rem;
+		border-radius: 999px;
 	}
 
 	.exam-badge.available {
-		background-color: var(--success-color);
-		color: white;
+		background: var(--accent-soft);
+		color: var(--accent);
 	}
 
 	.exam-badge.unavailable {
-		background-color: var(--text-lighter);
-		color: white;
+		background: var(--surface-2);
+		color: var(--text-subtle);
 	}
 
-	:global(a.card:not(.card-disabled):hover) .exam-badge {
-		transform: translateY(-2px);
-		box-shadow: var(--shadow);
+	.card-arrow {
+		color: var(--text-subtle);
+		transition:
+			transform var(--transition-fast) var(--ease),
+			color var(--transition-fast) var(--ease);
+	}
+
+	:global(a.card:hover) .card-arrow {
+		color: var(--accent);
+		transform: translateX(3px);
 	}
 </style>
-
-
-
